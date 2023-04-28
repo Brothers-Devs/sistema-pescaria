@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('email')->nullable();
             $table->char('state', 2)->nullable();
             $table->string('city')->nullable();
-            $table->foreignId('tournament_id')->constrained();
+            $table->foreignId('team_id')->constrained();
             $table->timestamps();
         });
     }
