@@ -18,6 +18,19 @@ class TournamentController extends Controller
     }
 
     /**
+     * @param string $id
+     * @return TournamentResource
+     */
+    public function getById(string $id): TournamentResource
+    {
+        if (!$result = $this->service->getById($id)) {
+            abort(Response::HTTP_NOT_FOUND);
+        }
+
+        return new TournamentResource($result);
+    }
+
+    /**
      * @param StoreTournamentRequest $request
      * @return TournamentResource
      */
