@@ -7,6 +7,7 @@ use App\DTO\Tournament\UpdateTournamentDTO;
 use App\Http\Requests\StoreUpdateTournamentRequest;
 use App\Http\Resources\TournamentResource;
 use App\Services\TournamentService;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class TournamentController extends Controller
@@ -52,5 +53,20 @@ class TournamentController extends Controller
         }
 
         return new TournamentResource($result);
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function delete(int $id): JsonResponse
+    {
+        if (!$this->service->getById($id)) {
+            abort(Response::HTTP_NOT_FOUND);
+        }
+
+        $this->service->delete($id);
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }
