@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\DTO\CreateTournamentDTO;
+use App\DTO\Tournament\CreateTournamentDTO;
+use App\DTO\Tournament\UpdateTournamentDTO;
 use App\Repositories\Tournament\TournamentRepositoryInterface;
 use stdClass;
 
@@ -26,10 +27,20 @@ class TournamentService
 
     /**
      * @param CreateTournamentDTO $createTournamentDTO
-     * @return mixed
+     * @return stdClass|null
      */
-    public function create(CreateTournamentDTO $createTournamentDTO): mixed
+    public function create(CreateTournamentDTO $createTournamentDTO): ?stdClass
     {
         return $this->repository->create($createTournamentDTO);
+    }
+
+
+    /**
+     * @param UpdateTournamentDTO $updateTournamentDTO
+     * @return stdClass|null
+     */
+    public function update(UpdateTournamentDTO $updateTournamentDTO): ?stdClass
+    {
+        return $this->repository->update($updateTournamentDTO);
     }
 }

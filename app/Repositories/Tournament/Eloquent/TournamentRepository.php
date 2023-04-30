@@ -2,7 +2,8 @@
 
 namespace App\Repositories\Tournament\Eloquent;
 
-use App\DTO\CreateTournamentDTO;
+use App\DTO\Tournament\CreateTournamentDTO;
+use App\DTO\Tournament\UpdateTournamentDTO;
 use App\Models\Tournament;
 use App\Repositories\Tournament\TournamentRepositoryInterface;
 use stdClass;
@@ -29,8 +30,28 @@ class TournamentRepository implements TournamentRepositoryInterface
         return (object)$tournament->toArray();
     }
 
-    public function create(CreateTournamentDTO $createTournamentDTO)
+    /**
+     * @param CreateTournamentDTO $createTournamentDTO
+     * @return stdClass|null
+     */
+    public function create(CreateTournamentDTO $createTournamentDTO): ?stdClass
     {
-        return $this->model->create($createTournamentDTO->toArray());
+        return (object)$this->model->create($createTournamentDTO->toArray());
+    }
+
+    /**
+     * @param UpdateTournamentDTO $updateTournamentDTO
+     * @return stdClass|null
+     */
+    public function update(UpdateTournamentDTO $updateTournamentDTO): ?stdClass
+    {
+        $tournament = $this->model->find($updateTournamentDTO->id);
+        if (!$tournament) {
+            return null;
+        }
+
+        $tournament->update($updateTournamentDTO->toArray());
+
+        return (object)$tournament->toArray();
     }
 }
