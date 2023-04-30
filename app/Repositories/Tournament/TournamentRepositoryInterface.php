@@ -13,4 +13,6 @@ interface TournamentRepositoryInterface
     public function create(CreateTournamentDTO $createTournamentDTO): ?stdClass;
 
     public function update(UpdateTournamentDTO $updateTournamentDTO): ?stdClass;
+
+    public function delete(int $id): void;
 }
