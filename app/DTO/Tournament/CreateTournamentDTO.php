@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DTO;
+namespace App\DTO\Tournament;
 
-use App\Http\Requests\StoreTournamentRequest;
+use App\Http\Requests\StoreUpdateTournamentRequest;
 
 class CreateTournamentDTO
 {
@@ -17,10 +17,10 @@ class CreateTournamentDTO
     }
 
     /**
-     * @param StoreTournamentRequest $request
+     * @param StoreUpdateTournamentRequest $request
      * @return CreateTournamentDTO
      */
-    public static function makeFromRequest(StoreTournamentRequest $request): CreateTournamentDTO
+    public static function makeFromRequest(StoreUpdateTournamentRequest $request): CreateTournamentDTO
     {
         return new self(
             $request->name,
