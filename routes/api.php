@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/tournaments/{tournament_id}', [TournamentController::class, 'getById'])->name('tournaments.getById');
 Route::post('/tournaments', [TournamentController::class, 'store'])->name('tournaments.store');
+Route::put('/tournaments/{tournament_id}', [TournamentController::class, 'update'])->name('tournaments.update');
