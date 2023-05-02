@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             TournamentSeeder::class,
+            CategorySeeder::class,
             FishermanSeeder::class
         ]);
     }
