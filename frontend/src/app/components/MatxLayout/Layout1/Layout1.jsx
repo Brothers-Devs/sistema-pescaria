@@ -7,7 +7,6 @@ import React, { useEffect, useRef } from "react";
 import Scrollbar from "react-perfect-scrollbar";
 import { Outlet } from "react-router-dom";
 import SidenavTheme from "../../MatxTheme/SidenavTheme/SidenavTheme";
-import SecondarySidebar from "../../SecondarySidebar/SecondarySidebar";
 import Layout1Sidenav from "./Layout1Sidenav";
 import Layout1Topbar from "./Layout1Topbar";
 
@@ -33,7 +32,7 @@ const StyledScrollBar = styled(Scrollbar)(() => ({
     flexDirection: "column",
 }));
 
-const LayoutContainer = styled(Box)(({ width, secondarySidebar }) => ({
+const LayoutContainer = styled(Box)(({ width }) => ({
     height: "100vh",
     display: "flex",
     flexGrow: "1",
@@ -43,12 +42,11 @@ const LayoutContainer = styled(Box)(({ width, secondarySidebar }) => ({
     position: "relative",
     overflow: "hidden",
     transition: "all 0.3s ease",
-    marginRight: secondarySidebar.open ? 50 : 0,
 }));
 
 const Layout1 = () => {
     const { settings, updateSettings } = useSettings();
-    const { layout1Settings, secondarySidebar } = settings;
+    const { layout1Settings } = settings;
     const topbarTheme = settings.themes[layout1Settings.topbar.theme];
     const {
         leftSidebar: { mode: sidenavMode, show: showSidenav },
@@ -92,10 +90,7 @@ const Layout1 = () => {
                 </SidenavTheme>
             )}
 
-            <LayoutContainer
-                width={sidenavWidth}
-                secondarySidebar={secondarySidebar}
-            >
+            <LayoutContainer width={sidenavWidth}>
                 {layout1Settings.topbar.show &&
                     layout1Settings.topbar.fixed && (
                         <ThemeProvider theme={topbarTheme}>
@@ -139,8 +134,6 @@ const Layout1 = () => {
                     </ContentBox>
                 )}
             </LayoutContainer>
-
-            {settings.secondarySidebar.show && <SecondarySidebar />}
         </Layout1Root>
     );
 };

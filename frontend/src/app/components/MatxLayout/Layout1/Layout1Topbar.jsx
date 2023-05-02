@@ -1,12 +1,9 @@
-import { Icon, IconButton, MenuItem, useMediaQuery } from "@mui/material";
+import { Icon, IconButton, useMediaQuery } from "@mui/material";
 import { Box, styled, useTheme } from "@mui/system";
-import { MatxMenu, MatxSearchBox } from "app/components";
 import { themeShadows } from "app/components/MatxTheme/themeColors";
 import useSettings from "app/hooks/useSettings";
 import { topBarHeight } from "app/utils/constant";
 import React from "react";
-import { Link } from "react-router-dom";
-import { Span } from "../../../components/Typography";
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
     color: theme.palette.text.primary,
 }));
@@ -37,24 +34,6 @@ const TopbarContainer = styled(Box)(({ theme }) => ({
         paddingRight: 16,
     },
 }));
-
-const StyledItem = styled(MenuItem)(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    minWidth: 185,
-    "& a": {
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        textDecoration: "none",
-    },
-    "& span": { marginRight: "10px", color: theme.palette.text.primary },
-}));
-
-// const IconBox = styled("div")(({ theme }) => ({
-//     display: "inherit",
-//     [theme.breakpoints.down("md")]: { display: "none !important" },
-// }));
 
 const Layout1Topbar = () => {
     const theme = useTheme();
@@ -89,50 +68,6 @@ const Layout1Topbar = () => {
                     <StyledIconButton onClick={handleSidebarToggle}>
                         <Icon>menu</Icon>
                     </StyledIconButton>
-
-                    {/* <IconBox>
-                        <StyledIconButton>
-                            <Icon>mail_outline</Icon>
-                        </StyledIconButton>
-
-                        <StyledIconButton>
-                            <Icon>web_asset</Icon>
-                        </StyledIconButton>
-
-                        <StyledIconButton>
-                            <Icon>star_outline</Icon>
-                        </StyledIconButton>
-                    </IconBox> */}
-                </Box>
-
-                <Box display="flex" alignItems="center">
-                    <MatxSearchBox />
-
-                    <MatxMenu>
-                        <StyledItem>
-                            <Link to="/">
-                                <Icon> home </Icon>
-                                <Span> Home </Span>
-                            </Link>
-                        </StyledItem>
-
-                        <StyledItem>
-                            <Link to="/page-layouts/user-profile">
-                                <Icon> person </Icon>
-                                <Span> Profile </Span>
-                            </Link>
-                        </StyledItem>
-
-                        <StyledItem>
-                            <Icon> settings </Icon>
-                            <Span> Settings </Span>
-                        </StyledItem>
-
-                        {/* <StyledItem onClick={logout}>
-              <Icon> power_settings_new </Icon>
-              <Span> Logout </Span>
-            </StyledItem> */}
-                    </MatxMenu>
                 </Box>
             </TopbarContainer>
         </TopbarRoot>

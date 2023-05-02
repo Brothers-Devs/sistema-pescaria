@@ -42,7 +42,7 @@ const MatxSearchBox = () => {
 
     return (
         <React.Fragment>
-            {!open && (
+            {/* {!open && (
                 <IconButton onClick={toggle}>
                     <Icon sx={{ color: textColor }}>search</Icon>
                 </IconButton>
@@ -62,7 +62,7 @@ const MatxSearchBox = () => {
                         <Icon sx={{ color: textColor }}>close</Icon>
                     </IconButton>
                 </SearchContainer>
-            )}
+            )} */}
         </React.Fragment>
     );
 };

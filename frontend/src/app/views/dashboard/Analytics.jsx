@@ -1,12 +1,6 @@
-import { /* Card,*/ Grid, styled, useTheme } from "@mui/material";
+import { Grid, styled, useTheme } from "@mui/material";
 import { Fragment } from "react";
-// import Campaigns from "./shared/Campaigns";
-// import DoughnutChart from "./shared/Doughnut";
-// import RowCards from "./shared/RowCards";
-// import StatCards from "./shared/StatCards";
-// import StatCards2 from "./shared/StatCards2";
-// import TopSellingTable from "./shared/TopSellingTable";
-// import UpgradeCard from "./shared/UpgradeCard";
+import LogoTopam from "../../assets/images/logo_topam.jpeg";
 
 const ContentBox = styled("div")(({ theme }) => ({
     zIndex: -1,
@@ -15,10 +9,11 @@ const ContentBox = styled("div")(({ theme }) => ({
 }));
 
 const Title = styled("span")(() => ({
-    fontSize: "1rem",
+    fontSize: "2.3rem",
     fontWeight: "500",
+    marginTop: "26px",
     marginRight: ".5rem",
-    // textTransform: 'capitalize',
+    //textTransform: "capitalize",
 }));
 
 const SubTitle = styled("span")(({ theme }) => ({
@@ -30,44 +25,29 @@ const H4 = styled("h4")(({ theme }) => ({
     fontSize: "1rem",
     fontWeight: "500",
     marginBottom: "16px",
-    // textTransform: 'capitalize',
+    //textTransform: "capitalize",
     color: theme.palette.text.secondary,
 }));
 
 const Analytics = () => {
-    const { palette } = useTheme();
-
     return (
         <Fragment>
             <ContentBox className="analytics">
-                <Grid container spacing={3}>
-                    <Grid item lg={8} md={8} sm={12} xs={12}>
-                        {/* <StatCards /> */}
-                        {/* <TopSellingTable /> */}
-                        {/* <StatCards2 /> */}
-
-                        {/* <H4>Ongoing Projects</H4> */}
-                        {/* <RowCards /> */}
+                <Grid
+                    container
+                    display={"flex"}
+                    flexDirection={"column"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                >
+                    <Title>Seja Bem Vindo ao TOPAM</Title>
+                    <Grid item lg={30} md={30} sm={12} xs={12} marginTop={8}>
+                        <img
+                            src={LogoTopam}
+                            style={{ width: "100%", height: "100%" }}
+                            alt="Logo-TOPAM"
+                        />
                     </Grid>
-
-                    {/* <Grid item lg={4} md={4} sm={12} xs={12}>
-                        <Card sx={{ px: 3, py: 2, mb: 3 }}>
-                            <Title>Traffic Sources</Title>
-                            <SubTitle>Last 30 days</SubTitle>
-
-                            <DoughnutChart
-                                height="300px"
-                                color={[
-                                    palette.primary.dark,
-                                    palette.primary.main,
-                                    palette.primary.light,
-                                ]}
-                            />
-                        </Card>
-
-                        <UpgradeCard />
-                        <Campaigns />
-                    </Grid> */}
                 </Grid>
             </ContentBox>
         </Fragment>

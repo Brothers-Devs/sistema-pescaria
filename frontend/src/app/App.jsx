@@ -4,9 +4,16 @@ import { SettingsProvider } from "./contexts/SettingsContext";
 
 import routes from "./routes";
 
+{
+    /* <bra>
+    <Routes>
+        <Route path:"/home"  element: <Home />/>
+    </Routes>
+</bra>; */
+}
+
 const App = () => {
     const content = useRoutes(routes);
-    console.log(content);
     return (
         <SettingsProvider>
             <MatxTheme>{content}</MatxTheme>
