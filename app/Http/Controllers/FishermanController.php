@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\Fisherman\CreateFishermanDTO;
+use App\Http\Requests\StoreUpdateFishermanRequest;
 use App\Http\Resources\FishermanResource;
 use App\Services\FishermanService;
 use Illuminate\Http\Request;
@@ -35,6 +37,16 @@ class FishermanController extends Controller
             abort(Response::HTTP_NOT_FOUND);
         }
 
+        return new FishermanResource($fisherman);
+    }
+
+    /**
+     * @param StoreUpdateFishermanRequest $request
+     * @return FishermanResource
+     */
+    public function store(StoreUpdateFishermanRequest $request): FishermanResource
+    {
+        $fisherman = $this->service->create(CreateFishermanDTO::makeFromRequest($request));
         return new FishermanResource($fisherman);
     }
 }
