@@ -8,7 +8,7 @@ import Brand from "../../Brand";
 import Sidenav from "../../Sidenav";
 import BgGreen from "../../../assets/images/bg-green.png";
 
-const SidebarNavRoot = styled(Box)(({ theme, width, BgGreen }) => ({
+const SidebarNavRoot = styled(Box)(({ theme, width, background }) => ({
     position: "fixed",
     top: 0,
     left: 0,
@@ -22,7 +22,7 @@ const SidebarNavRoot = styled(Box)(({ theme, width, BgGreen }) => ({
     overflow: "hidden",
     color: theme.palette.text.primary,
     transition: "all 250ms ease-in-out",
-    backgroundImage: `linear-gradient(to bottom, rgba(38, 100, 62, 0.96), rgba(49, 146, 86, 0.96)),url(${BgGreen})`,
+    backgroundImage: `linear-gradient(to bottom, rgba(38, 100, 62, 0.96), rgba(49, 146, 86, 0.96)),url(${background})`,
     "&:hover": {
         width: sideNavWidth,
         "& .sidenavHoverShow": {
@@ -76,14 +76,14 @@ const Layout1Sidenav = () => {
     };
 
     return (
-        <SidebarNavRoot BgGreen={BgGreen} width={getSidenavWidth()}>
+        <SidebarNavRoot background={BgGreen} width={getSidenavWidth()}>
             <NavListBox>
                 <Brand>
                     <Hidden smDown>
                         <Switch
                             onChange={handleSidenavToggle}
                             checked={leftSidebar.mode !== "full"}
-                            color="secondary"
+                            color="default"
                             size="small"
                         />
                     </Hidden>
