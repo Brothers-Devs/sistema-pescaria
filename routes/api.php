@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FishermanController;
 use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,6 @@ Route::put('/tournaments/{tournament_id}', [TournamentController::class, 'update
 Route::delete('/tournaments/{tournament_id}', [TournamentController::class, 'delete'])->name('tournaments.delete');
 
 Route::get('/categories', [CategoryController::class, 'all'])->name('categories.all');
+
+Route::get('/fishermen', [FishermanController::class, 'all'])->name('fishermen.all');
+Route::get('/fishermen/{fisherman_id}', [FishermanController::class, 'getById'])->name('fishermen.getById');
