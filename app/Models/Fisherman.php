@@ -11,6 +11,16 @@ class Fisherman extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'cpf',
+        'phone',
+        'email',
+        'country',
+        'state',
+        'city'
+    ];
+
     /**
      * @return Attribute
      */
