@@ -36,7 +36,6 @@ const StyledIcon = styled(Icon)(() => ({
 const Breadcrumb = ({ routeSegments }) => {
     const theme = useTheme();
     const hint = theme.palette.text.hint;
-
     return (
         <BreadcrumbRoot>
             {routeSegments ? (
@@ -59,10 +58,21 @@ const Breadcrumb = ({ routeSegments }) => {
                 <NavLink to="/">
                     <StyledIcon color="primary">home</StyledIcon>
                 </NavLink>
-
-                <SubName key={routeSegments[0]?.subName}>
-                    {routeSegments[0]?.subName}
-                </SubName>
+                {routeSegments[0].path ? (
+                    routeSegments.map((route, index) => {
+                        return index !== routeSegments.length - 1 ? (
+                            <NavLink key={index} to={route.path}>
+                                <SubName>{route.name}</SubName>
+                            </NavLink>
+                        ) : (
+                            <SubName key={index}>{route.name}</SubName>
+                        );
+                    })
+                ) : (
+                    <SubName key={routeSegments[0]?.name}>
+                        {routeSegments[0]?.name}
+                    </SubName>
+                )}
             </Breadcrumbs>
         </BreadcrumbRoot>
     );
