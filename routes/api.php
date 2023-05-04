@@ -27,3 +27,4 @@ Route::get('/fishermen', [FishermanController::class, 'all'])->name('fishermen.a
 Route::get('/fishermen/{fisherman_id}', [FishermanController::class, 'getById'])->name('fishermen.getById');
 Route::post('/fishermen', [FishermanController::class, 'store'])->name('fishermen.store');
 Route::put('/fishermen/{fisherman_id}', [FishermanController::class, 'update'])->name('fishermen.update');
+Route::delete('/fishermen/{fisherman_id}', [FishermanController::class, 'delete'])->name('fishermen.delete');

@@ -49,4 +49,13 @@ class FishermanService
     {
         return $this->repository->update($updateFishermanDTO);
     }
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function delete(int $id): void
+    {
+        $this->repository->delete($id);
+    }
 }
