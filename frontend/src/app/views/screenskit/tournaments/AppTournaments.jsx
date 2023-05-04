@@ -3,9 +3,9 @@ import instance from "../../../../axios";
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Box, Card, Divider, Grid } from "@mui/material";
-import ImageTorneio from "../../../assets/images/logo_topam.jpeg";
 import TableTournament from "./TableTournament";
 import CircularProgress from "@mui/material/CircularProgress";
+import { GiFishing } from "react-icons/gi";
 
 function AppTournaments() {
     const [detailsTournament, setDetailsTournament] = useState();
@@ -51,13 +51,10 @@ function AppTournaments() {
                             alignItems: "center",
                         }}
                     >
-                        <img
-                            src={ImageTorneio}
-                            alt="foto-do-torneio"
+                        <GiFishing
                             style={{
                                 width: "200px",
                                 height: "200px",
-                                borderRadius: "50%",
                                 marginBottom: "20px",
                             }}
                         />
@@ -69,7 +66,7 @@ function AppTournaments() {
                 <Box
                     sx={{
                         width: "100%",
-                        height: "500px",
+                        height: "70vh",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
