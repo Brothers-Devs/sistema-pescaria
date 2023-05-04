@@ -25,7 +25,7 @@ function AppTournaments() {
             <div className="breadcrumb" style={{ marginBottom: "25px" }}>
                 <Breadcrumb
                     routeSegments={[
-                        { subName: "Detalhes do Torneio" },
+                        { name: "Detalhes do Torneio" },
                         { name: "Torneios" },
                     ]}
                 />
