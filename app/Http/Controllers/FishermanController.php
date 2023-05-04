@@ -6,6 +6,7 @@ use App\DTO\Fisherman\CreateFishermanDTO;
 use App\Http\Requests\StoreUpdateFishermanRequest;
 use App\Http\Resources\FishermanResource;
 use App\Services\FishermanService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,11 +43,13 @@ class FishermanController extends Controller
 
     /**
      * @param StoreUpdateFishermanRequest $request
-     * @return FishermanResource
+     * @return JsonResponse
      */
-    public function store(StoreUpdateFishermanRequest $request): FishermanResource
+    public function store(StoreUpdateFishermanRequest $request): JsonResponse
     {
         $fisherman = $this->service->create(CreateFishermanDTO::makeFromRequest($request));
-        return new FishermanResource($fisherman);
+        return (new FishermanResource($fisherman))
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 }

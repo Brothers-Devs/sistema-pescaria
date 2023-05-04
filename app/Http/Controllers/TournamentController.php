@@ -33,12 +33,14 @@ class TournamentController extends Controller
 
     /**
      * @param StoreUpdateTournamentRequest $request
-     * @return TournamentResource
+     * @return JsonResponse
      */
-    public function store(StoreUpdateTournamentRequest $request): TournamentResource
+    public function store(StoreUpdateTournamentRequest $request): JsonResponse
     {
         $result = $this->service->create(CreateTournamentDTO::makeFromRequest($request));
-        return new TournamentResource($result);
+        return (new TournamentResource($result))
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**
