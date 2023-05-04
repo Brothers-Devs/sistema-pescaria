@@ -68,4 +68,19 @@ class FishermanController extends Controller
 
         return new FishermanResource($fisherman);
     }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function delete(int $id): JsonResponse
+    {
+        if (!$this->service->getById($id)) {
+            abort(Response::HTTP_NOT_FOUND);
+        }
+
+        $this->service->delete($id);
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
+    }
 }

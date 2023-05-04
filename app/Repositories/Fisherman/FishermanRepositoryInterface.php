@@ -15,4 +15,6 @@ interface FishermanRepositoryInterface
     public function create(CreateFishermanDTO $createFishermanDTO): ?stdClass;
 
     public function update(UpdateFishermanDTO $updateFishermanDTO): ?stdClass;
+
+    public function delete(int $id): void;
 }
