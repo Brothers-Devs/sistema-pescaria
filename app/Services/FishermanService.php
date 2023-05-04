@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTO\Fisherman\CreateFishermanDTO;
+use App\DTO\Fisherman\UpdateFishermanDTO;
 use App\Repositories\Fisherman\FishermanRepositoryInterface;
 use stdClass;
 
@@ -38,5 +39,14 @@ class FishermanService
     public function create(CreateFishermanDTO $createFishermanDTO): ?stdClass
     {
         return $this->repository->create($createFishermanDTO);
+    }
+
+    /**
+     * @param UpdateFishermanDTO $updateFishermanDTO
+     * @return stdClass|null
+     */
+    public function update(UpdateFishermanDTO $updateFishermanDTO): ?stdClass
+    {
+        return $this->repository->update($updateFishermanDTO);
     }
 }

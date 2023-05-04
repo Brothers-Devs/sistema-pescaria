@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUpdateFishermanRequest extends FormRequest
 {
@@ -21,7 +22,7 @@ class StoreUpdateFishermanRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|max:255',
             'cpf' => 'required|min:11|max:11|unique:fishermen',
             'phone' => 'nullable|min:11|max:11',
@@ -30,5 +31,16 @@ class StoreUpdateFishermanRequest extends FormRequest
             'state' => 'nullable|string|min:2|max:2',
             'city' => 'nullable|string'
         ];
+
+        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
+            $rules['cpf'] = [
+                'required',
+                'min:11',
+                'max:11',
+                Rule::unique('fishermen')->ignore($this->fisherman_id)
+            ];
+        }
+        
+        return $rules;
     }
 }

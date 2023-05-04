@@ -3,6 +3,7 @@
 namespace App\Repositories\Fisherman;
 
 use App\DTO\Fisherman\CreateFishermanDTO;
+use App\DTO\Fisherman\UpdateFishermanDTO;
 use stdClass;
 
 interface FishermanRepositoryInterface
@@ -12,4 +13,6 @@ interface FishermanRepositoryInterface
     public function getById(int $id): ?stdClass;
 
     public function create(CreateFishermanDTO $createFishermanDTO): ?stdClass;
+
+    public function update(UpdateFishermanDTO $updateFishermanDTO): ?stdClass;
 }

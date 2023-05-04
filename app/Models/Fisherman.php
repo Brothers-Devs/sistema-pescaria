@@ -20,14 +20,15 @@ class Fisherman extends Model
         'state',
         'city'
     ];
-
+    
     /**
      * @return Attribute
      */
     protected function cpf(): Attribute
     {
         return Attribute::make(
-            get: fn(?string $value) => $value ? Helper::addMaskForCpf($value) : null
+            get: fn(?string $value) => $value ? Helper::addMaskForCpf($value) : null,
+            set: fn(?string $value) => $value ? Helper::onlyNumbers($value) : null
         );
     }
 
@@ -37,7 +38,8 @@ class Fisherman extends Model
     protected function phone(): Attribute
     {
         return Attribute::make(
-            get: fn(?string $value) => $value ? Helper::addMaskForPhoneBr($value) : null
+            get: fn(?string $value) => $value ? Helper::addMaskForPhoneBr($value) : null,
+            set: fn(?string $value) => $value ? Helper::onlyNumbers($value) : null
         );
     }
 }

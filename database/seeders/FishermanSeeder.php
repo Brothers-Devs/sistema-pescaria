@@ -13,6 +13,6 @@ class FishermanSeeder extends Seeder
      */
     public function run(): void
     {
-        Fisherman::factory(2)->create();
+        Fisherman::factory(10)->create();
     }
 }

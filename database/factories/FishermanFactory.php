@@ -15,8 +15,8 @@ class FishermanFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'cpf' => fake()->randomElement(['48723707089', '29656940059']),
-            'phone' => '91999999999',
+            'cpf' => fake()->unique()->numerify('###########'),
+            'phone' => fake()->numerify('919########'),
             'email' => fake()->unique()->safeEmail(),
             'country' => fake()->country(),
             'state' => fake()->randomElement(['PA', 'SP', 'RJ']),
