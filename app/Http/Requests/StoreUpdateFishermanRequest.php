@@ -26,9 +26,9 @@ class StoreUpdateFishermanRequest extends FormRequest
             'cpf' => 'required|min:11|max:11|unique:fishermen',
             'phone' => 'nullable|min:11|max:11',
             'email' => 'nullable|email',
-            'country' => 'nullable',
-            'state' => 'nullable|min:2|max:2',
-            'city' => 'nullable'
+            'country' => 'nullable|string',
+            'state' => 'nullable|string|min:2|max:2',
+            'city' => 'nullable|string'
         ];
     }
 }
