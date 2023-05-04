@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('fishermen', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->char('cpf', 11)->nullable();
+            $table->char('cpf', 11)->unique();
             $table->char('phone', 11)->nullable();
             $table->string('email')->nullable();
             $table->string('country', 100)->nullable();
