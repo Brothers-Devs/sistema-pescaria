@@ -25,3 +25,4 @@ Route::get('/categories', [CategoryController::class, 'all'])->name('categories.
 
 Route::get('/fishermen', [FishermanController::class, 'all'])->name('fishermen.all');
 Route::get('/fishermen/{fisherman_id}', [FishermanController::class, 'getById'])->name('fishermen.getById');
+Route::post('/fishermen', [FishermanController::class, 'store'])->name('fishermen.store');

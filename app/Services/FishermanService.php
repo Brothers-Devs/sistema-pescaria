@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\Fisherman\CreateFishermanDTO;
 use App\Repositories\Fisherman\FishermanRepositoryInterface;
 use stdClass;
 
@@ -28,5 +29,14 @@ class FishermanService
     public function getById(int $id): ?stdClass
     {
         return $this->repository->getById($id);
+    }
+
+    /**
+     * @param CreateFishermanDTO $createFishermanDTO
+     * @return stdClass|null
+     */
+    public function create(CreateFishermanDTO $createFishermanDTO): ?stdClass
+    {
+        return $this->repository->create($createFishermanDTO);
     }
 }

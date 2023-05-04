@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Fisherman\Eloquent;
 
+use App\DTO\Fisherman\CreateFishermanDTO;
 use App\Models\Fisherman;
 use App\Repositories\Fisherman\FishermanRepositoryInterface;
 use stdClass;
@@ -35,5 +36,14 @@ class FishermanRepository implements FishermanRepositoryInterface
         }
 
         return (object)$fisherman->toArray();
+    }
+
+    /**
+     * @param CreateFishermanDTO $createFishermanDTO
+     * @return stdClass|null
+     */
+    public function create(CreateFishermanDTO $createFishermanDTO): ?stdClass
+    {
+        return (object)$this->model->create($createFishermanDTO->toArray())->toArray();
     }
 }
