@@ -36,7 +36,7 @@ class TournamentRepository implements TournamentRepositoryInterface
      */
     public function create(CreateTournamentDTO $createTournamentDTO): ?stdClass
     {
-        return (object)$this->model->create($createTournamentDTO->toArray());
+        return (object)$this->model->create($createTournamentDTO->toArray())->toArray();
     }
 
     /**
