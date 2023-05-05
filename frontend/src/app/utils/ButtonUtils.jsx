@@ -5,7 +5,6 @@ export default function ButtonUtils({ functionButton, path }) {
     return (
         <Box
             sx={{
-                height: 1,
                 width: 1,
                 display: "flex",
                 justifyContent: "space-between",
