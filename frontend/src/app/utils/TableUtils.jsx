@@ -18,8 +18,6 @@ function QuickSearchToolbar() {
         >
             <GridToolbarQuickFilter
                 sx={{
-                    width: 250,
-                    height: 1,
                     border: "1px lightgray solid",
                     borderRadius: 3,
                     p: 1,
