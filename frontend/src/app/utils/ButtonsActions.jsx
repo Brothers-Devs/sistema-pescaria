@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Stack, Tooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Create } from "@mui/icons-material";
@@ -11,12 +11,16 @@ export default function ButtonActions({
 }) {
     return (
         <Stack direction="row" alignItems="center" spacing={1}>
-            <IconButton aria-label="delete" size="medium">
-                <Create fontSize="inherit" />
-            </IconButton>
-            <IconButton aria-label="delete" size="medium">
-                <DeleteIcon fontSize="inherit" />
-            </IconButton>
+            <Tooltip title="Editar">
+                <IconButton aria-label="delete" size="medium" color="primary">
+                    <Create fontSize="inherit" />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Deletar">
+                <IconButton aria-label="delete" size="medium" color="error">
+                    <DeleteIcon fontSize="inherit" />
+                </IconButton>
+            </Tooltip>
         </Stack>
     );
 }
