@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\DTO\Team\CreateTeamDTO;
 use App\Repositories\Team\TeamRepositoryInterface;
+use GuzzleHttp\Promise\Create;
 use stdClass;
 
 class TeamService
@@ -28,5 +30,14 @@ class TeamService
     public function getById(int $id): ?stdClass
     {
         return $this->repository->getById($id);
+    }
+
+    /**
+     * @param CreateTeamDTO $createTeamDTO
+     * @return stdClass
+     */
+    public function create(CreateTeamDTO $createTeamDTO): stdClass
+    {
+        return $this->repository->create($createTeamDTO);
     }
 }

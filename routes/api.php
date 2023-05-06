@@ -32,3 +32,4 @@ Route::delete('/fishermen/{fisherman_id}', [FishermanController::class, 'delete'
 
 Route::get('/teams', [TeamController::class, 'all'])->name('teams.all');
 Route::get('/teams/{team_id}', [TeamController::class, 'getById'])->name('teams.getById');
+Route::post('/teams', [TeamController::class, 'create'])->name('teams.create');
