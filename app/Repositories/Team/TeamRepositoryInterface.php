@@ -3,6 +3,7 @@
 namespace App\Repositories\Team;
 
 use App\DTO\Team\CreateTeamDTO;
+use App\DTO\Team\UpdateTeamDTO;
 use stdClass;
 
 interface TeamRepositoryInterface
@@ -12,4 +13,6 @@ interface TeamRepositoryInterface
     public function getById(int $id): ?stdClass;
 
     public function create(CreateTeamDTO $createTeamDTO): stdClass;
+
+    public function update(UpdateTeamDTO $updateTeamDTO): ?stdClass;
 }
