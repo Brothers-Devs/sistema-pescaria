@@ -15,4 +15,6 @@ interface TeamRepositoryInterface
     public function create(CreateTeamDTO $createTeamDTO): stdClass;
 
     public function update(UpdateTeamDTO $updateTeamDTO): ?stdClass;
+
+    public function delete(int $id): void;
 }
