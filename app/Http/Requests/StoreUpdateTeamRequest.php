@@ -22,7 +22,7 @@ class StoreUpdateTeamRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:255|unique:teams',
             'type' => [
                 'required',
@@ -38,5 +38,16 @@ class StoreUpdateTeamRequest extends FormRequest
                 Rule::exists('categories', 'id')
             ]
         ];
+
+        if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
+            $rules['name'] = [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('teams')->ignore($this->team_id)
+            ];
+        }
+
+        return $rules;
     }
 }
