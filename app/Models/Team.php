@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Team extends Model
 {
@@ -31,5 +32,13 @@ class Team extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class,);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function fishermen(): BelongsToMany
+    {
+        return $this->belongsToMany(Fisherman::class)->using(FishermanTeam::class);
     }
 }
