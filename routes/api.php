@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FishermanController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +29,6 @@ Route::get('/fishermen/{fisherman_id}', [FishermanController::class, 'getById'])
 Route::post('/fishermen', [FishermanController::class, 'store'])->name('fishermen.store');
 Route::put('/fishermen/{fisherman_id}', [FishermanController::class, 'update'])->name('fishermen.update');
 Route::delete('/fishermen/{fisherman_id}', [FishermanController::class, 'delete'])->name('fishermen.delete');
+
+Route::get('/teams', [TeamController::class, 'all'])->name('teams.all');
+Route::get('/teams/{team_id}', [TeamController::class, 'getById'])->name('teams.getById');
