@@ -6,6 +6,7 @@ use App\Helper\Helper;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Fisherman extends Model
 {
@@ -20,7 +21,15 @@ class Fisherman extends Model
         'state',
         'city'
     ];
-    
+
+    /**
+     * @return BelongsToMany
+     */
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class)->using(FishermanTeam::class);
+    }
+
     /**
      * @return Attribute
      */
