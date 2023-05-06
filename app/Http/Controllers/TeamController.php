@@ -68,4 +68,20 @@ class TeamController extends Controller
 
         return new TeamResource($team);
     }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function delete(int $id): JsonResponse
+    {
+        $team = $this->service->getById($id);
+        if (!$team) {
+            abort(Response::HTTP_NOT_FOUND);
+        }
+
+        $this->service->delete($id);
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
+    }
 }

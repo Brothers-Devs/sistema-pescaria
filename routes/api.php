@@ -34,3 +34,4 @@ Route::get('/teams', [TeamController::class, 'all'])->name('teams.all');
 Route::get('/teams/{team_id}', [TeamController::class, 'getById'])->name('teams.getById');
 Route::post('/teams', [TeamController::class, 'create'])->name('teams.create');
 Route::put('/teams/{team_id}', [TeamController::class, 'update'])->name('teams.update');
+Route::delete('/teams/{team_id}', [TeamController::class, 'delete'])->name('teams.delete');
