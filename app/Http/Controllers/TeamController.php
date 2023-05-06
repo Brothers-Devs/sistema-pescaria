@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DTO\Team\CreateTeamDTO;
+use App\DTO\Team\UpdateTeamDTO;
 use App\Http\Requests\StoreUpdateTeamRequest;
 use App\Http\Resources\TeamResource;
 use App\Services\TeamService;
@@ -51,5 +52,20 @@ class TeamController extends Controller
         return (new TeamResource($team))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
+    }
+
+    /**
+     * @param StoreUpdateTeamRequest $request
+     * @param int $id
+     * @return TeamResource
+     */
+    public function update(StoreUpdateTeamRequest $request, int $id): TeamResource
+    {
+        $team = $this->service->update(UpdateTeamDTO::makeFromRequest($request, $id));
+        if (!$team) {
+            abort(Response::HTTP_NOT_FOUND);
+        }
+
+        return new TeamResource($team);
     }
 }

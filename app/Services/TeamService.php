@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTO\Team\CreateTeamDTO;
+use App\DTO\Team\UpdateTeamDTO;
 use App\Repositories\Team\TeamRepositoryInterface;
 use GuzzleHttp\Promise\Create;
 use stdClass;
@@ -39,5 +40,14 @@ class TeamService
     public function create(CreateTeamDTO $createTeamDTO): stdClass
     {
         return $this->repository->create($createTeamDTO);
+    }
+
+    /**
+     * @param UpdateTeamDTO $updateTeamDTO
+     * @return stdClass|null
+     */
+    public function update(UpdateTeamDTO $updateTeamDTO): ?stdClass
+    {
+        return $this->repository->update($updateTeamDTO);
     }
 }

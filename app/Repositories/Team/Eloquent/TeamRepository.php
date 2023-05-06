@@ -3,6 +3,7 @@
 namespace App\Repositories\Team\Eloquent;
 
 use App\DTO\Team\CreateTeamDTO;
+use App\DTO\Team\UpdateTeamDTO;
 use App\Models\Team;
 use App\Repositories\Team\TeamRepositoryInterface;
 use stdClass;
@@ -44,5 +45,22 @@ class TeamRepository implements TeamRepositoryInterface
     public function create(CreateTeamDTO $createTeamDTO): stdClass
     {
         return (object)$this->model->create($createTeamDTO->toArray())->toArray();
+    }
+
+    /**
+     * @param UpdateTeamDTO $updateTeamDTO
+     * @return stdClass|null
+     */
+    public function update(UpdateTeamDTO $updateTeamDTO): ?stdClass
+    {
+        /** @var Team $team */
+        $team = $this->model->find($updateTeamDTO->id);
+        if (!$team) {
+            return null;
+        }
+
+        $team->update($updateTeamDTO->toArray());
+
+        return (object)$team->toArray();
     }
 }
