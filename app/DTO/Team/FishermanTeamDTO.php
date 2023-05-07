@@ -2,9 +2,9 @@
 
 namespace App\DTO\Team;
 
-use App\Http\Requests\AddFishermanInTeamRequest;
+use App\Http\Requests\AddRemoveFishermanInTeamRequest;
 
-class AddFishermanDTO
+class FishermanTeamDTO
 {
     public function __construct(
         public int $tournamentId,
@@ -15,11 +15,11 @@ class AddFishermanDTO
     }
 
     /**
-     * @param AddFishermanInTeamRequest $request
+     * @param AddRemoveFishermanInTeamRequest $request
      * @param int $teamId
-     * @return AddFishermanDTO
+     * @return FishermanTeamDTO
      */
-    public static function makeFromRequest(AddFishermanInTeamRequest $request, int $teamId): AddFishermanDTO
+    public static function makeFromRequest(AddRemoveFishermanInTeamRequest $request, int $teamId): FishermanTeamDTO
     {
         return new self(
             $request->tournament_id,

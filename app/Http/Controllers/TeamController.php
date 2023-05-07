@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\Team\AddFishermanDTO;
+use App\DTO\Team\FishermanTeamDTO;
 use App\DTO\Team\CreateTeamDTO;
 use App\DTO\Team\UpdateTeamDTO;
 use App\Exceptions\CannotAddFishermanException;
 use App\Exceptions\FishermanIsAlreadyOnTheTeamException;
-use App\Http\Requests\AddFishermanInTeamRequest;
+use App\Exceptions\FishermanNotFoundOnTheTeamException;
+use App\Http\Requests\AddRemoveFishermanInTeamRequest;
 use App\Http\Requests\StoreUpdateTeamRequest;
 use App\Http\Resources\TeamResource;
 use App\Services\TeamService;
@@ -90,18 +91,37 @@ class TeamController extends Controller
     }
 
     /**
-     * @param AddFishermanInTeamRequest $request
+     * @param AddRemoveFishermanInTeamRequest $request
      * @param int $teamId
      * @return JsonResponse
      */
-    public function addFisherman(AddFishermanInTeamRequest $request, int $teamId): JsonResponse
+    public function addFisherman(AddRemoveFishermanInTeamRequest $request, int $teamId): JsonResponse
     {
         try {
-            $this->service->addFisherman(AddFishermanDTO::makeFromRequest($request, $teamId));
+            $this->service->addFisherman(FishermanTeamDTO::makeFromRequest($request, $teamId));
             return response()->json([
                 'message' => 'Pescador adicionado com sucesso'
             ]);
         } catch (CannotAddFishermanException|FishermanIsAlreadyOnTheTeamException $exception) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    /**
+     * @param AddRemoveFishermanInTeamRequest $request
+     * @param int $teamId
+     * @return JsonResponse
+     */
+    public function removeFisherman(AddRemoveFishermanInTeamRequest $request, int $teamId): JsonResponse
+    {
+        try {
+            $this->service->removeFisherman(FishermanTeamDTO::makeFromRequest($request, $teamId));
+            return response()->json([
+                'message' => 'Pescador removido com sucesso'
+            ]);
+        } catch (FishermanNotFoundOnTheTeamException $exception) {
             return response()->json([
                 'message' => $exception->getMessage()
             ], Response::HTTP_UNPROCESSABLE_ENTITY);

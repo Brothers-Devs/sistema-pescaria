@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
-use App\DTO\Team\AddFishermanDTO;
+use App\DTO\Team\FishermanTeamDTO;
 use App\DTO\Team\CreateTeamDTO;
 use App\DTO\Team\UpdateTeamDTO;
 use App\Exceptions\CannotAddFishermanException;
 use App\Exceptions\FishermanIsAlreadyOnTheTeamException;
+use App\Exceptions\FishermanNotFoundOnTheTeamException;
 use App\Models\Team;
 use App\Repositories\Team\TeamRepositoryInterface;
 use Illuminate\Support\Facades\Log;
@@ -68,15 +69,15 @@ class TeamService
     }
 
     /**
-     * @param AddFishermanDTO $addFishermanDTO
+     * @param FishermanTeamDTO $fishermanTeamDTO
      * @return bool
      * @throws CannotAddFishermanException
      * @throws FishermanIsAlreadyOnTheTeamException
      */
-    public function addFisherman(AddFishermanDTO $addFishermanDTO): bool
+    public function addFisherman(FishermanTeamDTO $fishermanTeamDTO): bool
     {
         /** @var Team $team */
-        $team = $this->repository->getByIdWithFishermen($addFishermanDTO->teamId);
+        $team = $this->repository->getByIdWithFishermen($fishermanTeamDTO->teamId);
 
         $countFishermen = $team->fishermen->count();
         if (
@@ -91,16 +92,39 @@ class TeamService
             throw new CannotAddFishermanException();
         }
 
-        if ($team->fishermen->contains($addFishermanDTO->fishermanId)) {
-            Log::alert('fisherman_is_already_on_the_team', $addFishermanDTO->toArray());
+        if ($team->fishermen->contains($fishermanTeamDTO->fishermanId)) {
+            Log::alert('fisherman_is_already_on_the_team', $fishermanTeamDTO->toArray());
             throw new FishermanIsAlreadyOnTheTeamException();
         }
 
         $team
             ->fishermen()
-            ->attach($addFishermanDTO->fishermanId, ['tournament_id' => $addFishermanDTO->tournamentId]);
+            ->attach($fishermanTeamDTO->fishermanId, ['tournament_id' => $fishermanTeamDTO->tournamentId]);
 
-        Log::info('successfully_added_fisherman', $addFishermanDTO->toArray());
+        Log::info('successfully_added_fisherman', $fishermanTeamDTO->toArray());
+        return true;
+    }
+
+    /**
+     * @param FishermanTeamDTO $fishermanTeamDTO
+     * @return bool
+     * @throws FishermanNotFoundOnTheTeamException
+     */
+    public function removeFisherman(FishermanTeamDTO $fishermanTeamDTO): bool
+    {
+        /** @var Team $team */
+        $team = $this->repository->getByIdWithFishermen($fishermanTeamDTO->teamId);
+
+        if (!$team->fishermen->contains($fishermanTeamDTO->fishermanId)) {
+            Log::alert('fisherman_not_found_on_the_team', $fishermanTeamDTO->toArray());
+            throw new FishermanNotFoundOnTheTeamException();
+        }
+
+        $team
+            ->fishermen()
+            ->detach($fishermanTeamDTO->fishermanId, ['tournament_id' => $fishermanTeamDTO->tournamentId]);
+
+        Log::info('successfully_removed_fisherman', $fishermanTeamDTO->toArray());
         return true;
     }
 }
