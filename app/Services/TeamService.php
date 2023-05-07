@@ -67,6 +67,11 @@ class TeamService
     {
         $this->repository->delete($id);
     }
+    
+    public function listFishermen(int $teamId)
+    {
+        return $this->repository->getByIdWithFishermen($teamId);
+    }
 
     /**
      * @param FishermanTeamDTO $fishermanTeamDTO

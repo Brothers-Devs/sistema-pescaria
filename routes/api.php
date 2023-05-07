@@ -41,5 +41,6 @@ Route::put('/teams/{team_id}', [TeamController::class, 'update'])->name('teams.u
 Route::delete('/teams/{team_id}', [TeamController::class, 'delete'])->name('teams.delete');
 
 # Equipe e Pescador
+Route::get('/teams/{team_id}/fishermen', [TeamController::class, 'listFishermen'])->name('teams.listFishermen');
 Route::post('/teams/{team_id}/fishermen', [TeamController::class, 'addFisherman'])->name('teams.addFisherman');
 Route::delete('/teams/{team_id}/fishermen', [TeamController::class, 'removeFisherman'])->name('teams.removeFisherman');
