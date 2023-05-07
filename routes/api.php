@@ -35,3 +35,4 @@ Route::get('/teams/{team_id}', [TeamController::class, 'getById'])->name('teams.
 Route::post('/teams', [TeamController::class, 'create'])->name('teams.create');
 Route::put('/teams/{team_id}', [TeamController::class, 'update'])->name('teams.update');
 Route::delete('/teams/{team_id}', [TeamController::class, 'delete'])->name('teams.delete');
+Route::post('/teams/{team_id}/fishermen', [TeamController::class, 'addFisherman'])->name('teams.addFisherman');

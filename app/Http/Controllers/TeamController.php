@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\Team\AddFishermanDTO;
 use App\DTO\Team\CreateTeamDTO;
 use App\DTO\Team\UpdateTeamDTO;
+use App\Exceptions\CannotAddFishermanException;
+use App\Exceptions\FishermanIsAlreadyOnTheTeamException;
+use App\Http\Requests\AddFishermanInTeamRequest;
 use App\Http\Requests\StoreUpdateTeamRequest;
 use App\Http\Resources\TeamResource;
 use App\Services\TeamService;
@@ -83,5 +87,24 @@ class TeamController extends Controller
         $this->service->delete($id);
 
         return response()->json([], Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @param AddFishermanInTeamRequest $request
+     * @param int $teamId
+     * @return JsonResponse
+     */
+    public function addFisherman(AddFishermanInTeamRequest $request, int $teamId): JsonResponse
+    {
+        try {
+            $this->service->addFisherman(AddFishermanDTO::makeFromRequest($request, $teamId));
+            return response()->json([
+                'message' => 'Pescador adicionado com sucesso'
+            ]);
+        } catch (CannotAddFishermanException|FishermanIsAlreadyOnTheTeamException $exception) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 }
