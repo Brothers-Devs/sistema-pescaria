@@ -91,6 +91,16 @@ class TeamController extends Controller
     }
 
     /**
+     * @param int $teamId
+     * @return JsonResponse
+     */
+    public function listFishermen(int $teamId): JsonResponse
+    {
+        $team = $this->service->listFishermen($teamId);
+        return response()->json(['data' => $team]);
+    }
+
+    /**
      * @param AddRemoveFishermanInTeamRequest $request
      * @param int $teamId
      * @return JsonResponse
