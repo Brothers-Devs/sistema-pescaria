@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import TableUtils from "app/utils/TableUtils";
 import ButtonActions from "app/utils/ButtonsActions";
 
-export default function AppTournaments() {
+export default function AppAnglers() {
     const [allFisherMen, setAllFisherMen] = useState([]);
     const [edit, setEdit] = useState(false);
     const [deleteRow, setDeleteRow] = useState(false);
@@ -46,7 +46,6 @@ export default function AppTournaments() {
                 console.log(err);
             });
     }, []);
-    console.log(allFisherMen);
     return (
         <ContainerRoot>
             <div className="breadcrumb" style={{ marginBottom: "25px" }}>

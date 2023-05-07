@@ -4,9 +4,10 @@ import {
     DataGrid,
     GridToolbarQuickFilter,
     GridLogicOperator,
-    GridColDef,
 } from "@mui/x-data-grid";
+import { AiFillFileExcel } from "react-icons/ai";
 import ButtonUtils from "./ButtonUtils";
+import { CircularProgress, Typography } from "@mui/material";
 function QuickSearchToolbar() {
     return (
         <Box
@@ -34,9 +35,43 @@ function QuickSearchToolbar() {
     );
 }
 
+function CustomNoRowsOverlay() {
+    return (
+        <Box
+            sx={{
+                width: 1,
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+            }}
+        >
+            <AiFillFileExcel size={70} style={{ marginBottom: "15px" }} />
+            <Typography variant="h6">Sem Registros</Typography>
+        </Box>
+    );
+}
+
+function CustomNoRows() {
+    return (
+        <Box
+            sx={{
+                width: 1,
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+            }}
+        >
+            <CircularProgress />
+        </Box>
+    );
+}
+
 export default function TableUtils({ dataContent, columns }) {
     return (
-        <Box sx={{ height: 1, width: 1 }}>
+        <Box sx={{ height: 760, width: 1 }}>
             <ButtonUtils
                 functionButton="Cadastrar"
                 path="/dashboard/pescadores/cadastrar"
@@ -57,7 +92,11 @@ export default function TableUtils({ dataContent, columns }) {
                         },
                     },
                 }}
-                slots={{ toolbar: QuickSearchToolbar }}
+                slots={{
+                    toolbar: QuickSearchToolbar,
+                    noRowsOverlay: CustomNoRows,
+                    noResultsOverlay: CustomNoRowsOverlay,
+                }}
             />
         </Box>
     );

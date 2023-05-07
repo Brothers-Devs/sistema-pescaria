@@ -58,21 +58,33 @@ const Breadcrumb = ({ routeSegments }) => {
                 <NavLink to="/">
                     <StyledIcon color="primary">home</StyledIcon>
                 </NavLink>
-                {routeSegments[0].path ? (
-                    routeSegments.map((route, index) => {
-                        return index !== routeSegments.length - 1 ? (
-                            <NavLink key={index} to={route.path}>
-                                <SubName>{route.name}</SubName>
-                            </NavLink>
-                        ) : (
-                            <SubName key={index}>{route.name}</SubName>
-                        );
-                    })
-                ) : (
-                    <SubName key={routeSegments[0]?.name}>
-                        {routeSegments[0]?.name}
-                    </SubName>
-                )}
+                {routeSegments.length < 3
+                    ? routeSegments.map((route, index) => {
+                          return index !== routeSegments.length - 1 ? (
+                              <NavLink key={index} to={route.path}>
+                                  <SubName>{route.name}</SubName>
+                              </NavLink>
+                          ) : (
+                              <SubName key={index}>{route.name}</SubName>
+                          );
+                      })
+                    : routeSegments.map((route, index) => {
+                          if (index == 0) {
+                              return (
+                                  <NavLink key={index} to={route.path}>
+                                      <SubName>{route.name}</SubName>
+                                  </NavLink>
+                              );
+                          } else if (index == 1) {
+                              return (
+                                  <SubName key={index}>
+                                      {route.lastName}
+                                  </SubName>
+                              );
+                          } else {
+                              return null;
+                          }
+                      })}
             </Breadcrumbs>
         </BreadcrumbRoot>
     );

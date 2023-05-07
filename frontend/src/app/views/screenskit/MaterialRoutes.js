@@ -1,10 +1,11 @@
 import Loadable from '../../components/Loadable';
 import { lazy } from 'react';
+import AppAnglers from './anglers/AppAnglers';
 
 const AppTournaments = Loadable(lazy(() => import('./tournaments/AppTournaments')));
-const AppAnglers = Loadable(lazy(() => import('./anglers/AppAnglers')));
 const AppTeams = Loadable(lazy(() => import('./teams/AppTeams')));
 const AppReports = Loadable(lazy(() => import('./reports/AppReports')));
+const FishermanRegistry = Loadable(lazy(() => import('../screenskit/anglers/ScreenFishermanRegistry')));
 
 const materialRoutes = [
   {
@@ -22,6 +23,10 @@ const materialRoutes = [
   {
     path: '/dashboard/relatorios',
     element: <AppReports />,
+  },
+  {
+    path: '/dashboard/pescadores/cadastrar',
+    element: <FishermanRegistry />,
   }
 ];
 

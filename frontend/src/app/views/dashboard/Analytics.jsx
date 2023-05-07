@@ -13,7 +13,6 @@ const Title = styled("span")(() => ({
     fontWeight: "500",
     marginTop: "26px",
     marginRight: ".5rem",
-    //textTransform: "capitalize",
 }));
 
 const SubTitle = styled("span")(({ theme }) => ({
@@ -25,7 +24,6 @@ const H4 = styled("h4")(({ theme }) => ({
     fontSize: "1rem",
     fontWeight: "500",
     marginBottom: "16px",
-    //textTransform: "capitalize",
     color: theme.palette.text.secondary,
 }));
 
