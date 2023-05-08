@@ -28,6 +28,16 @@ class Tournament extends Model
         return $this->hasMany(Team::class);
     }
 
+    /**
+     * @return HasMany
+     *
+     */
+    public function fisheries(): HasMany
+    {
+        return $this->hasMany(Fishing::class);
+
+    }
+
     protected function startDate(): Attribute
     {
         return Attribute::make(
