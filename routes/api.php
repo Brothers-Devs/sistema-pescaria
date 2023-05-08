@@ -44,3 +44,9 @@ Route::delete('/teams/{team_id}', [TeamController::class, 'delete'])->name('team
 Route::get('/teams/{team_id}/fishermen', [TeamController::class, 'listFishermen'])->name('teams.listFishermen');
 Route::post('/teams/{team_id}/fishermen', [TeamController::class, 'addFisherman'])->name('teams.addFisherman');
 Route::delete('/teams/{team_id}/fishermen', [TeamController::class, 'removeFisherman'])->name('teams.removeFisherman');
+
+# Pescarias
+Route::get('/tournaments/{tournament_id}/fisheries', [TournamentController::class, 'listFisheries'])
+    ->name('tournaments.listFisheries');
+Route::get('/teams/{team_id}/fisheries', [TeamController::class, 'listFisheries'])
+    ->name('teams.listFisheries');

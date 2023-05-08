@@ -72,9 +72,14 @@ class TeamRepository implements TeamRepositoryInterface
     {
         $this->model->findOrFail($id)->delete();
     }
-    
+
     public function getByIdWithFishermen(int $id)
     {
         return $this->model->with('fishermen')->findOrFail($id);
+    }
+
+    public function getByIdWithFisheries(int $id)
+    {
+        return $this->model->with('fishermen.fisheries')->findOrFail($id);
     }
 }

@@ -63,4 +63,9 @@ class TournamentRepository implements TournamentRepositoryInterface
     {
         $this->model->findOrFail($id)->delete();
     }
+
+    public function getByIdWithFisheries(int $id)
+    {
+        return $this->model->with('teams.fisheries')->findOrFail($id);
+    }
 }

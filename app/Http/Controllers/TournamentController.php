@@ -71,4 +71,14 @@ class TournamentController extends Controller
 
         return response()->json([], Response::HTTP_NO_CONTENT);
     }
+
+    /**
+     * @param int $tournamentId
+     * @return JsonResponse
+     */
+    public function listFisheries(int $tournamentId): JsonResponse
+    {
+        $tournament = $this->service->listFisheries($tournamentId);
+        return response()->json(['data' => $tournament]);
+    }
 }

@@ -10,6 +10,9 @@ use App\Exceptions\FishermanIsAlreadyOnTheTeamException;
 use App\Exceptions\FishermanNotFoundOnTheTeamException;
 use App\Models\Team;
 use App\Repositories\Team\TeamRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use stdClass;
 
@@ -67,10 +70,23 @@ class TeamService
     {
         $this->repository->delete($id);
     }
-    
-    public function listFishermen(int $teamId)
+
+    /**
+     * @param int $teamId
+     * @return Model|Collection|Builder|array|null
+     */
+    public function listFishermen(int $teamId): Model|Collection|Builder|array|null
     {
         return $this->repository->getByIdWithFishermen($teamId);
+    }
+
+    /**
+     * @param int $teamId
+     * @return Model|Collection|Builder|array|null
+     */
+    public function listFisheries(int $teamId): Model|Collection|Builder|array|null
+    {
+        return $this->repository->getByIdWithFisheries($teamId);
     }
 
     /**

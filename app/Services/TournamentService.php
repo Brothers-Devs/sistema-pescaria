@@ -5,6 +5,9 @@ namespace App\Services;
 use App\DTO\Tournament\CreateTournamentDTO;
 use App\DTO\Tournament\UpdateTournamentDTO;
 use App\Repositories\Tournament\TournamentRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use stdClass;
 
 class TournamentService
@@ -51,5 +54,14 @@ class TournamentService
     public function delete(int $id): void
     {
         $this->repository->delete($id);
+    }
+
+    /**
+     * @param int $tournamentId
+     * @return Model|Collection|Builder|array|null
+     */
+    public function listFisheries(int $tournamentId): Model|Collection|Builder|array|null
+    {
+        return $this->repository->getByIdWithFisheries($tournamentId);
     }
 }
