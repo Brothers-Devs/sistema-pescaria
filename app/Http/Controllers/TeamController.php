@@ -100,7 +100,11 @@ class TeamController extends Controller
         return response()->json(['data' => $team]);
     }
 
-    public function listFisheries(int $teamId)
+    /**
+     * @param int $teamId
+     * @return JsonResponse
+     */
+    public function listFisheries(int $teamId): JsonResponse
     {
         $team = $this->service->listFisheries($teamId);
         return response()->json(['data' => $team]);
