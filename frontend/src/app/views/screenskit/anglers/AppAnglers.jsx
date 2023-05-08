@@ -7,8 +7,8 @@ import ButtonActions from "app/utils/ButtonsActions";
 
 export default function AppAnglers() {
     const [allFisherMen, setAllFisherMen] = useState([]);
-    const [edit, setEdit] = useState(false);
-    const [deleteRow, setDeleteRow] = useState(false);
+    const [rowId, setRowId] = useState(null);
+    const [modification, setModification] = useState(false);
 
     const columns = useMemo(
         () => [
@@ -21,19 +21,22 @@ export default function AppAnglers() {
             {
                 headerName: "Ações",
                 width: 90,
-                renderCell: () => (
+                renderCell: (params) => (
                     <ButtonActions
-                        edit={edit}
-                        setEdit={setEdit}
-                        deleteRow={deleteRow}
-                        setDeleteRow={setDeleteRow}
+                        {...{
+                            params,
+                            rowId,
+                            setRowId,
+                            modification,
+                            setModification,
+                        }}
                     />
                 ),
                 sortable: false,
                 filterable: false,
             },
         ],
-        []
+        [rowId]
     );
 
     useEffect(() => {
@@ -45,7 +48,7 @@ export default function AppAnglers() {
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [modification]);
     return (
         <ContainerRoot>
             <div className="breadcrumb" style={{ marginBottom: "25px" }}>
@@ -57,7 +60,12 @@ export default function AppAnglers() {
                 />
             </div>
 
-            <TableUtils dataContent={allFisherMen} columns={columns} />
+            <TableUtils
+                dataContent={allFisherMen}
+                columns={columns}
+                setRowId={setRowId}
+                setModification={setModification}
+            />
         </ContainerRoot>
     );
 }
