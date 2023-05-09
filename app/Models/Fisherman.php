@@ -28,7 +28,10 @@ class Fisherman extends Model
      */
     public function teams(): BelongsToMany
     {
-        return $this->belongsToMany(Team::class)->using(FishermanTeam::class);
+        return $this->belongsToMany(Team::class)
+            ->using(FishermanTeam::class)
+            ->withPivot('tournament_id')
+            ->withTimestamps();
     }
 
     /**
