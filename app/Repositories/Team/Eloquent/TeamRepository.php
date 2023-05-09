@@ -80,6 +80,6 @@ class TeamRepository implements TeamRepositoryInterface
 
     public function getByIdWithFisheries(int $id)
     {
-        return $this->model->with('fishermen.fisheries')->findOrFail($id);
+        return $this->model->with(['category', 'fishermen.fisheries'])->findOrFail($id);
     }
 }

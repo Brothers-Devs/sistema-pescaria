@@ -50,3 +50,5 @@ Route::get('/tournaments/{tournament_id}/fisheries', [TournamentController::clas
     ->name('tournaments.listFisheries');
 Route::get('/teams/{team_id}/fisheries', [TeamController::class, 'listFisheries'])
     ->name('teams.listFisheries');
+Route::get('/teams/{team_id}/fisheries/{fisherman_id}', [FishermanController::class, 'listFisheries'])
+    ->name('fishermen.listFisheries');

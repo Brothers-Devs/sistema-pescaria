@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DTO\Fisherman\CreateFishermanDTO;
 use App\DTO\Fisherman\UpdateFishermanDTO;
+use App\Exceptions\FishermanNotFoundOnTheTeamException;
 use App\Http\Requests\StoreUpdateFishermanRequest;
 use App\Http\Resources\FishermanResource;
 use App\Services\FishermanService;
@@ -82,5 +83,22 @@ class FishermanController extends Controller
         $this->service->delete($id);
 
         return response()->json([], Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @param int $teamId
+     * @param int $fishermanId
+     * @return JsonResponse
+     */
+    public function listFisheries(int $teamId, int $fishermanId): JsonResponse
+    {
+        try {
+            $fisheries = $this->service->listFisheries($teamId, $fishermanId);
+            return response()->json(['data' => $fisheries]);
+        } catch (FishermanNotFoundOnTheTeamException $exception) {
+            return response()->json([
+                'message' => $exception->getMessage()
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 }
