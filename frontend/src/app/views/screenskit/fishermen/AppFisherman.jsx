@@ -5,19 +5,54 @@ import styled from "@emotion/styled";
 import TableUtils from "app/utils/TableUtils";
 import ButtonActions from "app/utils/ButtonsActions";
 
-export default function AppAnglers() {
+export default function AppFisherman() {
     const [allFisherMen, setAllFisherMen] = useState([]);
-    const [rowId, setRowId] = useState(null);
     const [modification, setModification] = useState(false);
+    const [rowSelected, setRowSelected] = useState(false);
+
+    localStorage.setItem(
+        "rowSelected",
+        rowSelected ? JSON.stringify(rowSelected) : null
+    );
 
     const columns = useMemo(
         () => [
-            { field: "id", headerName: "ID", width: 80 },
-            { field: "name", headerName: "Nome", width: 210 },
-            { field: "cpf", headerName: "CPF", width: 150 },
-            { field: "phone", headerName: "Telefone", width: 160 },
-            { field: "city", headerName: "Cidade", width: 160 },
-            { field: "state", headerName: "Estado", width: 90 },
+            {
+                field: "id",
+                headerName: "ID",
+                width: 80,
+                disableClickEventBubbling: true,
+            },
+            {
+                field: "name",
+                headerName: "Nome",
+                width: 210,
+                disableClickEventBubbling: true,
+            },
+            {
+                field: "cpf",
+                headerName: "CPF",
+                width: 150,
+                disableClickEventBubbling: true,
+            },
+            {
+                field: "phone",
+                headerName: "Telefone",
+                width: 160,
+                disableClickEventBubbling: true,
+            },
+            {
+                field: "city",
+                headerName: "Cidade",
+                width: 160,
+                disableClickEventBubbling: true,
+            },
+            {
+                field: "state",
+                headerName: "Estado",
+                width: 90,
+                disableClickEventBubbling: true,
+            },
             {
                 headerName: "Ações",
                 width: 90,
@@ -25,18 +60,18 @@ export default function AppAnglers() {
                     <ButtonActions
                         {...{
                             params,
-                            rowId,
-                            setRowId,
                             modification,
                             setModification,
                         }}
                     />
                 ),
+
                 sortable: false,
                 filterable: false,
+                disableClickEventBubbling: true,
             },
         ],
-        [rowId]
+        [rowSelected]
     );
 
     useEffect(() => {
@@ -63,8 +98,8 @@ export default function AppAnglers() {
             <TableUtils
                 dataContent={allFisherMen}
                 columns={columns}
-                setRowId={setRowId}
                 setModification={setModification}
+                setRowSelected={setRowSelected}
             />
         </ContainerRoot>
     );

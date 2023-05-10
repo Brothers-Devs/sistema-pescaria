@@ -5,6 +5,7 @@ import { Create } from "@mui/icons-material";
 import { useState } from "react";
 import instance from "../../axios";
 import { Notify } from "notiflix";
+import { useNavigate } from "react-router-dom";
 
 const style = {
     position: "absolute",
@@ -24,18 +25,23 @@ const style = {
 
 export default function ButtonActions({
     params,
-    rowId,
     modification,
     setModification,
 }) {
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const filterLineClicked = params?.id == rowId ? params : null;
+    const getRowSelectedOfLocalStorage = localStorage.getItem("rowSelected");
+    const parseRowSelected = JSON.parse(getRowSelectedOfLocalStorage);
 
+    const onClick = (_) => {
+        const currentRow = params.row;
+        navigate(`/dashboard/pescadores/editar/${currentRow?.id}`);
+    };
     return (
-        <Stack direction="row" alignItems="center" spacing={1}>
-            <Tooltip title="Editar">
+        <Stack direction="row" alignItems="center" spacing={0}>
+            <Tooltip title="Editar" onClick={onClick}>
                 <IconButton aria-label="delete" size="medium" color="primary">
                     <Create fontSize="inherit" />
                 </IconButton>
@@ -54,8 +60,7 @@ export default function ButtonActions({
                 <ModalDelete
                     handleClose={handleClose}
                     open={open}
-                    rowId={rowId}
-                    filterLineClicked={filterLineClicked}
+                    rowId={parseRowSelected?.row.id}
                     modification={modification}
                     setModification={setModification}
                 />
@@ -67,13 +72,12 @@ export default function ButtonActions({
 function ModalDelete({
     handleClose,
     open,
-    filterLineClicked,
+    rowId,
     modification,
     setModification,
 }) {
     function submitDeletion() {
-        const idFisherMan = filterLineClicked.row.id;
-        const promise = instance.delete(`/fishermen/${idFisherMan}`);
+        const promise = instance.delete(`/fishermen/${rowId}`);
         promise
             .then((_) => {
                 setModification(!modification);

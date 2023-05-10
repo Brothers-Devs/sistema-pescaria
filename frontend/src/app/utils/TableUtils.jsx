@@ -69,7 +69,7 @@ function CustomNoRows() {
     );
 }
 
-export default function TableUtils({ dataContent, columns, setRowId }) {
+export default function TableUtils({ dataContent, columns, setRowSelected }) {
     return (
         <Box sx={{ height: 760, width: 1 }}>
             <ButtonUtils
@@ -78,7 +78,7 @@ export default function TableUtils({ dataContent, columns, setRowId }) {
             />
             <DataGrid
                 sx={{ p: 3 }}
-                getRowId={(row) => row.id}
+                getRowId={(dataContent) => dataContent.id}
                 columns={columns}
                 rows={dataContent}
                 disableRowSelectionOnClick
@@ -98,7 +98,7 @@ export default function TableUtils({ dataContent, columns, setRowId }) {
                     noRowsOverlay: CustomNoRows,
                     noResultsOverlay: CustomNoRowsOverlay,
                 }}
-                onCellClick={(params) => setRowId(params.id)}
+                onRowClick={(params) => setRowSelected(params)}
             />
         </Box>
     );

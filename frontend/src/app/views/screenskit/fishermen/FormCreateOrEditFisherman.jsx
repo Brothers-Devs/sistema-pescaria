@@ -9,7 +9,6 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import instance from "../../../../axios";
 import { useState } from "react";
 import { mask } from "remask";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -51,54 +50,60 @@ const states = [
     "TO",
 ];
 
-export default function FormCreateFisherMan() {
-    const [name, setName] = useState("");
-    const [cpf, setCpf] = useState("");
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
-    const [country, setCountry] = useState("Brasil");
-    const [state, setState] = useState("PA");
-    const [city, setCity] = useState("");
-    const [onSubmit, setOnSubmit] = useState(false);
+export default function FormCreateOrEditFisherman({ typeEditOrCreateForm }) {
+    const dataFisherMan = JSON.parse(localStorage.getItem("dataFormFisherMan"));
 
+    const [onSubmit, setOnSubmit] = useState(false);
+    const [valuesInputs, setValuesInputs] = useState({
+        name: dataFisherMan.name,
+        cpf: dataFisherMan.cpf,
+        phone: dataFisherMan.phone,
+        email: dataFisherMan.email,
+        country: dataFisherMan.country,
+        state: dataFisherMan.state,
+        city: dataFisherMan.city,
+    });
+
+    console.log(valuesInputs?.name);
     const navigate = useNavigate();
 
-    async function submitCreateFisherMen(event) {
+    async function submitCreateOurUpdateFisherMen(event) {
         event.preventDefault();
         const dataConfig = {
-            name,
-            cpf: await onlyNumbers(cpf),
-            email,
-            phone: await onlyNumbers(phone),
-            country,
-            state,
-            city,
+            name: valuesInputs.name,
+            cpf: await onlyNumbers(valuesInputs.cpf),
+            email: valuesInputs.email,
+            phone: await onlyNumbers(valuesInputs.phone),
+            country: valuesInputs.country,
+            state: valuesInputs.state,
+            city: valuesInputs.city,
         };
 
         setOnSubmit(true);
-        const promise = instance.post("/fishermen", dataConfig);
+        const promise = typeEditOrCreateForm.method(dataConfig);
         promise
             .then((_) => {
-                Notify.success("Cadastrado com sucesso!");
+                Notiflix.Notify.success(
+                    typeEditOrCreateForm.notificationSuccess
+                );
+                localStorage.removeItem("dataFormFisherMan");
                 navigate("/dashboard/pescadores");
             })
             .catch((err) => {
                 setOnSubmit(false);
-                const arrayMessage = [];
-                Object.keys(err.response.data.errors).forEach((message) => {
-                    arrayMessage.push(
-                        `${err.response.data.errors[message][0]}\n`
-                    );
+                const errors = err.response.data.errors;
+                Object.keys(errors).forEach((message) => {
+                    Notiflix.Notify.failure(`${errors[message][0]}`);
                 });
-
-                Notiflix.Notify.failure(
-                    `${arrayMessage.map((message) => message)}`
-                );
             });
     }
 
+    function handleOnChange(value, key) {
+        setValuesInputs({ ...valuesInputs, [key]: value });
+    }
+
     return (
-        <FormFisherMan onSubmit={submitCreateFisherMen}>
+        <FormFisherMan onSubmit={submitCreateOurUpdateFisherMen}>
             <Box
                 sx={{
                     paddingTop: 3,
@@ -109,7 +114,9 @@ export default function FormCreateFisherMan() {
                     marginBottom: 3,
                 }}
             >
-                <Typography variant="h6">Adiciona Novo Registro</Typography>
+                <Typography variant="h6">
+                    {typeEditOrCreateForm.titleForm}
+                </Typography>
             </Box>
             <Divider variant="fullWidth" />
             <Box
@@ -125,8 +132,8 @@ export default function FormCreateFisherMan() {
                 <Typography variant="subtitle1">Nome</Typography>
                 <TextField
                     sx={{ width: 250 }}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={valuesInputs?.name}
+                    onChange={(e) => handleOnChange(e.target.value, "name")}
                     type="text"
                     name="Nome"
                     label="Nome"
@@ -145,9 +152,12 @@ export default function FormCreateFisherMan() {
             >
                 <Typography variant="subtitle1">CPF</Typography>
                 <TextField
-                    value={cpf}
+                    value={valuesInputs.cpf}
                     onChange={(e) =>
-                        setCpf(mask(e.target.value, MASK_INPUT_CPF))
+                        handleOnChange(
+                            mask(e.target.value, MASK_INPUT_CPF),
+                            "cpf"
+                        )
                     }
                     type="text"
                     name="CPF"
@@ -167,9 +177,12 @@ export default function FormCreateFisherMan() {
             >
                 <Typography variant="subtitle1">Telefone</Typography>
                 <TextField
-                    value={phone}
+                    value={valuesInputs.phone}
                     onChange={(e) =>
-                        setPhone(mask(e.target.value, MASK_INPUT_PHONE))
+                        handleOnChange(
+                            mask(e.target.value, MASK_INPUT_PHONE),
+                            "phone"
+                        )
                     }
                     type="text"
                     name="Telefone"
@@ -189,8 +202,8 @@ export default function FormCreateFisherMan() {
                 <Typography variant="subtitle1">Email</Typography>
                 <TextField
                     sx={{ width: 250 }}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={valuesInputs.email}
+                    onChange={(e) => handleOnChange(e.target.value, "email")}
                     type="email"
                     name="Email"
                     label="Email"
@@ -213,16 +226,32 @@ export default function FormCreateFisherMan() {
                         defaultValue={"Brasil"}
                         labelId="country"
                         id="select-country"
-                        value={country}
+                        value={
+                            valuesInputs.country === ""
+                                ? "Brasil"
+                                : valuesInputs.country
+                        }
                         label="País"
-                        onChange={(e) => setCountry(e.target.value)}
+                        onChange={(e) =>
+                            handleOnChange(e.target.value, "country")
+                        }
                     >
                         <MenuItem
-                            defaultValue={"Brasil"}
-                            key={countrys[0]}
-                            value={"Brasil"}
+                            defaultValue={valuesInputs.country}
+                            key={
+                                valuesInputs
+                                    ? valuesInputs.country
+                                    : countrys[0]
+                            }
+                            value={
+                                valuesInputs.country === ""
+                                    ? "Brasil"
+                                    : valuesInputs.country
+                            }
                         >
-                            Brasil
+                            {valuesInputs.country === ""
+                                ? "Brasil"
+                                : valuesInputs.country}
                         </MenuItem>
                     </Select>
                 </FormControl>
@@ -245,8 +274,10 @@ export default function FormCreateFisherMan() {
                         labelId="state"
                         id="select-state"
                         label="Estado"
-                        value={state}
-                        onChange={(e) => setState(e.target.value)}
+                        value={valuesInputs.state}
+                        onChange={(e) =>
+                            handleOnChange(e.target.value, "state")
+                        }
                     >
                         {states?.map((state) => (
                             <MenuItem key={state} value={state}>
@@ -269,8 +300,8 @@ export default function FormCreateFisherMan() {
             >
                 <Typography variant="subtitle1">Cidade</Typography>
                 <TextField
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                    value={valuesInputs.city}
+                    onChange={(e) => handleOnChange(e.target.value, "city")}
                     type="text"
                     name="Cidade"
                     label="Cidade"
@@ -282,7 +313,7 @@ export default function FormCreateFisherMan() {
                 sx={{ marginLeft: 2 }}
                 variant="contained"
                 type="submit"
-                onClick={submitCreateFisherMen}
+                onClick={submitCreateOurUpdateFisherMen}
             >
                 Salvar
             </Button>
@@ -291,6 +322,7 @@ export default function FormCreateFisherMan() {
                     variant="contained"
                     color="inherit"
                     size="large"
+                    onClick={() => localStorage.removeItem("dataFormFisherMan")}
                     disableElevation
                 >
                     Cancelar

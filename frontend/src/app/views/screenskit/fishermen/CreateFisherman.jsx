@@ -1,10 +1,27 @@
 import { Divider } from "@mui/material";
-
+import instance from "../../../../axios";
 import Breadcrumb from "app/components/Breadcrumb";
 import styled from "@emotion/styled";
-import FormCreateFisherMan from "./FormFisherMan";
+import FormCreateOrEditFisherman from "./FormCreateOrEditFisherman";
 
-export default function ScreenFishermanRegistry() {
+export default function CreateFisherman() {
+    const typeCreateForm = {
+        method: (dataConfig) => instance.post("/fishermen", dataConfig),
+        notificationSuccess: "Cadastrado com sucesso!",
+        titleForm: `Adiciona Novo Registro`,
+    };
+    const valuesInputs = {
+        name: "",
+        cpf: "",
+        phone: "",
+        email: "",
+        country: "Brasil",
+        state: "PA",
+        city: "",
+    };
+
+    localStorage.removeItem("dataFormFisherMan");
+    localStorage.setItem("dataFormFisherMan", JSON.stringify(valuesInputs));
     return (
         <ContainerRoot>
             <div className="breadcrumb" style={{ marginBottom: "25px" }}>
@@ -20,7 +37,7 @@ export default function ScreenFishermanRegistry() {
                 />
             </div>
             <Divider variant="fullWidth" />
-            <FormCreateFisherMan />
+            <FormCreateOrEditFisherman typeEditOrCreateForm={typeCreateForm} />
         </ContainerRoot>
     );
 }
