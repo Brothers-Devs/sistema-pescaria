@@ -41,7 +41,7 @@ export default function AppTeams() {
                 width: 400,
                 disableClickEventBubbling: true,
                 valueGetter: (params) => {
-                    return `${params.row.category.name}`;
+                    return `${params?.row.category.name}`;
                 },
             },
             {

@@ -37,7 +37,7 @@ export default function ButtonsActions({
 
     const onClick = (_) => {
         const currentRow = params.row;
-        navigate(`/dashboard/pescadores/editar/${currentRow?.id}`);
+        navigate(`/dashboard/equipes/editar/${currentRow?.id}`);
     };
     return (
         <Stack direction="row" alignItems="center" spacing={0}>
