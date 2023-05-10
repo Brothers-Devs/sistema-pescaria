@@ -34,4 +34,14 @@ class FishingController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function delete(int $id): JsonResponse
+    {
+        $this->service->delete($id);
+        return response()->json([], Response::HTTP_NO_CONTENT);
+    }
 }

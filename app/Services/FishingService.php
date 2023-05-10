@@ -65,6 +65,15 @@ class FishingService
     }
 
     /**
+     * @param int $id
+     * @return void
+     */
+    public function delete(int $id): void
+    {
+        $this->model->findOrFail($id)->delete();
+    }
+
+    /**
      * Converter tamanho(cm) em pontos. Os arredondamentos serão sempre para baixo.
      *
      * @param float $size
