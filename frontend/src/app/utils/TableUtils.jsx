@@ -5,7 +5,7 @@ import {
     GridToolbarQuickFilter,
     GridLogicOperator,
 } from "@mui/x-data-grid";
-import { AiFillFileExcel } from "react-icons/ai";
+import { AiOutlineInbox } from "react-icons/ai";
 import ButtonUtils from "./ButtonUtils";
 import { CircularProgress, Typography } from "@mui/material";
 function QuickSearchToolbar() {
@@ -47,7 +47,7 @@ function CustomNoRowsOverlay() {
                 flexDirection: "column",
             }}
         >
-            <AiFillFileExcel size={70} style={{ marginBottom: "15px" }} />
+            <AiOutlineInbox size={100} style={{ marginBottom: "15px" }} />
             <Typography variant="h6">Sem Registros</Typography>
         </Box>
     );
@@ -95,7 +95,7 @@ export default function TableUtils({ dataContent, columns, setRowSelected }) {
                 }}
                 slots={{
                     toolbar: QuickSearchToolbar,
-                    noRowsOverlay: CustomNoRows,
+                    noRowsOverlay: CustomNoRowsOverlay,
                     noResultsOverlay: CustomNoRowsOverlay,
                 }}
                 onRowClick={(params) => setRowSelected(params)}

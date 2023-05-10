@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Create } from "@mui/icons-material";
 import { useState } from "react";
-import instance from "../../axios";
+import instance from "../../../../axios";
 import { Notify } from "notiflix";
 import { useNavigate } from "react-router-dom";
 
@@ -111,7 +111,7 @@ function ModalDelete({
                     component="h2"
                     sx={{ mt: 2 }}
                 >
-                    Tem certeza que deseja excluir este registro?
+                    {`Tem certeza que deseja excluir o registro Nº ${rowId}?`}
                 </Typography>
                 <Stack
                     direction="row"
