@@ -53,4 +53,5 @@ Route::get('/teams/{team_id}/fisheries', [TeamController::class, 'listFisheries'
     ->name('teams.listFisheries');
 Route::get('/teams/{team_id}/fisheries/{fisherman_id}', [FishermanController::class, 'listFisheries'])
     ->name('fishermen.listFisheries');
-Route::post('fishing', [FishingController::class, 'create'])->name('fishing.create');
+Route::post('/fishing', [FishingController::class, 'create'])->name('fishing.create');
+Route::delete('/fishing/{fishing_id}', [FishingController::class, 'delete'])->name('fishing.delete');
