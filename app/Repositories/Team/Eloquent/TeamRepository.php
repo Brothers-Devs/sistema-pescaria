@@ -21,7 +21,7 @@ class TeamRepository implements TeamRepositoryInterface
      */
     public function all(): array
     {
-        return $this->model->all()->toArray();
+        return $this->model->with('category')->get()->toArray();
     }
 
     /**
@@ -30,7 +30,7 @@ class TeamRepository implements TeamRepositoryInterface
      */
     public function getById(int $id): ?stdClass
     {
-        $team = $this->model->find($id);
+        $team = $this->model->with('category')->find($id);
         if (!$team) {
             return null;
         }
