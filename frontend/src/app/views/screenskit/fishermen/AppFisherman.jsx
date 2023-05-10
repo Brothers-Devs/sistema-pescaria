@@ -3,7 +3,7 @@ import instance from "../../../../axios";
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "@emotion/styled";
 import TableUtils from "app/utils/TableUtils";
-import ButtonActions from "app/utils/ButtonsActions";
+import ButtonActions from "app/views/screenskit/fishermen/ButtonsActions";
 
 export default function AppFisherman() {
     const [allFisherMen, setAllFisherMen] = useState([]);
