@@ -4,12 +4,17 @@ namespace App\Services;
 
 use App\DTO\Fishing\CreateFishingDTO;
 use App\Exceptions\FishermanNotFoundOnTheTeamException;
+use App\Exceptions\MaxAmountOfFishReachedException;
 use App\Models\Fisherman;
 use App\Models\Fishing;
+use App\Models\Team;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 
 class FishingService
 {
+    public const MAX_AMOUNT_OF_FISH = 12;
+
     public function __construct(
         protected Fishing $model
     )
@@ -20,6 +25,7 @@ class FishingService
      * @param CreateFishingDTO $createFishingDTO
      * @return mixed
      * @throws FishermanNotFoundOnTheTeamException
+     * @throws MaxAmountOfFishReachedException
      */
     public function create(CreateFishingDTO $createFishingDTO): mixed
     {
@@ -36,7 +42,26 @@ class FishingService
             throw new FishermanNotFoundOnTheTeamException();
         }
 
-        return Fishing::create($createFishingDTO->toArray());
+        $team = Team::find($createFishingDTO->teamId);
+        $team->load([
+            'fisheries' => function (Builder $builder) use ($createFishingDTO) {
+                $builder->where('team_id', '=', $createFishingDTO->teamId);
+            }
+        ]);
+
+        if ($team->fisheries->count() == self::MAX_AMOUNT_OF_FISH) {
+            Log::alert(
+                'max_amount_of_fish_reached',
+                [
+                    'action' => 'create_fishing',
+                    'team_id' => $createFishingDTO->teamId,
+                    'fisherman_id' => $createFishingDTO->fishermanId
+                ]
+            );
+            throw new MaxAmountOfFishReachedException();
+        }
+
+        return $this->model->create($createFishingDTO->toArray());
     }
 
     /**

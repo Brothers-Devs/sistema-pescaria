@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DTO\Fishing\CreateFishingDTO;
 use App\Exceptions\FishermanNotFoundOnTheTeamException;
+use App\Exceptions\MaxAmountOfFishReachedException;
 use App\Http\Requests\StoreUpdateFishingRequest;
 use App\Services\FishingService;
 use Illuminate\Http\JsonResponse;
@@ -27,7 +28,7 @@ class FishingController extends Controller
         try {
             $fishing = $this->service->create(CreateFishingDTO::makeFromRequest($request));
             return response()->json(['data' => $fishing]);
-        } catch (FishermanNotFoundOnTheTeamException $exception) {
+        } catch (FishermanNotFoundOnTheTeamException|MaxAmountOfFishReachedException $exception) {
             return response()->json([
                 'message' => $exception->getMessage()
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
