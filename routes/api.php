@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FishermanController;
+use App\Http\Controllers\FishingController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
@@ -52,3 +53,4 @@ Route::get('/teams/{team_id}/fisheries', [TeamController::class, 'listFisheries'
     ->name('teams.listFisheries');
 Route::get('/teams/{team_id}/fisheries/{fisherman_id}', [FishermanController::class, 'listFisheries'])
     ->name('fishermen.listFisheries');
+Route::post('fishing', [FishingController::class, 'create'])->name('fishing.create');
