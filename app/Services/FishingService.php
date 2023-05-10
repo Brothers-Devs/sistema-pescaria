@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTO\Fishing\CreateFishingDTO;
+use App\DTO\Fishing\UpdateFishingDTO;
 use App\Exceptions\FishermanNotFoundOnTheTeamException;
 use App\Exceptions\MaxAmountOfFishReachedException;
 use App\Models\Fisherman;
@@ -62,6 +63,32 @@ class FishingService
         }
 
         return $this->model->create($createFishingDTO->toArray());
+    }
+
+
+    /**
+     * @param UpdateFishingDTO $fishingDTO
+     * @return mixed
+     * @throws FishermanNotFoundOnTheTeamException
+     */
+    public function update(UpdateFishingDTO $fishingDTO): mixed
+    {
+        $fisherman = Fisherman::with('teams')->find($fishingDTO->fishermanId);
+        if (!$fisherman->teams->contains($fishingDTO->teamId)) {
+            Log::alert(
+                'fisherman_not_found_on_the_team',
+                [
+                    'action' => 'create_fishing',
+                    'team_id' => $fishingDTO->teamId,
+                    'fisherman_id' => $fishingDTO->fishermanId
+                ]
+            );
+            throw new FishermanNotFoundOnTheTeamException();
+        }
+
+        $fishing = $this->model->findOrFail($fishingDTO->id);
+        $fishing->update($fishingDTO->toArray());
+        return $fishing->toArray();
     }
 
     /**
