@@ -91,16 +91,10 @@ export default function FormCreateOrEditFisherman({ typeEditOrCreateForm }) {
             })
             .catch((err) => {
                 setOnSubmit(false);
-                const arrayMessage = [];
-                Object.keys(err.response.data.errors).forEach((message) => {
-                    arrayMessage.push(
-                        `${err.response.data.errors[message][0]}\n`
-                    );
+                const errors = err.response.data.errors;
+                Object.keys(errors).forEach((message) => {
+                    Notiflix.Notify.failure(`${errors[message][0]}`);
                 });
-
-                Notiflix.Notify.failure(
-                    `${arrayMessage.map((message) => message)}`
-                );
             });
     }
 
