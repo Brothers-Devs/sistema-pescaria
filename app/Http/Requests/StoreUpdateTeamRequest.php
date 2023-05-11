@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enum\TypesEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,7 +28,7 @@ class StoreUpdateTeamRequest extends FormRequest
             'type' => [
                 'required',
                 'string',
-                Rule::in(['DUPLA', 'TRIO'])
+                Rule::in([TypesEnum::DOUBLE_TEAM, TypesEnum::TRIO_TEAM])
             ],
             'tournament_id' => [
                 'required',
@@ -36,8 +37,25 @@ class StoreUpdateTeamRequest extends FormRequest
             'category_id' => [
                 'required',
                 Rule::exists('categories', 'id')
+            ],
+            'fishermen' => [
+                'sometimes',
+                'required',
+                'array',
+                'min:2',
+                'max:2'
             ]
         ];
+
+        if ($this->type == TypesEnum::TRIO_TEAM) {
+            $rules['fishermen'] = [
+                'sometimes',
+                'required',
+                'array',
+                'min:3',
+                'max:3'
+            ];
+        }
 
         if ($this->method() == 'PUT' || $this->method() == 'PATCH') {
             $rules['name'] = [

@@ -5,22 +5,23 @@ namespace App\Services;
 use App\DTO\Team\FishermanTeamDTO;
 use App\DTO\Team\CreateTeamDTO;
 use App\DTO\Team\UpdateTeamDTO;
+use App\Enum\TypesEnum;
 use App\Exceptions\CannotAddFishermanException;
+use App\Exceptions\FishermanIsAlreadyOnAnotherTeamException;
 use App\Exceptions\FishermanIsAlreadyOnTheTeamException;
 use App\Exceptions\FishermanNotFoundOnTheTeamException;
+use App\Models\FishermanTeam;
 use App\Models\Team;
 use App\Repositories\Team\TeamRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use stdClass;
 
 class TeamService
 {
-    public const DOUBLE_TEAM = 'DUPLA';
-    public const TRIO_TEAM = 'TRIO';
-
     public function __construct(
         protected TeamRepositoryInterface $repository
     )
@@ -50,7 +51,15 @@ class TeamService
      */
     public function create(CreateTeamDTO $createTeamDTO): stdClass
     {
-        return $this->repository->create($createTeamDTO);
+        return DB::transaction(function () use ($createTeamDTO) {
+            $team = $this->repository->create($createTeamDTO);
+
+            foreach ($createTeamDTO->fishermen as $fisherman) {
+                $this->addFisherman(new FishermanTeamDTO($team->tournament_id, $team->id, $fisherman));
+            }
+
+            return $team;
+        });
     }
 
     /**
@@ -93,17 +102,19 @@ class TeamService
      * @param FishermanTeamDTO $fishermanTeamDTO
      * @return bool
      * @throws CannotAddFishermanException
-     * @throws FishermanIsAlreadyOnTheTeamException
+     * @throws FishermanIsAlreadyOnAnotherTeamException
      */
     public function addFisherman(FishermanTeamDTO $fishermanTeamDTO): bool
     {
+        $this->validateExistenceInFishermanTeam($fishermanTeamDTO);
+
         /** @var Team $team */
         $team = $this->repository->getByIdWithFishermen($fishermanTeamDTO->teamId);
 
         $countFishermen = $team->fishermen->count();
         if (
-            ($team->type == self::DOUBLE_TEAM && $countFishermen == 2) ||
-            ($team->type == self::TRIO_TEAM && $countFishermen == 3)
+            ($team->type == TypesEnum::DOUBLE_TEAM && $countFishermen == 2) ||
+            ($team->type == TypesEnum::TRIO_TEAM && $countFishermen == 3)
         ) {
             Log::alert('cannot_add_fisherman', [
                 'team_id' => $team->id,
@@ -111,11 +122,6 @@ class TeamService
                 'count_fishermen' => $countFishermen
             ]);
             throw new CannotAddFishermanException();
-        }
-
-        if ($team->fishermen->contains($fishermanTeamDTO->fishermanId)) {
-            Log::alert('fisherman_is_already_on_the_team', $fishermanTeamDTO->toArray());
-            throw new FishermanIsAlreadyOnTheTeamException();
         }
 
         $team
@@ -146,6 +152,24 @@ class TeamService
             ->detach($fishermanTeamDTO->fishermanId, ['tournament_id' => $fishermanTeamDTO->tournamentId]);
 
         Log::info('successfully_removed_fisherman', $fishermanTeamDTO->toArray());
+        return true;
+    }
+
+    /**
+     * @param FishermanTeamDTO $fishermanTeamDTO
+     * @return bool
+     * @throws FishermanIsAlreadyOnAnotherTeamException
+     */
+    public function validateExistenceInFishermanTeam(FishermanTeamDTO $fishermanTeamDTO): bool
+    {
+        $fisherman = FishermanTeam::where('fisherman_id', $fishermanTeamDTO->fishermanId)->get();
+        if (!$fisherman->isEmpty()) {
+            Log::alert('fisherman_is_already_on_another_team', $fishermanTeamDTO->toArray());
+            throw new FishermanIsAlreadyOnAnotherTeamException(
+                "Pescador Nº {$fishermanTeamDTO->fishermanId} já está vinculado a outra equipe"
+            );
+        }
+
         return true;
     }
 }
