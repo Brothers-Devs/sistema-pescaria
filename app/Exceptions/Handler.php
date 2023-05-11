@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
@@ -47,6 +48,14 @@ class Handler extends ExceptionHandler
                 return response()->json([
                     'message' => 'Registro não encontrado'
                 ], $e->getStatusCode());
+            }
+        });
+
+        $this->renderable(function (FishermanIsAlreadyOnAnotherTeamException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => $e->getMessage()
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
         });
     }

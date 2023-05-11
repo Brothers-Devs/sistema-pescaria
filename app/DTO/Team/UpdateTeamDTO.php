@@ -11,7 +11,8 @@ class UpdateTeamDTO
         public string $name,
         public string $type,
         public int    $tournamentId,
-        public int    $categoryId
+        public int    $categoryId,
+        public array  $fishermen = []
     )
     {
     }
@@ -29,6 +30,7 @@ class UpdateTeamDTO
             $request->type,
             $request->tournament_id,
             $request->category_id,
+            $request->fishermen ?? []
         );
     }
 
