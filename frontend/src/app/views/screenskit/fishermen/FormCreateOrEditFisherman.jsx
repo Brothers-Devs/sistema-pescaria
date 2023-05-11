@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 import { mask } from "remask";
 import { NavLink, useNavigate } from "react-router-dom";
-import Notiflix, { Notify } from "notiflix";
+import Notiflix from "notiflix";
 import styled from "@emotion/styled";
 
 const MASK_INPUT_CPF = ["999.999.999-99"];
