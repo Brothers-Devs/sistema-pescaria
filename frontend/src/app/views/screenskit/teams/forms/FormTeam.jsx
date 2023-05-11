@@ -1,6 +1,5 @@
 import {
     Box,
-    Button,
     Divider,
     FormControl,
     InputLabel,
@@ -32,7 +31,7 @@ export default function FormTeam({ typeEditOrCreateForm, valuesInputs, setValues
 
 
     function handleOnChange(value, key) {
-        if (key === "category") {
+        if (key === "category_id") {
             if (value === "Categoria Especial - Modalidade Arremesso") {
                 setValuesInputs({ ...valuesInputs, [key]: { id: 1, name: value } });
             } else {
@@ -137,9 +136,9 @@ export default function FormTeam({ typeEditOrCreateForm, valuesInputs, setValues
                         labelId="category"
                         id="select-category"
                         label="Categoria"
-                        value={valuesInputs.category !== "" ? valuesInputs.category.name : ""}
+                        value={valuesInputs.category_id !== "" ? valuesInputs.category_id.name : ""}
                         onChange={(e) =>
-                            handleOnChange(e.target.value, "category")
+                            handleOnChange(e.target.value, "category_id")
                         }
                     >
                         {categorys.map((category) => (
