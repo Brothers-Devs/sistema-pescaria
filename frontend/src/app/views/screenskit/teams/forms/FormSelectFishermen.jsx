@@ -20,16 +20,22 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs, setValuesInputs, fishermenAvailable }) {
     const dataFishermenAvailable = fishermenAvailable?.map(fisherman => {
-        return { name: `${fisherman.id} - ${fisherman.name} (${fisherman.cpf})` }
+        return { id: fisherman.id, name: `${fisherman.id} - ${fisherman.name} (${fisherman.cpf})` }
     })
     const [onSubmit, setOnSubmit] = useState(false);
     const navigate = useNavigate();
 
     async function submitCreateTeam(event) {
         event.preventDefault();
+        const idsFishermen = valuesInputs.fishermen.map(fisherman => fisherman.id)
 
+        const dataTeam = {
+            ...valuesInputs, category_id: valuesInputs.category_id.id, fishermen: idsFishermen
+
+        }
         setOnSubmit(true);
-        const promise = typeEditOrCreateForm.method(valuesInputs);
+
+        const promise = typeEditOrCreateForm.method(dataTeam);
         promise
             .then((_) => {
                 Notiflix.Notify.success(
@@ -39,6 +45,7 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                 navigate("/dashboard/equipes");
             })
             .catch((err) => {
+                console.log(err.response.data)
                 setOnSubmit(false);
                 const errors = err.response.data.errors;
                 Object.keys(errors).forEach((message) => {
@@ -49,9 +56,7 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
 
 
     function handleOnChange(value, key) {
-
         setValuesInputs({ ...valuesInputs, [key]: value });
-
     }
 
     return (
@@ -79,7 +84,10 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                     multiple
                     id="checkboxes-tags-demo"
                     options={dataFishermenAvailable ? dataFishermenAvailable : [{ name: "" }]}
+                    value={valuesInputs.fisherman}
                     disableCloseOnSelect
+                    noOptionsText="Sem pescadores disponíveis"
+                    onChange={(_, newValue) => handleOnChange(newValue, "fishermen")}
                     getOptionLabel={(option) => option.name}
                     renderOption={(props, option, { selected }) => (
                         <li {...props}>
@@ -92,6 +100,9 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                             {option.name}
                         </li>
                     )}
+                    isOptionEqualToValue={(option, value) =>
+                        value === undefined || value === "" || option.id === value.id
+                    }
                     style={{ width: 500 }}
                     renderInput={(params) => (
                         <TextField {...params} label="Selecionar pescadores" placeholder="selecionados" />
@@ -123,18 +134,6 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
         </FormFisherMen >
     );
 }
-
-// const fishermens = [
-//     { id: 1, name: 'The Shawshank Redemption', cpf: "999.888.777-55" },
-//     { id: 2, name: 'The Godfather', cpf: "999.888.845-57" },
-//     { id: 3, name: 'The Godfather: Part II', cpf: "999.888.411-54" },
-
-// ]
-
-// const fishermenData = fishermens.map(fishermen => {
-//     return { name: `${fishermen.id} - ${fishermen.name} (${fishermen.cpf})` }
-// })
-
 
 const FormFisherMen = styled("form")(() => ({
     marginTop: "10px",
