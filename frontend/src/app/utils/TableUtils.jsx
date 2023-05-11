@@ -69,12 +69,12 @@ function CustomNoRows() {
     );
 }
 
-export default function TableUtils({ dataContent, columns, setRowSelected }) {
+export default function TableUtils({ dataContent, columns, setRowSelected, path }) {
     return (
         <Box sx={{ height: 760, width: 1 }}>
             <ButtonUtils
                 functionButton="Cadastrar"
-                path="/dashboard/pescadores/cadastrar"
+                path={path}
             />
             <DataGrid
                 sx={{ p: 3 }}
