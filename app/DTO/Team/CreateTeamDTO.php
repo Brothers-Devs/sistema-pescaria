@@ -10,7 +10,8 @@ class CreateTeamDTO
         public string $name,
         public string $type,
         public int    $tournamentId,
-        public int    $categoryId
+        public int    $categoryId,
+        public ?array  $fishermen = []
     )
     {
     }
@@ -26,6 +27,7 @@ class CreateTeamDTO
             $request->type,
             $request->tournament_id,
             $request->category_id,
+            $request->fishermen
         );
     }
 

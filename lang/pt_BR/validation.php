@@ -227,7 +227,8 @@ return [
         'tournament_id' => 'id do torneio',
         'type' => 'tipo',
         'size' => 'tamanho',
-        'points' => 'pontos'
+        'points' => 'pontos',
+        'fishermen' => 'pescadores'
     ],
 
 ];

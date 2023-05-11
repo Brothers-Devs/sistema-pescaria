@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\Team\FishermanTeamDTO;
 use App\DTO\Team\CreateTeamDTO;
 use App\DTO\Team\UpdateTeamDTO;
+use App\Enum\TypesEnum;
 use App\Exceptions\CannotAddFishermanException;
 use App\Exceptions\FishermanIsAlreadyOnTheTeamException;
 use App\Exceptions\FishermanNotFoundOnTheTeamException;
@@ -13,14 +14,12 @@ use App\Repositories\Team\TeamRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use stdClass;
 
 class TeamService
 {
-    public const DOUBLE_TEAM = 'DUPLA';
-    public const TRIO_TEAM = 'TRIO';
-
     public function __construct(
         protected TeamRepositoryInterface $repository
     )
@@ -50,7 +49,15 @@ class TeamService
      */
     public function create(CreateTeamDTO $createTeamDTO): stdClass
     {
-        return $this->repository->create($createTeamDTO);
+        DB::transaction(function () {
+            $team = $this->repository->create($createTeamDTO);
+
+            foreach ($createTeamDTO->fishermen as $fisherman) {
+                $this->addFisherman(new FishermanTeamDTO($team->tournament_id, $team->id, $fisherman));
+            }
+
+            return $team;
+        });
     }
 
     /**
@@ -102,8 +109,8 @@ class TeamService
 
         $countFishermen = $team->fishermen->count();
         if (
-            ($team->type == self::DOUBLE_TEAM && $countFishermen == 2) ||
-            ($team->type == self::TRIO_TEAM && $countFishermen == 3)
+            ($team->type == TypesEnum::DOUBLE_TEAM && $countFishermen == 2) ||
+            ($team->type == TypesEnum::TRIO_TEAM && $countFishermen == 3)
         ) {
             Log::alert('cannot_add_fisherman', [
                 'team_id' => $team->id,
