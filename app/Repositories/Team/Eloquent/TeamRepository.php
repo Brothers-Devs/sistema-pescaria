@@ -30,7 +30,7 @@ class TeamRepository implements TeamRepositoryInterface
      */
     public function getById(int $id): ?stdClass
     {
-        $team = $this->model->with('category')->find($id);
+        $team = $this->model->with(['category', 'fishermen'])->find($id);
         if (!$team) {
             return null;
         }
