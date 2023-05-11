@@ -11,7 +11,7 @@ export default function CreateTeam() {
         tournament_id: 1,
         name: "",
         type: "",
-        category: "",
+        category_id: "",
         fishermen: [],
     });
     const [fishermenAvailable, setFishermenAvailable] = useState()
@@ -27,7 +27,6 @@ export default function CreateTeam() {
 
 
     }, [])
-
 
     const typeCreateForm = {
         method: (dataConfig) => instance.post("/teams", dataConfig),
