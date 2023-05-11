@@ -49,7 +49,7 @@ class TeamService
      */
     public function create(CreateTeamDTO $createTeamDTO): stdClass
     {
-        DB::transaction(function () {
+        return DB::transaction(function () use ($createTeamDTO) {
             $team = $this->repository->create($createTeamDTO);
 
             foreach ($createTeamDTO->fishermen as $fisherman) {
