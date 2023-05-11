@@ -88,4 +88,12 @@ class FishermanService
 
         return $fisherman->toArray();
     }
+
+    /**
+     * @return mixed
+     */
+    public function listFishermenAvailable(): mixed
+    {
+        return Fisherman::doesntHave('teams')->get();
+    }
 }

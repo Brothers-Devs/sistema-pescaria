@@ -101,4 +101,12 @@ class FishermanController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
+
+    /**
+     * @return AnonymousResourceCollection
+     */
+    public function listFishermenAvailable(): AnonymousResourceCollection
+    {
+        return FishermanResource::collection($this->service->listFishermenAvailable());
+    }
 }
