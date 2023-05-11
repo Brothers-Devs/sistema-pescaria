@@ -100,6 +100,7 @@ export default function AppFisherman() {
                 columns={columns}
                 setModification={setModification}
                 setRowSelected={setRowSelected}
+                path="/dashboard/pescadores/cadastrar"
             />
         </ContainerRoot>
     );
