@@ -68,7 +68,21 @@ class TeamService
      */
     public function update(UpdateTeamDTO $updateTeamDTO): ?stdClass
     {
-        return $this->repository->update($updateTeamDTO);
+        return DB::transaction(function () use ($updateTeamDTO) {
+            /** @var Team $team */
+            $team = $this->repository->getByIdWithFishermen($updateTeamDTO->id);
+            $team->update($updateTeamDTO->toArray());
+
+            foreach ($updateTeamDTO->fishermen as $fisherman) {
+                $this->validateExistenceInFishermanTeam(new FishermanTeamDTO($team->tournament_id, $team->id, $fisherman));
+            }
+
+            $team->fishermen()
+                ->syncWithPivotValues($updateTeamDTO->fishermen, ['tournament_id' => $updateTeamDTO->tournamentId]);
+            $team->refresh();
+
+            return (object)$team->toArray();
+        });
     }
 
     /**
@@ -162,7 +176,9 @@ class TeamService
      */
     public function validateExistenceInFishermanTeam(FishermanTeamDTO $fishermanTeamDTO): bool
     {
-        $fisherman = FishermanTeam::where('fisherman_id', $fishermanTeamDTO->fishermanId)->get();
+        $fisherman = FishermanTeam::where('fisherman_id', $fishermanTeamDTO->fishermanId)
+            ->where('team_id', '!=', $fishermanTeamDTO->teamId)
+            ->get();
         if (!$fisherman->isEmpty()) {
             Log::alert('fisherman_is_already_on_another_team', $fishermanTeamDTO->toArray());
             throw new FishermanIsAlreadyOnAnotherTeamException(
