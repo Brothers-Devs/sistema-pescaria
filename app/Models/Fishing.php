@@ -14,14 +14,21 @@ class Fishing extends Model
     protected $table = 'fisheries';
 
     protected $fillable = [
+        'result_id',
+        'fisherman_id',
         'size',
         'points',
         'weight',
-        'stage',
-        'fisherman_id',
-        'team_id',
-        'tournament_id'
+        'stage'
     ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function result(): BelongsTo
+    {
+        return $this->belongsTo(Result::class);
+    }
 
     /**
      * @return BelongsTo
