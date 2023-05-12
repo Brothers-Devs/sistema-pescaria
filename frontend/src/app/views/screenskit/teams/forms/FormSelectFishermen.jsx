@@ -45,7 +45,7 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                 navigate("/dashboard/equipes");
             })
             .catch((err) => {
-                console.log(err.response.data)
+
                 setOnSubmit(false);
                 const errors = err.response.data.errors;
                 Object.keys(errors).forEach((message) => {
