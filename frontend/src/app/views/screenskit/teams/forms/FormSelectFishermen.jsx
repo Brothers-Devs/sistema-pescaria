@@ -17,11 +17,10 @@ import { useEffect, useState } from "react";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
-let EXISTE
 
-export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs, setValuesInputs, detailsTeam }) {
+export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs, setValuesInputs }) {
     const [fishermenAvailable, setFishermenAvailable] = useState()
-    const dataFishermen = JSON.parse(localStorage.getItem("dataFormTeam"))
+    const dataTeam = JSON.parse(localStorage.getItem("dataFormTeam"))
     const [onSubmit, setOnSubmit] = useState(false);
     const navigate = useNavigate();
 
@@ -29,27 +28,27 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
         const promiseFishermenAvailable = instance.get("/fishermen/available")
         promiseFishermenAvailable.then((res) => {
             let dataFishermenAvailable = res.data.data
-            setFishermenAvailable([...dataFishermen.fishermen, ...dataFishermenAvailable])
+            setFishermenAvailable([...dataTeam.fishermen, ...dataFishermenAvailable])
         }).catch((error) => {
             console.log(error.response)
         })
     }, [])
 
-    const dataFishermenAvailable = fishermenAvailable?.map(fisherman => {
+    const dataFishermenAvailableCompact = fishermenAvailable?.map(fisherman => {
         return { id: fisherman.id, name: `${fisherman.id} - ${fisherman.name} (${fisherman.cpf})` }
     })
 
-    async function submitCreateTeam(event) {
+    async function submitCreateOrEditTeam(event) {
         event.preventDefault();
         const idsFishermen = valuesInputs.fishermen.map(fisherman => fisherman.id)
 
-        const dataTeam = {
+        const dataTeamEdited = {
             ...valuesInputs, category_id: valuesInputs.category.id, fishermen: idsFishermen
 
         }
         setOnSubmit(true);
 
-        const promise = typeEditOrCreateForm.method(dataTeam);
+        const promise = typeEditOrCreateForm.method(dataTeamEdited);
         promise
             .then((_) => {
                 Notiflix.Notify.success(
@@ -70,11 +69,11 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
 
 
     function handleOnChange(value, key) {
-        if (typeEditOrCreateForm.type === "cadastrar") {
-            setValuesInputs({ ...valuesInputs, [key]: value });
-        } else {
-            setValuesInputs({ ...valuesInputs, [key]: value });
-        }
+        // if (typeEditOrCreateForm.type === "cadastrar") {
+        //     setValuesInputs({ ...valuesInputs, [key]: value });
+        // } else {
+        setValuesInputs({ ...valuesInputs, [key]: value });
+        // }
     }
 
     return (
@@ -101,7 +100,7 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                 <Autocomplete
                     multiple
                     id="checkboxes-tags-demo"
-                    options={dataFishermenAvailable ? dataFishermenAvailable : [{ name: "" }]}
+                    options={dataFishermenAvailableCompact ? dataFishermenAvailableCompact : [{ name: "" }]}
                     value={valuesInputs.fishermen}
                     disableCloseOnSelect
                     noOptionsText="Sem pescadores disponíveis"
@@ -133,7 +132,7 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                     size="large"
                     variant="contained"
                     type="submit"
-                    onClick={submitCreateTeam}
+                    onClick={submitCreateOrEditTeam}
                 >
                     Salvar
                 </Button>
