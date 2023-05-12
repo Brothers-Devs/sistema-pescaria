@@ -5,6 +5,7 @@ import AppFisherman from './fishermen/AppFisherman';
 const AppTournaments = Loadable(lazy(() => import('./tournaments/AppTournaments')));
 const AppTeams = Loadable(lazy(() => import('./teams/AppTeams')));
 const CreateTeams = Loadable(lazy(() => import('./teams/CreateTeam')));
+const EditTeam = Loadable(lazy(() => import('./teams/EditTeam')));
 const AppReports = Loadable(lazy(() => import('./reports/AppReports')));
 const CreateFisherman = Loadable(lazy(() => import('./fishermen/CreateFisherman')));
 const EditFisherman = Loadable(lazy(() => import('./fishermen/EditFisherman')));
@@ -25,6 +26,10 @@ const materialRoutes = [
   {
     path: '/dashboard/equipes/cadastrar',
     element: <CreateTeams />,
+  },
+  {
+    path: '/dashboard/equipes/editar/:id',
+    element: <EditTeam />,
   },
   {
     path: '/dashboard/relatorios',
