@@ -6,6 +6,7 @@ use App\DTO\Team\FishermanTeamDTO;
 use App\DTO\Team\CreateTeamDTO;
 use App\DTO\Team\UpdateTeamDTO;
 use App\Exceptions\CannotAddFishermanException;
+use App\Exceptions\FishermanIsAlreadyOnAnotherTeamException;
 use App\Exceptions\FishermanNotFoundOnTheTeamException;
 use App\Http\Requests\AddRemoveFishermanInTeamRequest;
 use App\Http\Requests\StoreUpdateTeamRequest;
@@ -58,7 +59,12 @@ class TeamController extends Controller
                 ->setStatusCode(Response::HTTP_CREATED);
         } catch (CannotAddFishermanException $exception) {
             return response()->json([
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
+                'errors' => [
+                    [
+                        $exception->getMessage()
+                    ]
+                ]
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
@@ -118,6 +124,7 @@ class TeamController extends Controller
      * @param AddRemoveFishermanInTeamRequest $request
      * @param int $teamId
      * @return JsonResponse
+     * @throws FishermanIsAlreadyOnAnotherTeamException
      */
     public function addFisherman(AddRemoveFishermanInTeamRequest $request, int $teamId): JsonResponse
     {
@@ -128,7 +135,12 @@ class TeamController extends Controller
             ]);
         } catch (CannotAddFishermanException $exception) {
             return response()->json([
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
+                'errors' => [
+                    [
+                        $exception->getMessage()
+                    ]
+                ]
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
