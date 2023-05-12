@@ -12,25 +12,39 @@ import Checkbox from '@mui/material/Checkbox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Notiflix from "notiflix";
-import { useState } from "react";
+import instance from "../../../../../axios"
+import { useEffect, useState } from "react";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
+let EXISTE
 
+export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs, setValuesInputs, detailsTeam }) {
+    const [fishermenAvailable, setFishermenAvailable] = useState()
+    const dataFishermen = JSON.parse(localStorage.getItem("dataFormTeam"))
+    const [onSubmit, setOnSubmit] = useState(false);
+    const navigate = useNavigate();
 
-export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs, setValuesInputs, fishermenAvailable }) {
+    useEffect(() => {
+        const promiseFishermenAvailable = instance.get("/fishermen/available")
+        promiseFishermenAvailable.then((res) => {
+            let dataFishermenAvailable = res.data.data
+            setFishermenAvailable([...dataFishermen.fishermen, ...dataFishermenAvailable])
+        }).catch((error) => {
+            console.log(error.response)
+        })
+    }, [])
+
     const dataFishermenAvailable = fishermenAvailable?.map(fisherman => {
         return { id: fisherman.id, name: `${fisherman.id} - ${fisherman.name} (${fisherman.cpf})` }
     })
-    const [onSubmit, setOnSubmit] = useState(false);
-    const navigate = useNavigate();
 
     async function submitCreateTeam(event) {
         event.preventDefault();
         const idsFishermen = valuesInputs.fishermen.map(fisherman => fisherman.id)
 
         const dataTeam = {
-            ...valuesInputs, category_id: valuesInputs.category_id.id, fishermen: idsFishermen
+            ...valuesInputs, category_id: valuesInputs.category.id, fishermen: idsFishermen
 
         }
         setOnSubmit(true);
@@ -56,7 +70,11 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
 
 
     function handleOnChange(value, key) {
-        setValuesInputs({ ...valuesInputs, [key]: value });
+        if (typeEditOrCreateForm.type === "cadastrar") {
+            setValuesInputs({ ...valuesInputs, [key]: value });
+        } else {
+            setValuesInputs({ ...valuesInputs, [key]: value });
+        }
     }
 
     return (
@@ -84,7 +102,7 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                     multiple
                     id="checkboxes-tags-demo"
                     options={dataFishermenAvailable ? dataFishermenAvailable : [{ name: "" }]}
-                    value={valuesInputs.fisherman}
+                    value={valuesInputs.fishermen}
                     disableCloseOnSelect
                     noOptionsText="Sem pescadores disponíveis"
                     onChange={(_, newValue) => handleOnChange(newValue, "fishermen")}
