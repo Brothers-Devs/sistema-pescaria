@@ -91,6 +91,7 @@ export default function AppTeams() {
                 columns={columns}
                 setModification={setModification}
                 setRowSelected={setRowSelected}
+                path="/dashboard/equipes/cadastrar"
             />
         </ContainerRoot>
     );
