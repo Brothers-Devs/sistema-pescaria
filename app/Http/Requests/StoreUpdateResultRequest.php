@@ -33,7 +33,10 @@ class StoreUpdateResultRequest extends FormRequest
                 'required',
                 'array',
                 'max:12'
-            ]
+            ],
+            'fisheries.*.fisherman_id' => 'required',
+            'fisheries.*.size' => 'required|decimal:2|min:30',
+            'fisheries.*.points' => 'required|decimal:2'
         ];
 
         if ($this->method() == 'PUT' || $this->method == 'PATCH') {

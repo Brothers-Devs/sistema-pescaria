@@ -153,8 +153,17 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'fisheries.*.fisherman_id' => [
+            'required' => 'O campo pescador é obrigatório. Item nº :position.'
+        ],
+        'fisheries.*.size' => [
+            'required' => 'O campo tamanho é obrigatório. Item nº :position.',
+            'decimal' => 'O campo tamanho deve ter :decimal casas decimais. Item nº :position.',
+            'min' => 'O campo tamanho deve ser pelo menos :min. Item nº :position.'
+        ],
+        'fisheries.*.points' => [
+            'required' => 'O campo pontos é obrigatório. Item nº :position.',
+            'decimal' => 'O campo pontos deve ter :decimal casas decimais. Item nº :position.'
         ],
     ],
 
