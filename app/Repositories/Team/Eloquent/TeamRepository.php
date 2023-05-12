@@ -6,6 +6,7 @@ use App\DTO\Team\CreateTeamDTO;
 use App\DTO\Team\UpdateTeamDTO;
 use App\Models\Team;
 use App\Repositories\Team\TeamRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 use stdClass;
 
 class TeamRepository implements TeamRepositoryInterface
@@ -70,7 +71,12 @@ class TeamRepository implements TeamRepositoryInterface
      */
     public function delete(int $id): void
     {
-        $this->model->findOrFail($id)->delete();
+        DB::transaction(function () use ($id) {
+            /** @var Team $team */
+            $team = $this->model->findOrFail($id);
+            $team->fishermen()->detach();
+            $team->delete();
+        });
     }
 
     public function getByIdWithFishermen(int $id)

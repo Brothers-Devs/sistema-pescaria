@@ -8,7 +8,6 @@ use App\DTO\Team\UpdateTeamDTO;
 use App\Enum\TypesEnum;
 use App\Exceptions\CannotAddFishermanException;
 use App\Exceptions\FishermanIsAlreadyOnAnotherTeamException;
-use App\Exceptions\FishermanIsAlreadyOnTheTeamException;
 use App\Exceptions\FishermanNotFoundOnTheTeamException;
 use App\Models\FishermanTeam;
 use App\Models\Team;
@@ -74,7 +73,9 @@ class TeamService
             $team->update($updateTeamDTO->toArray());
 
             foreach ($updateTeamDTO->fishermen as $fisherman) {
-                $this->validateExistenceInFishermanTeam(new FishermanTeamDTO($team->tournament_id, $team->id, $fisherman));
+                $this->validateExistenceInFishermanTeam(
+                    new FishermanTeamDTO($team->tournament_id, $team->id, $fisherman)
+                );
             }
 
             $team->fishermen()
