@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FishermanController;
 use App\Http\Controllers\FishingController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
@@ -57,3 +58,6 @@ Route::get('/teams/{team_id}/fisheries/{fisherman_id}', [FishermanController::cl
 Route::post('/fishing', [FishingController::class, 'create'])->name('fishing.create');
 Route::put('/fishing/{fishing_id}', [FishingController::class, 'update'])->name('fishing.update');
 Route::delete('/fishing/{fishing_id}', [FishingController::class, 'delete'])->name('fishing.delete');
+
+# Resultados
+Route::post('/results', [ResultController::class, 'create'])->name('results.create');
