@@ -65,7 +65,6 @@ export default function EditTeam() {
                         typeEditOrCreateForm={typeEditForm}
                         valuesInputs={valuesInputs}
                         setValuesInputs={setValuesInputs}
-                        detailsTeam={valuesInputs}
                     />
                 </ContainerRoot>
             ) : null}
