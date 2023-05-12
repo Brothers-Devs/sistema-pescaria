@@ -54,7 +54,12 @@ class Handler extends ExceptionHandler
         $this->renderable(function (FishermanIsAlreadyOnAnotherTeamException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json([
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
+                    'errors' => [
+                        [
+                            $e->getMessage()
+                        ]
+                    ]
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
         });
