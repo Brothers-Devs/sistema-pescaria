@@ -78,7 +78,7 @@ class FishingService
             Log::alert(
                 'fisherman_not_found_on_the_team',
                 [
-                    'action' => 'create_fishing',
+                    'action' => 'update_fishing',
                     'team_id' => $fishingDTO->teamId,
                     'fisherman_id' => $fishingDTO->fishermanId
                 ]
