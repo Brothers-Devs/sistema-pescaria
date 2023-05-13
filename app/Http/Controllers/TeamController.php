@@ -163,4 +163,12 @@ class TeamController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
+
+    /**
+     * @return AnonymousResourceCollection
+     */
+    public function listTeamsAvailable(): AnonymousResourceCollection
+    {
+        return TeamResource::collection($this->service->listTeamsAvailable());
+    }
 }

@@ -53,4 +53,12 @@ class Team extends Model
     {
         return $this->hasMany(Fishing::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function results(): HasMany
+    {
+        return $this->hasMany(Result::class);
+    }
 }
