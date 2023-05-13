@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\Result\CreateResultDTO;
 use App\Models\Fishing;
 use App\Models\Result;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class ResultService
@@ -14,6 +15,27 @@ class ResultService
         protected Fishing $fishing
     )
     {
+    }
+
+    /**
+     * @return Collection|array
+     */
+    public function all(): Collection|array
+    {
+        return $this->model->with('team')->get();
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function getById(int $id): array
+    {
+        /** @var Result $result */
+        $result = $this->model->findOrFail($id);
+        $result->load('fisheries');
+
+        return $result->toArray();
     }
 
     /**
