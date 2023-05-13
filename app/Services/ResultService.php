@@ -22,7 +22,7 @@ class ResultService
      */
     public function all(): Collection|array
     {
-        return $this->model->with('team')->get();
+        return $this->model->with('team.category')->get();
     }
 
     /**
