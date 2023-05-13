@@ -22,7 +22,8 @@ use stdClass;
 class TeamService
 {
     public function __construct(
-        protected TeamRepositoryInterface $repository
+        protected TeamRepositoryInterface $repository,
+        protected Team                    $teamModel
     )
     {
     }
@@ -188,5 +189,13 @@ class TeamService
         }
 
         return true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function listTeamsAvailable(): mixed
+    {
+        return $this->teamModel->doesntHave('results')->get();
     }
 }
