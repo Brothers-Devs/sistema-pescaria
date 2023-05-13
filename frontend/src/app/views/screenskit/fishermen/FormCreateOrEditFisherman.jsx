@@ -64,7 +64,6 @@ export default function FormCreateOrEditFisherman({ typeEditOrCreateForm }) {
         city: dataFisherMan.city,
     });
 
-    console.log(valuesInputs?.name);
     const navigate = useNavigate();
 
     async function submitCreateOurUpdateFisherMen(event) {

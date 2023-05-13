@@ -12,30 +12,43 @@ import Checkbox from '@mui/material/Checkbox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Notiflix from "notiflix";
-import { useState } from "react";
+import instance from "../../../../../axios"
+import { useEffect, useState } from "react";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-
-export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs, setValuesInputs, fishermenAvailable }) {
-    const dataFishermenAvailable = fishermenAvailable?.map(fisherman => {
-        return { id: fisherman.id, name: `${fisherman.id} - ${fisherman.name} (${fisherman.cpf})` }
-    })
+export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs, setValuesInputs }) {
+    const [fishermenAvailable, setFishermenAvailable] = useState()
+    const dataTeam = JSON.parse(localStorage.getItem("dataFormTeam"))
     const [onSubmit, setOnSubmit] = useState(false);
     const navigate = useNavigate();
 
-    async function submitCreateTeam(event) {
+    useEffect(() => {
+        const promiseFishermenAvailable = instance.get("/fishermen/available")
+        promiseFishermenAvailable.then((res) => {
+            let dataFishermenAvailable = res.data.data
+            setFishermenAvailable([...dataTeam.fishermen, ...dataFishermenAvailable])
+        }).catch((error) => {
+            console.log(error.response)
+        })
+    }, [])
+
+    const dataFishermenAvailableCompact = fishermenAvailable?.map(fisherman => {
+        return { id: fisherman.id, name: `${fisherman.id} - ${fisherman.name} (${fisherman.cpf})` }
+    })
+
+    async function submitCreateOrEditTeam(event) {
         event.preventDefault();
         const idsFishermen = valuesInputs.fishermen.map(fisherman => fisherman.id)
 
-        const dataTeam = {
-            ...valuesInputs, category_id: valuesInputs.category_id.id, fishermen: idsFishermen
+        const dataTeamEdited = {
+            ...valuesInputs, category_id: valuesInputs.category.id, fishermen: idsFishermen
 
         }
         setOnSubmit(true);
 
-        const promise = typeEditOrCreateForm.method(dataTeam);
+        const promise = typeEditOrCreateForm.method(dataTeamEdited);
         promise
             .then((_) => {
                 Notiflix.Notify.success(
@@ -45,7 +58,7 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                 navigate("/dashboard/equipes");
             })
             .catch((err) => {
-                console.log(err.response.data)
+
                 setOnSubmit(false);
                 const errors = err.response.data.errors;
                 Object.keys(errors).forEach((message) => {
@@ -56,7 +69,11 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
 
 
     function handleOnChange(value, key) {
+        // if (typeEditOrCreateForm.type === "cadastrar") {
+        //     setValuesInputs({ ...valuesInputs, [key]: value });
+        // } else {
         setValuesInputs({ ...valuesInputs, [key]: value });
+        // }
     }
 
     return (
@@ -83,8 +100,8 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                 <Autocomplete
                     multiple
                     id="checkboxes-tags-demo"
-                    options={dataFishermenAvailable ? dataFishermenAvailable : [{ name: "" }]}
-                    value={valuesInputs.fisherman}
+                    options={dataFishermenAvailableCompact ? dataFishermenAvailableCompact : [{ name: "" }]}
+                    value={valuesInputs.fishermen}
                     disableCloseOnSelect
                     noOptionsText="Sem pescadores disponíveis"
                     onChange={(_, newValue) => handleOnChange(newValue, "fishermen")}
@@ -115,7 +132,7 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                     size="large"
                     variant="contained"
                     type="submit"
-                    onClick={submitCreateTeam}
+                    onClick={submitCreateOrEditTeam}
                 >
                     Salvar
                 </Button>

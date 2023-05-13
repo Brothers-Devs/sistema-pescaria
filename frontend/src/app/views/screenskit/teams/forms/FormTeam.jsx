@@ -29,9 +29,8 @@ const types = [
 
 export default function FormTeam({ typeEditOrCreateForm, valuesInputs, setValuesInputs }) {
 
-
     function handleOnChange(value, key) {
-        if (key === "category_id") {
+        if (key === "category") {
             if (value === "Categoria Especial - Modalidade Arremesso") {
                 setValuesInputs({ ...valuesInputs, [key]: { id: 1, name: value } });
             } else {
@@ -101,7 +100,7 @@ export default function FormTeam({ typeEditOrCreateForm, valuesInputs, setValues
                             labelId="type"
                             id="select-type"
                             value={
-                                valuesInputs.type !== "" ? valuesInputs.type : ""
+                                valuesInputs?.type !== "" ? valuesInputs.type : ""
                             }
                             label="Tipo"
                             onChange={(e) =>
@@ -136,9 +135,9 @@ export default function FormTeam({ typeEditOrCreateForm, valuesInputs, setValues
                         labelId="category"
                         id="select-category"
                         label="Categoria"
-                        value={valuesInputs.category_id !== "" ? valuesInputs.category_id.name : ""}
+                        value={valuesInputs?.category !== "" ? valuesInputs.category.name : ""}
                         onChange={(e) =>
-                            handleOnChange(e.target.value, "category_id")
+                            handleOnChange(e.target.value, "category")
                         }
                     >
                         {categorys.map((category) => (
