@@ -33,7 +33,7 @@ class ResultService
     {
         /** @var Result $result */
         $result = $this->model->findOrFail($id);
-        $result->load('fisheries');
+        $result->load(['team', 'fisheries']);
 
         return $result->toArray();
     }
