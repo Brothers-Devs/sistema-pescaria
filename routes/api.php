@@ -43,6 +43,7 @@ Route::get('/teams/{team_id}', [TeamController::class, 'getById'])->name('teams.
 Route::post('/teams', [TeamController::class, 'create'])->name('teams.create');
 Route::put('/teams/{team_id}', [TeamController::class, 'update'])->name('teams.update');
 Route::delete('/teams/{team_id}', [TeamController::class, 'delete'])->name('teams.delete');
+Route::get('/teams/{team_id}/results', [TeamController::class, 'getResults'])->name('teams.getResults');
 
 # Equipe e Pescador
 Route::get('/teams/{team_id}/fishermen', [TeamController::class, 'listFishermen'])->name('teams.listFishermen');
@@ -61,4 +62,6 @@ Route::put('/fishing/{fishing_id}', [FishingController::class, 'update'])->name(
 Route::delete('/fishing/{fishing_id}', [FishingController::class, 'delete'])->name('fishing.delete');
 
 # Resultados
+Route::get('/results', [ResultController::class, 'all'])->name('results.all');
+Route::get('/results/{result_id}', [ResultController::class, 'getById'])->name('results.getById');
 Route::post('/results', [ResultController::class, 'create'])->name('results.create');

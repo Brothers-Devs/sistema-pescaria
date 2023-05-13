@@ -171,4 +171,14 @@ class TeamController extends Controller
     {
         return TeamResource::collection($this->service->listTeamsAvailable());
     }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getResults(int $id): JsonResponse
+    {
+        $team = $this->service->getResults($id);
+        return response()->json(['data' => $team]);
+    }
 }

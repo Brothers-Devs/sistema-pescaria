@@ -198,4 +198,13 @@ class TeamService
     {
         return $this->teamModel->doesntHave('results')->get();
     }
+
+    /**
+     * @param int $id
+     * @return Model|Collection|Builder|array|null
+     */
+    public function getResults(int $id): Model|Collection|Builder|array|null
+    {
+        return $this->teamModel->with('results.fisheries')->findOrFail($id);
+    }
 }
