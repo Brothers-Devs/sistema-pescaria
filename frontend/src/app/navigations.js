@@ -5,6 +5,6 @@ export const navigations = [
   { name: 'Torneios', path: '/dashboard/torneios', icon: 'trophy' },
   { name: 'Pescadores', path: '/dashboard/pescadores', icon: 'rowing' },
   { name: 'Equipes', path: '/dashboard/equipes', icon: 'groups' },
-  { name: 'Apurações', path: '/dashboard/apuracoes', icon: 'groups' },
-  { name: 'Relatórios', path: '/dashboard/relatorios', icon: 'summarize' },
+  { name: 'Apurações', path: '/dashboard/apuracoes', icon: 'receipt_long' },
+  { name: 'Relatórios', path: '/dashboard/relatorios', icon: 'bar_chart_4_bars' },
 ];
