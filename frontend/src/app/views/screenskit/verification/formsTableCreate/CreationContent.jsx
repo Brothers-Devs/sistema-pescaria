@@ -16,8 +16,7 @@ export default function CreationContent({ typeEditOrCreateForm }) {
     const [modificationInputTeam, setModificationInputTeamset] = useState(false)
     const [dataApurathion, setDataApurathion] = useState({
         team_id: "",
-        name: "",
-        fisheries: []
+        name: ""
     })
     const dataTeamsAvailableCompact = teamsAvailable?.map(teamAvailable => {
         return { id: teamAvailable.id, name: `${teamAvailable.id} - ${teamAvailable.name}` }
