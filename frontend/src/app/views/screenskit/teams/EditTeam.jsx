@@ -1,15 +1,17 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import instance from "../../../../axios";
 import styled from "@emotion/styled";
 import Breadcrumb from "app/components/Breadcrumb";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Divider } from "@mui/material";
 import FormTeam from "./forms/FormTeam";
 import FormSelectFishermen from "./forms/FormSelectFishermen";
+import Notiflix from "notiflix";
 
 export default function EditTeam() {
     const { id } = useParams();
     const [valuesInputs, setValuesInputs] = useState(null);
+    const navigate = useNavigate()
 
     const typeEditForm = {
         method: (dataConfig) => instance.put(`/teams/${id}`, dataConfig),
@@ -36,6 +38,8 @@ export default function EditTeam() {
 
             })
             .catch((error) => {
+                Notiflix.Notify.failure("Registro não encontrado!")
+                navigate("/dashboard/equipes")
                 console.log(error.response);
             });
     }, []);
