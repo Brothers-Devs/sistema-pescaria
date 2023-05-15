@@ -22,7 +22,7 @@ class ResultService
      */
     public function all(): Collection|array
     {
-        return $this->model->with('team')->get();
+        return $this->model->with('team.category')->get();
     }
 
     /**
@@ -33,7 +33,7 @@ class ResultService
     {
         /** @var Result $result */
         $result = $this->model->findOrFail($id);
-        $result->load('fisheries');
+        $result->load(['team.category', 'fisheries.fisherman']);
 
         return $result->toArray();
     }
