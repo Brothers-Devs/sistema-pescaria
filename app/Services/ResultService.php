@@ -48,10 +48,14 @@ class ResultService
             /** @var Result $result */
             $result = $this->model->create($createResultDTO->toArray());
 
+            $totalPoints = 0;
             foreach ($createResultDTO->fisheries as $fishery) {
                 $fishery['result_id'] = $result->id;
                 $this->fishing->create($fishery);
+                $totalPoints += $fishery['points'];
             }
+
+            $result->fill(['total_points' => $totalPoints])->save();
 
             $result->refresh();
 
