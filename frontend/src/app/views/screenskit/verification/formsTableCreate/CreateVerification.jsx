@@ -6,7 +6,7 @@ import CreationContent from "./CreationContent";
 
 export default function CreateVerification() {
     const typeCreateForm = {
-        method: (dataConfig) => instance.post("/fishermen", dataConfig),
+        method: (dataConfig) => instance.post("/results", dataConfig),
         type: "cadastro",
         notificationSuccess: "Cadastrado com sucesso!",
         titleForm: `Adiciona Novo Registro`,
