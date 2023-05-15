@@ -60,31 +60,31 @@ const Breadcrumb = ({ routeSegments }) => {
                 </NavLink>
                 {routeSegments.length < 3
                     ? routeSegments.map((route, index) => {
-                          return index !== routeSegments.length - 1 ? (
-                              <NavLink key={index} to={route.path}>
-                                  <SubName>{route.name}</SubName>
-                              </NavLink>
-                          ) : (
-                              <SubName key={index}>{route.name}</SubName>
-                          );
-                      })
+                        return index !== routeSegments.length - 1 ? (
+                            <NavLink key={index} to={route.path}>
+                                <SubName>{route.name}</SubName>
+                            </NavLink>
+                        ) : (
+                            <SubName key={index}>{route.name}</SubName>
+                        );
+                    })
                     : routeSegments.map((route, index) => {
-                          if (index == 0) {
-                              return (
-                                  <NavLink key={index} to={route.path}>
-                                      <SubName>{route.name}</SubName>
-                                  </NavLink>
-                              );
-                          } else if (index == 1) {
-                              return (
-                                  <SubName key={index}>
-                                      {route.lastName}
-                                  </SubName>
-                              );
-                          } else {
-                              return null;
-                          }
-                      })}
+                        if (index === 0) {
+                            return (
+                                <NavLink key={index} to={route.path}>
+                                    <SubName>{route.name}</SubName>
+                                </NavLink>
+                            );
+                        } else if (index === 1) {
+                            return (
+                                <SubName key={index}>
+                                    {route.lastName}
+                                </SubName>
+                            );
+                        } else {
+                            return null;
+                        }
+                    })}
             </Breadcrumbs>
         </BreadcrumbRoot>
     );
