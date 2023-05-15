@@ -69,11 +69,7 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
 
 
     function handleOnChange(value, key) {
-        // if (typeEditOrCreateForm.type === "cadastrar") {
-        //     setValuesInputs({ ...valuesInputs, [key]: value });
-        // } else {
         setValuesInputs({ ...valuesInputs, [key]: value });
-        // }
     }
 
     return (

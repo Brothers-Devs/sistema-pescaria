@@ -78,11 +78,12 @@ export default function TableUtils({ dataContent, columns, setRowSelected, path 
             />
             <DataGrid
                 sx={{ p: 3 }}
-                getRowId={(dataContent) => dataContent.id}
+                getRowId={(rows) => rows.id}
                 columns={columns}
                 rows={dataContent}
                 disableRowSelectionOnClick
                 disableColumnMenu
+                key={dataContent.name}
                 pageSizeOptions={[10, 25, 50]}
                 initialState={{
                     pagination: { paginationModel: { pageSize: 10 } },
