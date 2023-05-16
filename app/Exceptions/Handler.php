@@ -63,5 +63,18 @@ class Handler extends ExceptionHandler
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
         });
+
+        $this->renderable(function (BusinessException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => $e->getMessage(),
+                    'errors' => [
+                        [
+                            $e->getMessage()
+                        ]
+                    ]
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        });
     }
 }
