@@ -23,9 +23,9 @@ class StoreUpdateFishingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tournament_id' => [
+            'result_id' => [
                 'required',
-                Rule::exists('tournaments', 'id')
+                Rule::exists('results', 'id')
             ],
             'team_id' => [
                 'required',
@@ -37,8 +37,8 @@ class StoreUpdateFishingRequest extends FormRequest
             ],
             'size' => 'required|decimal:2|min:30',
             'points' => 'required|decimal:2',
-            'weight' => 'nullable|decimal:3',
-            'stage' => 'nullable|integer'
+            'weight' => 'sometimes|nullable|decimal:3',
+            'stage' => 'sometimes|nullable|integer'
         ];
     }
 }

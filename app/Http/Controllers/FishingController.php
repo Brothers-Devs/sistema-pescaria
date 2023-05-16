@@ -6,6 +6,7 @@ use App\DTO\Fishing\CreateFishingDTO;
 use App\DTO\Fishing\UpdateFishingDTO;
 use App\Exceptions\FishermanNotFoundOnTheTeamException;
 use App\Exceptions\MaxAmountOfFishReachedException;
+use App\Exceptions\ResultNotFoundForTeamException;
 use App\Http\Requests\StoreUpdateFishingRequest;
 use App\Services\FishingService;
 use Illuminate\Http\JsonResponse;
@@ -23,6 +24,7 @@ class FishingController extends Controller
     /**
      * @param StoreUpdateFishingRequest $request
      * @return JsonResponse
+     * @throws ResultNotFoundForTeamException
      */
     public function create(StoreUpdateFishingRequest $request): JsonResponse
     {
@@ -31,7 +33,12 @@ class FishingController extends Controller
             return response()->json(['data' => $fishing]);
         } catch (FishermanNotFoundOnTheTeamException|MaxAmountOfFishReachedException $exception) {
             return response()->json([
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
+                'errors' => [
+                    [
+                        $exception->getMessage()
+                    ]
+                ]
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
@@ -48,7 +55,12 @@ class FishingController extends Controller
             return response()->json(['data' => $fishing]);
         } catch (FishermanNotFoundOnTheTeamException $exception) {
             return response()->json([
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
+                'errors' => [
+                    [
+                        $exception->getMessage()
+                    ]
+                ]
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }

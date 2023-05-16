@@ -6,6 +6,7 @@ use App\DTO\Fishing\CreateFishingDTO;
 use App\DTO\Fishing\UpdateFishingDTO;
 use App\Exceptions\FishermanNotFoundOnTheTeamException;
 use App\Exceptions\MaxAmountOfFishReachedException;
+use App\Exceptions\ResultNotFoundForTeamException;
 use App\Models\Fisherman;
 use App\Models\Fishing;
 use App\Models\Team;
@@ -27,6 +28,7 @@ class FishingService
      * @return mixed
      * @throws FishermanNotFoundOnTheTeamException
      * @throws MaxAmountOfFishReachedException
+     * @throws ResultNotFoundForTeamException
      */
     public function create(CreateFishingDTO $createFishingDTO): mixed
     {
@@ -40,17 +42,35 @@ class FishingService
                     'fisherman_id' => $createFishingDTO->fishermanId
                 ]
             );
-            throw new FishermanNotFoundOnTheTeamException();
+            throw new FishermanNotFoundOnTheTeamException(
+                "Pescador Nº {$createFishingDTO->fishermanId} não encontrado na equipe"
+            );
         }
 
-        $team = Team::find($createFishingDTO->teamId);
+        /** @var Team $team */
+        $team = Team::with('results')->find($createFishingDTO->teamId);
+        if (!$team->results->contains($createFishingDTO->resultId)) {
+            Log::alert(
+                'result_not_found_for_team',
+                [
+                    'action' => 'create_fishing',
+                    'result_id' => $createFishingDTO->resultId,
+                    'team_id' => $createFishingDTO->teamId,
+                    'fisherman_id' => $createFishingDTO->fishermanId
+                ]
+            );
+            throw new ResultNotFoundForTeamException(
+                "Resultado Nº {$createFishingDTO->resultId} não encontrado ou não pertence a equipe Nº {$createFishingDTO->teamId}"
+            );
+        }
+
         $team->load([
-            'fisheries' => function (Builder $builder) use ($createFishingDTO) {
-                $builder->where('team_id', '=', $createFishingDTO->teamId);
+            'results.fisheries' => function (Builder $builder) use ($createFishingDTO) {
+                $builder->where('result_id', '=', $createFishingDTO->resultId);
             }
         ]);
 
-        if ($team->fisheries->count() == self::MAX_AMOUNT_OF_FISH) {
+        if ($team->results->first()->fisheries->count() == self::MAX_AMOUNT_OF_FISH) {
             Log::alert(
                 'max_amount_of_fish_reached',
                 [
@@ -65,11 +85,11 @@ class FishingService
         return $this->model->create($createFishingDTO->toArray());
     }
 
-
     /**
      * @param UpdateFishingDTO $fishingDTO
      * @return mixed
      * @throws FishermanNotFoundOnTheTeamException
+     * @throws ResultNotFoundForTeamException
      */
     public function update(UpdateFishingDTO $fishingDTO): mixed
     {
@@ -83,7 +103,26 @@ class FishingService
                     'fisherman_id' => $fishingDTO->fishermanId
                 ]
             );
-            throw new FishermanNotFoundOnTheTeamException();
+            throw new FishermanNotFoundOnTheTeamException(
+                "Pescador Nº {$fishingDTO->fishermanId} não encontrado na equipe"
+            );
+        }
+
+        /** @var Team $team */
+        $team = Team::with('results')->find($fishingDTO->teamId);
+        if (!$team->results->contains($fishingDTO->resultId)) {
+            Log::alert(
+                'result_not_found_for_team',
+                [
+                    'action' => 'create_fishing',
+                    'result_id' => $fishingDTO->resultId,
+                    'team_id' => $fishingDTO->teamId,
+                    'fisherman_id' => $fishingDTO->fishermanId
+                ]
+            );
+            throw new ResultNotFoundForTeamException(
+                "Resultado Nº {$fishingDTO->resultId} não encontrado ou não pertence a equipe Nº {$fishingDTO->teamId}"
+            );
         }
 
         $fishing = $this->model->findOrFail($fishingDTO->id);

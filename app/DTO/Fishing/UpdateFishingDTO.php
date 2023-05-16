@@ -8,7 +8,7 @@ class UpdateFishingDTO
 {
     public function __construct(
         public int    $id,
-        public int    $tournamentId,
+        public int    $resultId,
         public int    $teamId,
         public int    $fishermanId,
         public float  $size,
@@ -28,7 +28,7 @@ class UpdateFishingDTO
     {
         return new self(
             $id,
-            tournamentId: $request->tournament_id,
+            resultId: $request->result_id,
             teamId: $request->team_id,
             fishermanId: $request->fisherman_id,
             size: $request->size,
@@ -45,7 +45,7 @@ class UpdateFishingDTO
     {
         return [
             'id' => $this->id,
-            'tournament_id' => $this->tournamentId,
+            'result_id' => $this->resultId,
             'team_id' => $this->teamId,
             'fisherman_id' => $this->fishermanId,
             'size' => $this->size,
