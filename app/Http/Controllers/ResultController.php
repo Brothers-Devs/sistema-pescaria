@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUpdateResultRequest;
 use App\Services\ResultService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ResultController extends Controller
 {
@@ -46,5 +47,15 @@ class ResultController extends Controller
     public function create(StoreUpdateResultRequest $request): mixed
     {
         return $this->service->create(CreateResultDTO::makeFromRequest($request));
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function delete(int $id): JsonResponse
+    {
+        $this->service->delete($id);
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

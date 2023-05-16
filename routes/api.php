@@ -65,3 +65,4 @@ Route::delete('/fishing/{fishing_id}', [FishingController::class, 'delete'])->na
 Route::get('/results', [ResultController::class, 'all'])->name('results.all');
 Route::get('/results/{result_id}', [ResultController::class, 'getById'])->name('results.getById');
 Route::post('/results', [ResultController::class, 'create'])->name('results.create');
+Route::delete('/results/{result_id}', [ResultController::class, 'delete'])->name('results.delete');

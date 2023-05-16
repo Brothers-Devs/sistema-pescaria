@@ -50,6 +50,7 @@ class ResultService
 
             $totalPoints = 0;
             foreach ($createResultDTO->fisheries as $fishery) {
+                // TODO: Validar se pescador está vinculado a equipe
                 $fishery['result_id'] = $result->id;
                 $this->fishing->create($fishery);
                 $totalPoints += $fishery['points'];
@@ -60,6 +61,21 @@ class ResultService
             $result->refresh();
 
             return $result->with('fisheries')->get();
+        });
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function delete(int $id): void
+    {
+        DB::transaction(function () use ($id) {
+            /** @var Result $result */
+            $result = $this->model->findOrFail($id);
+            $result->fisheries()->delete();
+
+            $result->delete();
         });
     }
 }
