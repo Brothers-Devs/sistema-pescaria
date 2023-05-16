@@ -70,12 +70,6 @@ class ResultService
      */
     public function delete(int $id): void
     {
-        DB::transaction(function () use ($id) {
-            /** @var Result $result */
-            $result = $this->model->findOrFail($id);
-            $result->fisheries()->delete();
-
-            $result->delete();
-        });
+        $this->model->findOrFail($id)->delete();
     }
 }

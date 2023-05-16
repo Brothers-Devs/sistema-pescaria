@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('fisheries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('result_id')->constrained('results');
-            $table->foreignId('fisherman_id')->constrained('fishermen');
+            $table->foreignId('result_id')->constrained('results')->onDelete('cascade');
+            $table->foreignId('fisherman_id')->constrained('fishermen')->onDelete('cascade');
             $table->float('size');
             $table->float('points');
             $table->float('weight', 8, 3)->nullable();

@@ -71,12 +71,7 @@ class TeamRepository implements TeamRepositoryInterface
      */
     public function delete(int $id): void
     {
-        DB::transaction(function () use ($id) {
-            /** @var Team $team */
-            $team = $this->model->findOrFail($id);
-            $team->fishermen()->detach();
-            $team->delete();
-        });
+        $this->model->findOrFail($id)->delete();
     }
 
     public function getByIdWithFishermen(int $id)
