@@ -15,9 +15,9 @@ return new class extends Migration {
     {
         Schema::create('fisherman_team', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Tournament::class);
-            $table->foreignIdFor(Team::class);
-            $table->foreignIdFor(Fisherman::class);
+            $table->foreignId('tournament_id');
+            $table->foreignId('team_id')->constrained('teams')->onDelete('cascade');
+            $table->foreignId('fisherman_id')->constrained('fishermen')->onDelete('cascade');
             $table->timestamps();
         });
     }
