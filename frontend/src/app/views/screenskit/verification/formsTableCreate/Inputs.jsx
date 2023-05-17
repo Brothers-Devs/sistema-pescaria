@@ -2,7 +2,6 @@ import { Autocomplete, Box, Divider, TextField, Typography } from "@mui/material
 import { mask, unMask } from "remask";
 import { useState } from "react";
 const MASK_INPUT_LENGTH_OR_WEIGTH = ["99.99", "999.99"];
-console.log(mask("45.45", ["99.99"]))
 
 export default function Inputs({ fihsermenOfTeam, idLine, valuesInputs, setValuesInputs, index }) {
     const [dataInputs, setDataInputs] = useState({
@@ -19,8 +18,8 @@ export default function Inputs({ fihsermenOfTeam, idLine, valuesInputs, setValue
 
     function handleOnChange(value, key) {
         if (key === "fisherman") {
-            setDataInputs({ ...dataInputs, fisherman_id: value.id, [key]: value.name })
-            valuesInputs[index] = { ...dataInputs, fisherman_id: value.id, [key]: value.name }
+            setDataInputs({ ...dataInputs, fisherman_id: value ? value.id : "", [key]: value ? value.name : "" })
+            valuesInputs[index] = { ...dataInputs, fisherman_id: value ? value.id : "", [key]: value ? value.name : "" }
             setValuesInputs([...valuesInputs])
         } else {
             setDataInputs({ ...dataInputs, [key]: value })
@@ -33,13 +32,15 @@ export default function Inputs({ fihsermenOfTeam, idLine, valuesInputs, setValue
         <Box sx={{ width: 1, display: "flex", justifyContent: "space-around", alignItems: "center", padding: 2 }}>
             <Typography variant="subtitle1" >{idLine}</Typography>
             <Autocomplete
-                disableClearable
                 noOptionsText="Sem Registro"
                 id="pescadores"
                 options={dataFihsermenOfTeamCompact || [{ name: "" }]}
                 value={dataInputs?.fisherman}
                 onChange={(_, newValue) => {
                     return handleOnChange(newValue, "fisherman", dataInputs?.fisherman_id)
+                }}
+                getOptionLabel={(option) => {
+                    return option.name || dataInputs.fisherman || ""
                 }}
                 renderOption={(props, option) => (
                     <li {...props} key={option.name}>
@@ -50,6 +51,9 @@ export default function Inputs({ fihsermenOfTeam, idLine, valuesInputs, setValue
                 renderInput={(params) =>
                     < TextField {...params} label="Pescador" placeholder="selecione o pescador" />
                 }
+                isOptionEqualToValue={(option, value) => {
+                    return value === option.name || value === undefined
+                }}
 
             />
             <TextField
