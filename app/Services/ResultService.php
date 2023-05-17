@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTO\Fishing\CreateFishingDTO;
 use App\DTO\Result\CreateResultDTO;
 use App\Models\Fishing;
 use App\Models\Result;
@@ -11,8 +12,8 @@ use Illuminate\Support\Facades\DB;
 class ResultService
 {
     public function __construct(
-        protected Result  $model,
-        protected Fishing $fishing
+        protected Result         $model,
+        protected FishingService $fishingService
     )
     {
     }
@@ -51,9 +52,9 @@ class ResultService
             $result = $this->model->create($createResultDTO->toArray());
 
             foreach ($createResultDTO->fisheries as $fishery) {
-                // TODO: Validar se pescador está vinculado a equipe
+                $fishery['team_id'] = $createResultDTO->teamId;
                 $fishery['result_id'] = $result->id;
-                $this->fishing->create($fishery);
+                $this->fishingService->create(CreateFishingDTO::makeFromArray($fishery));
             }
 
             $result->refresh();

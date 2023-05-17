@@ -36,6 +36,23 @@ class CreateFishingDTO
     }
 
     /**
+     * @param array $data
+     * @return CreateFishingDTO
+     */
+    public static function makeFromArray(array $data): CreateFishingDTO
+    {
+        return new self(
+            resultId: $data['result_id'],
+            teamId: $data['team_id'],
+            fishermanId: $data['fisherman_id'],
+            size: $data['size'],
+            points: $data['points'],
+            weight: $data['weight'] ?? null,
+            stage: $data['stage'] ?? null
+        );
+    }
+
+    /**
      * @return array
      */
     public function toArray(): array
