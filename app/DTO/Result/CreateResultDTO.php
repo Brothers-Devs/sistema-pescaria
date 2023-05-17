@@ -8,7 +8,6 @@ class CreateResultDTO
 {
     public function __construct(
         public int   $teamId,
-        public float $totalPoints = 0,
         public array $fisheries = []
     )
     {
@@ -22,7 +21,6 @@ class CreateResultDTO
     {
         return new self(
             $request->team_id,
-            $request->totalPoints ?? 0,
             $request->fisheries ?? []
         );
     }
@@ -33,8 +31,7 @@ class CreateResultDTO
     public function toArray(): array
     {
         return [
-            'team_id' => $this->teamId,
-            'total_points' => $this->totalPoints
+            'team_id' => $this->teamId
         ];
     }
 }
