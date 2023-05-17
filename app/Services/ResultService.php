@@ -22,7 +22,9 @@ class ResultService
      */
     public function all(): Collection|array
     {
-        return $this->model->with('team.category')->get();
+        $results = $this->model->with('team.category')->get();
+        $results->loadSum('fisheries as total_points', 'points');
+        return $results;
     }
 
     /**
@@ -33,8 +35,8 @@ class ResultService
     {
         /** @var Result $result */
         $result = $this->model->findOrFail($id);
+        $result->loadSum('fisheries as total_points', 'points');
         $result->load(['team.category', 'fisheries.fisherman']);
-
         return $result->toArray();
     }
 
@@ -48,15 +50,11 @@ class ResultService
             /** @var Result $result */
             $result = $this->model->create($createResultDTO->toArray());
 
-            $totalPoints = 0;
             foreach ($createResultDTO->fisheries as $fishery) {
                 // TODO: Validar se pescador está vinculado a equipe
                 $fishery['result_id'] = $result->id;
                 $this->fishing->create($fishery);
-                $totalPoints += $fishery['points'];
             }
-
-            $result->fill(['total_points' => $totalPoints])->save();
 
             $result->refresh();
 

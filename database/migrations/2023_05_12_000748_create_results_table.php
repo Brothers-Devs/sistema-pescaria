@@ -13,7 +13,6 @@ return new class extends Migration {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->foreignId('team_id')->constrained('teams')->onDelete('cascade');
-            $table->float('total_points');
             $table->timestamps();
         });
     }
