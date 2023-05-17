@@ -8,6 +8,7 @@ const CreateTeams = Loadable(lazy(() => import('./teams/CreateTeam')));
 const EditTeam = Loadable(lazy(() => import('./teams/EditTeam')));
 const AppVerification = Loadable(lazy(() => import('./verification/AppVerification')));
 const CreateVerification = Loadable(lazy(() => import('./verification/formsTableCreate/CreateVerification')));
+const EditVerification = Loadable(lazy(() => import('./verification/formsTableUpdate/EditVerification')));
 const AppReports = Loadable(lazy(() => import('./reports/AppReports')));
 const CreateFisherman = Loadable(lazy(() => import('./fishermen/CreateFisherman')));
 const EditFisherman = Loadable(lazy(() => import('./fishermen/EditFisherman')));
@@ -40,6 +41,10 @@ const materialRoutes = [
   {
     path: '/dashboard/apuracoes/cadastrar',
     element: <CreateVerification />,
+  },
+  {
+    path: '/dashboard/apuracoes/editar/:id',
+    element: <EditVerification />,
   },
   {
     path: '/dashboard/relatorios',
