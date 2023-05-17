@@ -41,7 +41,6 @@ export default function FormsTable({ typeEditOrCreateForm, dataApurathion, setDa
     async function submitCreateOrEditVerification(event) {
         event.preventDefault();
         const transform = valuesInputs.map(value => {
-            console.log(value)
             return { ...value, size: parseFloat(value.size).toFixed(2), points: parseFloat(value.points).toFixed(2) }
         })
 
@@ -83,8 +82,17 @@ export default function FormsTable({ typeEditOrCreateForm, dataApurathion, setDa
         <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", alignItems: "center", mt: 5, mb: 3 }}>
             <Typography variant="h6" sx={{ marginRight: 10 }}>Total de pontos: {calculate.toFixed(2)}</Typography>
         </Box>
-        <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-            <Box sx={{ paddingRight: 5 }}>
+        <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
+            <Box sx={{ paddingLeft: 5 }}>
+                <Button
+                    disabled={onSubmit}
+                    size="large"
+                    variant="contained"
+                    type="submit"
+                    onClick={submitCreateOrEditVerification}
+                >
+                    Salvar
+                </Button>
                 <NavLink to="/dashboard/apuracoes" style={{ textDecoration: "none" }}>
                     <StyledButton
                         variant="text"
@@ -96,15 +104,6 @@ export default function FormsTable({ typeEditOrCreateForm, dataApurathion, setDa
                         Cancelar
                     </StyledButton>
                 </NavLink>
-                <Button
-                    disabled={onSubmit}
-                    size="large"
-                    variant="contained"
-                    type="submit"
-                    onClick={submitCreateOrEditVerification}
-                >
-                    Salvar
-                </Button>
             </Box>
         </Box>
     </>
