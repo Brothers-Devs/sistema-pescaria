@@ -1,4 +1,4 @@
-import { Grid, styled, useTheme } from "@mui/material";
+import { Grid, styled } from "@mui/material";
 import { Fragment } from "react";
 import LogoTopam from "../../assets/images/logo_topam.jpeg";
 
@@ -13,18 +13,6 @@ const Title = styled("span")(() => ({
     fontWeight: "500",
     marginTop: "26px",
     marginRight: ".5rem",
-}));
-
-const SubTitle = styled("span")(({ theme }) => ({
-    fontSize: "0.875rem",
-    color: theme.palette.text.secondary,
-}));
-
-const H4 = styled("h4")(({ theme }) => ({
-    fontSize: "1rem",
-    fontWeight: "500",
-    marginBottom: "16px",
-    color: theme.palette.text.secondary,
 }));
 
 const Analytics = () => {
