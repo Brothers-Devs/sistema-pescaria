@@ -1,7 +1,7 @@
 import { Autocomplete, Box, Divider, TextField, Typography } from "@mui/material";
 import { mask, unMask } from "remask";
 import { useState } from "react";
-const MASK_INPUT_LENGTH_OR_WEIGTH = ["99.99", "999.99"];
+const MASK_INPUT_LENGTH_OR_WEIGTH = ["99.9", "999.9"];
 
 export default function Inputs({ fihsermenOfTeam, idLine, valuesInputs, setValuesInputs, index }) {
     const [dataInputs, setDataInputs] = useState({
