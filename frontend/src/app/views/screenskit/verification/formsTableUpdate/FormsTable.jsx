@@ -14,7 +14,7 @@ const SIZE_INPUTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 export default function FormsTable({ typeEditOrCreateForm, dataTeamSelected, teamSelected, updateOrCreateFisherman, setUpdateOrCreateFisherman }) {
     const [fihsermenOfTeam, setFihsermenOfTeam] = useState(null)
     const [valuesInputs, setValuesInputs] = useState({
-        total_points: parseFloat(teamSelected?.total_points).toFixed(2),
+        total_points: teamSelected.total_points !== 0 ? parseFloat(teamSelected?.total_points).toFixed(2) : 0,
         points: ""
     })
 
@@ -57,7 +57,7 @@ export default function FormsTable({ typeEditOrCreateForm, dataTeamSelected, tea
             />
         }) : null}
         <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", alignItems: "center", mt: 5, mb: 3 }}>
-            <Typography variant="h6" sx={{ marginRight: 10 }}>Total de pontos: {calculate.toFixed(2)}</Typography>
+            <Typography variant="h6" sx={{ marginRight: 10 }}>Total de pontos: {calculate.toFixed(1)}</Typography>
         </Box>
         <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
             <Box sx={{ paddingLeft: 5 }}>
