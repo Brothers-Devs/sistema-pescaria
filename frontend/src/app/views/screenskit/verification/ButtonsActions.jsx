@@ -25,8 +25,8 @@ const style = {
 
 export default function ButtonsActions({
     params,
-    modification,
-    setModification,
+    modificationVerification,
+    setModificationVerification
 }) {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
@@ -61,8 +61,8 @@ export default function ButtonsActions({
                     handleClose={handleClose}
                     open={open}
                     rowId={parseRowSelected?.row.id}
-                    modification={modification}
-                    setModification={setModification}
+                    modificationVerification={modificationVerification}
+                    setModificationVerification={setModificationVerification}
                 />
             ) : null}
         </Stack>
@@ -73,14 +73,14 @@ function ModalDelete({
     handleClose,
     open,
     rowId,
-    modification,
-    setModification,
+    modificationVerification,
+    setModificationVerification
 }) {
     function submitDeletion() {
         const promise = instance.delete(`/results/${rowId}`);
         promise
             .then((_) => {
-                setModification(!modification);
+                setModificationVerification(!modificationVerification);
                 Notify.success("Excluído com sucesso!");
                 handleClose();
             })

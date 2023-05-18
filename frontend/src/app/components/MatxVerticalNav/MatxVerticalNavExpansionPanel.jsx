@@ -1,10 +1,11 @@
 import { ButtonBase, Icon } from '@mui/material';
 import { Box, styled } from '@mui/system';
 import clsx from 'clsx';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const NavExpandRoot = styled('div')(({ theme }) => ({
+  fontSize: "10px",
   '& .expandIcon': {
     transition: 'transform 0.3s cubic-bezier(0, 0, 0.2, 1) 0ms',
     transform: 'rotate(90deg)',
@@ -15,6 +16,7 @@ const NavExpandRoot = styled('div')(({ theme }) => ({
   },
   '& .expansion-panel': {
     overflow: 'hidden',
+    width: "100%",
     transition: 'max-height 0.3s cubic-bezier(0, 0, 0.2, 1)',
   },
   '& .highlight': {
@@ -42,8 +44,8 @@ const BaseButton = styled(ButtonBase)(({ theme }) => ({
   color: theme.palette.text.primary,
   '&:hover': { background: 'rgba(255, 255, 255, 0.08)' },
   '& .icon': {
-    width: 36,
-    fontSize: '18px',
+    width: 48,
+    fontSize: '30px',
     paddingLeft: '16px',
     paddingRight: '16px',
     verticalAlign: 'middle',
@@ -63,7 +65,7 @@ const BulletIcon = styled('div')(({ theme }) => ({
 }));
 
 const ItemText = styled('span')(() => ({
-  fontSize: '0.875rem',
+  fontSize: '1.1rem',
   paddingLeft: '0.8rem',
   verticalAlign: 'middle',
 }));
@@ -99,18 +101,6 @@ const MatxVerticalNavExpansionPanel = ({ item, children, mode }) => {
     return;
   }, []);
 
-  useEffect(() => {
-    if (!elementRef) return;
-
-    calcaulateHeight(elementRef.current);
-
-    // OPEN DROPDOWN IF CHILD IS ACTIVE
-    for (let child of elementRef.current.children) {
-      if (child.getAttribute('href') === pathname) {
-        setCollapsed(false);
-      }
-    }
-  }, [pathname, calcaulateHeight]);
 
   return (
     <NavExpandRoot>
@@ -123,8 +113,9 @@ const MatxVerticalNavExpansionPanel = ({ item, children, mode }) => {
         onClick={handleClick}
       >
         <Box display="flex" alignItems="center">
-          {icon && <Icon className="icon">{icon}</Icon>}
+          {icon && <Icon className="icon" sx={{ width: 36 }}>{icon}</Icon>}
           {iconText && <BulletIcon />}
+
           <ItemText className="sidenavHoverShow">{name}</ItemText>
         </Box>
 
@@ -148,9 +139,16 @@ const MatxVerticalNavExpansionPanel = ({ item, children, mode }) => {
         className="expansion-panel submenu"
         style={collapsed ? { maxHeight: '0px' } : { maxHeight: componentHeight.current + 'px' }}
       >
-        {children}
+        {children.map(child => {
+          return (
+            <Box sx={{ position: 'relative', height: 1, ml: 3 }}>
+              <BulletIcon sx={{ width: "8px", height: "8px", mr: 0, position: "relative", top: 26 }} />
+              {child}
+            </Box>
+          )
+        })}
       </div>
-    </NavExpandRoot>
+    </NavExpandRoot >
   );
 };
 

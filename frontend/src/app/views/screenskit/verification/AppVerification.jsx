@@ -7,7 +7,6 @@ import ButtonsActions from "./ButtonsActions";
 
 export default function AppVerification() {
     const [results, setResults] = useState(null);
-    const [modification, setModification] = useState(false);
     const [modificationVerification, setModificationVerification] = useState(false);
 
     const [rowSelected, setRowSelected] = useState(false);
@@ -62,8 +61,8 @@ export default function AppVerification() {
                     <ButtonsActions
                         {...{
                             params,
-                            modification,
-                            setModification,
+                            modificationVerification,
+                            setModificationVerification,
                         }}
                     />
                 ),

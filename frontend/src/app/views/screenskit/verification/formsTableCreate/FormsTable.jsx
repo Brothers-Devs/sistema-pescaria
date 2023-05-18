@@ -80,7 +80,7 @@ export default function FormsTable({ typeEditOrCreateForm, dataApurathion, setDa
         </Box>
         {fihsermenOfTeam ? SIZE_INPUTS.map((_, i) => <Inputs key={i} fihsermenOfTeam={fihsermenOfTeam} idLine={i + 1} valuesInputs={valuesInputs} setValuesInputs={setValuesInputs} index={i} />) : null}
         <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", alignItems: "center", mt: 5, mb: 3 }}>
-            <Typography variant="h6" sx={{ marginRight: 10 }}>Total de pontos: {calculate.toFixed(2)}</Typography>
+            <Typography variant="h6" sx={{ marginRight: 10 }}>Total de pontos: {calculate.toFixed(1)}</Typography>
         </Box>
         <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
             <Box sx={{ paddingLeft: 5 }}>

@@ -23,11 +23,12 @@ export default function ModalDelete({
     handleClose,
     open,
     rowId,
+    fishing_id,
     setUpdateOrCreateFisherman
 }) {
     function submitDeletion() {
         setUpdateOrCreateFisherman(true)
-        const promise = instance.delete(`/fishing/${rowId}`);
+        const promise = instance.delete(`/fishing/${fishing_id}`);
         promise
             .then((_) => {
                 setUpdateOrCreateFisherman(false);
@@ -35,6 +36,7 @@ export default function ModalDelete({
             })
             .catch((err) => {
                 const errors = err.response.data.errors;
+                setUpdateOrCreateFisherman(false);
                 Object.keys(errors).forEach((message) => {
                     Notiflix.Notify.failure(`${errors[message][0]}`);
                 });

@@ -11,7 +11,7 @@ import instance from "../../../../../axios";
 import { useParams } from "react-router-dom";
 import Notiflix from "notiflix";
 
-const MASK_INPUT_LENGTH_OR_WEIGTH = ["99.99", "999.99"];
+const MASK_INPUT_LENGTH_OR_WEIGTH = ["99.9", "999.9"];
 
 export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelected, idLine, index, valuesInputs, setValuesInputs, updateOrCreateFisherman, setUpdateOrCreateFisherman }) {
     const [onHandleUpdate, setOnHandleUpdate] = useState(false)
@@ -33,7 +33,6 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
         size: fishermanSelectedDefault?.size || "",
         points: fishermanSelectedDefault?.points || ""
     })
-
     const dataFihsermenOfTeamCompact = fihsermenOfTeam?.fishermen.map(fisherman => {
         return { id: fisherman.id, name: `${fisherman.id} - ${fisherman.name} (${fisherman.cpf})` }
     })
@@ -116,7 +115,7 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
             <Autocomplete
                 noOptionsText="Sem Registro"
                 id="pescadores"
-                disabled={!onHandleUpdate}
+                disabled={teamSelected?.fisheries[index] !== undefined ? !onHandleUpdate : false}
                 options={dataFihsermenOfTeamCompact || [{ name: "" }]}
                 value={dataInputs.fisherman || ""}
                 onChange={(_, newValue) => {
@@ -142,7 +141,7 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
             <TextField
                 id="input-comprimento"
                 value={dataInputs?.size}
-                disabled={!onHandleUpdate}
+                disabled={teamSelected?.fisheries[index] !== undefined ? !onHandleUpdate : false}
                 onChange={(e) => handleOnChange(mask(unMask(e.target.value), MASK_INPUT_LENGTH_OR_WEIGTH), "size")}
                 label="Tamanho"
                 variant="outlined"
@@ -150,7 +149,7 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
             <TextField
                 id="input-peso"
                 value={dataInputs?.points}
-                disabled={!onHandleUpdate}
+                disabled={teamSelected?.fisheries[index] !== undefined ? !onHandleUpdate : false}
                 onChange={(e) => handleOnChange(mask(unMask(e.target.value), MASK_INPUT_LENGTH_OR_WEIGTH), "points")}
                 label="Pontos"
                 variant="outlined"
@@ -198,27 +197,16 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
                                 </Tooltip>
                             </>}
                     </> : <>
-
-                        {!handleRegister ? <Tooltip title="Cadastrar pescaria">
+                        <Tooltip title="Confirmar pescaria">
                             <IconButton
                                 aria-label="singup"
                                 size="medium"
                                 color="success"
-                                onClick={openHandleRegister}
+                                onClick={submitRegister}
                             >
                                 <SaveIcon fontSize="inherit" />
                             </IconButton>
-                        </Tooltip> :
-                            <Tooltip title="Confirmar pescaria">
-                                <IconButton
-                                    aria-label="singup"
-                                    size="medium"
-                                    color="success"
-                                    onClick={submitRegister}
-                                >
-                                    <SaveIcon fontSize="inherit" />
-                                </IconButton>
-                            </Tooltip>}
+                        </Tooltip>
                         <Box sx={{ width: 40 }}>
                         </Box>
                     </>}
@@ -228,6 +216,7 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
                         handleClose={handleClose}
                         open={open}
                         rowId={idLine}
+                        fishing_id={dataInputs.fishing_id}
                         setUpdateOrCreateFisherman={setUpdateOrCreateFisherman}
                     />) : null}
             </Stack>

@@ -4,6 +4,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Span } from "../Typography";
 import { GiTrophy } from "react-icons/gi";
+import { MatxVerticalNavExpansionPanel } from "..";
 
 const ExtAndIntCommon = {
     display: "flex",
@@ -55,53 +56,63 @@ const MatxVerticalNav = ({ items }) => {
 
     const renderLevels = (data) => {
         return data.map((item, index) => {
-            return (
-                <InternalLink key={index}>
-                    <NavLink
-                        to={item.path}
-                        className={({ isActive }) =>
-                            isActive
-                                ? `navItemActive ${
-                                      mode === "compact" && "compactNavItem"
-                                  }`
-                                : `${mode === "compact" && "compactNavItem"}`
-                        }
-                    >
-                        <ButtonBase
-                            key={item.name}
-                            name="child"
-                            sx={{ width: "100%" }}
+            if (item.children) {
+                return (
+                    <>
+                        <MatxVerticalNavExpansionPanel mode={mode} item={item} key={index}>
+                            {renderLevels(item.children)}
+                        </MatxVerticalNavExpansionPanel>
+                    </>
+                );
+            } else {
+                return (
+                    <InternalLink key={index}>
+                        <NavLink
+                            to={item.path}
+                            className={({ isActive }) =>
+                                isActive
+                                    ? `navItemActive ${mode === "compact" && "compactNavItem"
+                                    }`
+                                    : `${mode === "compact" && "compactNavItem"}`
+                            }
                         >
-                            {item?.icon !== "trophy" ? (
-                                <Icon className="icon" sx={{ width: 36 }}>
-                                    {item.icon}
-                                </Icon>
-                            ) : (
-                                <GiTrophy
-                                    fontSize={30}
-                                    style={{
-                                        marginLeft: 12,
-                                    }}
-                                />
-                            )}
-                            <StyledText
-                                mode={mode}
-                                className="sidenavHoverShow"
+                            <ButtonBase
+                                key={item.name}
+                                name="child"
+                                sx={{ width: "100%" }}
                             >
-                                {item.name}
-                            </StyledText>
+                                {item?.icon !== "trophy" ? (
+                                    <Icon className="icon" sx={{ width: 36 }}>
+                                        {item.icon}
+                                    </Icon>
+                                ) : (
+                                    <GiTrophy
+                                        fontSize={30}
+                                        style={{
+                                            marginLeft: 12,
+                                        }}
+                                    />
+                                )}
+                                <StyledText
+                                    mode={mode}
+                                    className="sidenavHoverShow"
+                                >
+                                    {item.name}
+                                </StyledText>
 
-                            <Box mx="auto" />
+                                <Box mx="auto" />
 
-                            {item.badge && (
-                                <BadgeValue className="sidenavHoverShow">
-                                    {item.badge.value}
-                                </BadgeValue>
-                            )}
-                        </ButtonBase>
-                    </NavLink>
-                </InternalLink>
-            );
+                                {item.badge && (
+                                    <BadgeValue className="sidenavHoverShow">
+                                        {item.badge.value}
+                                    </BadgeValue>
+                                )}
+                            </ButtonBase>
+                        </NavLink>
+                    </InternalLink>
+                );
+            }
+
         });
     };
 
