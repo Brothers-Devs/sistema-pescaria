@@ -67,6 +67,10 @@ Route::get('/results', [ResultController::class, 'all'])->name('results.all');
 Route::get('/results/{result_id}', [ResultController::class, 'getById'])->name('results.getById');
 Route::post('/results', [ResultController::class, 'create'])->name('results.create');
 Route::delete('/results/{result_id}', [ResultController::class, 'delete'])->name('results.delete');
+Route::get('/results/categories/{category_id}', [ResultController::class, 'rankingByCategoryId'])
+    ->name('results.rankingByCategoryId');
+
 
 # Relatórios
 Route::get('/reports', [ReportController::class, 'all'])->name('reports.all');
+Route::get('/reports/categories/{category_id}', [ReportController::class, 'rankingByCategoryId'])->name('reports.rankingByCategoryId');

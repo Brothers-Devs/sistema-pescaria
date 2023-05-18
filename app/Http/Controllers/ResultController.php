@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\DTO\Result\CreateResultDTO;
 use App\Http\Requests\StoreUpdateResultRequest;
+use App\Models\Result;
+use App\Models\Team;
 use App\Services\ResultService;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class ResultController extends Controller
@@ -57,5 +61,14 @@ class ResultController extends Controller
     {
         $this->service->delete($id);
         return response()->json([], Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function rankingByCategoryId(int $id): JsonResponse
+    {
+        return response()->json($this->service->rankingByCategoryId($id));
     }
 }
