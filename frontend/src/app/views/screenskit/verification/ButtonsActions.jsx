@@ -46,7 +46,7 @@ export default function ButtonsActions({
                     <Create fontSize="inherit" />
                 </IconButton>
             </Tooltip>
-            <Tooltip title="Deletar">
+            <Tooltip title="Excluir">
                 <IconButton
                     aria-label="delete"
                     size="medium"
