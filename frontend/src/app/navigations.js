@@ -6,5 +6,11 @@ export const navigations = [
   { name: 'Pescadores', path: '/dashboard/pescadores', icon: 'rowing' },
   { name: 'Equipes', path: '/dashboard/equipes', icon: 'groups' },
   { name: 'Apurações', path: '/dashboard/apuracoes', icon: 'receipt_long' },
-  { name: 'Relatórios', path: '/dashboard/relatorios', icon: 'bar_chart_4_bars' },
+  {
+    name: 'Relatórios', icon: 'equalizer', children: [
+      { name: 'Relatório Individual', path: '/dashboard/relatorios/individual', iconText: 'A' },
+      { name: 'Relatório Geral de Equipes', path: '/dashboard/relatorios/equipes', iconText: 'B' },
+      { name: 'Relatório Categoria Especial', path: '/dashboard/relatorio/especial', iconText: 'C' },
+    ],
+  },
 ];
