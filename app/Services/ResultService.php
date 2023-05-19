@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\DTO\Fishing\CreateFishingDTO;
 use App\DTO\Result\CreateResultDTO;
-use App\Models\Fishing;
 use App\Models\Result;
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -70,5 +70,61 @@ class ResultService
     public function delete(int $id): void
     {
         $this->model->findOrFail($id)->delete();
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function rankingByCategoryId(int $id): array
+    {
+        /** @var Result $results */
+        $results = Result::join('teams', 'teams.id', '=', 'results.team_id')
+            ->join('fisheries', 'fisheries.result_id', '=', 'results.id')
+            ->select(
+                'teams.id',
+                'teams.name',
+                'teams.type',
+                DB::raw('SUM(fisheries.points) as total_points')
+            )
+            ->where('teams.category_id', $id)
+            ->groupBy('teams.id')
+            ->orderByDesc('total_points')
+            ->get();
+
+        foreach ($results as $result) {
+            /** @var Team $team */
+            $team = Team::with('fishermen:id,name')->find($result->id);
+            $result->fishermen = $team->fishermen->toArray();
+        }
+
+        return $results->toArray();
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function rankingSingleBiggestFishByCategoryId(int $id): array
+    {
+        /** @var Result $results */
+        $results = Result::join('teams', 'teams.id', '=', 'results.team_id')
+            ->join('fisheries', 'fisheries.result_id', '=', 'results.id')
+            ->join('fishermen', 'fisheries.fisherman_id', '=', 'fishermen.id')
+            ->select(
+                'fishermen.id',
+                'fishermen.name',
+                'fishermen.city',
+                'fishermen.state',
+                'teams.id as team_id',
+                'teams.name as team_name',
+                'fisheries.size',
+                'fisheries.points'
+            )
+            ->where('teams.category_id', $id)
+            ->orderByDesc('fisheries.points')
+            ->get();
+        
+        return $results->toArray();
     }
 }
