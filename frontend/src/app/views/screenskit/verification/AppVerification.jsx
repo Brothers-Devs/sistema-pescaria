@@ -57,6 +57,7 @@ export default function AppVerification() {
             {
                 headerName: "Ações",
                 width: 90,
+                flex: 1,
                 renderCell: (params) => (
                     <ButtonsActions
                         {...{
@@ -72,7 +73,7 @@ export default function AppVerification() {
                 disableClickEventBubbling: true,
             },
         ],
-        [rowSelected]
+        [rowSelected, modificationVerification]
     );
 
     useEffect(() => {
@@ -102,6 +103,7 @@ export default function AppVerification() {
                     setModification={setModificationVerification}
                     setRowSelected={setRowSelected}
                     path="/dashboard/apuracoes/cadastrar"
+                    titleToolTip="Cadastrar Apuração"
                 /> : null}
         </ContainerRoot>
     );
