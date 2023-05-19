@@ -69,8 +69,10 @@ Route::post('/results', [ResultController::class, 'create'])->name('results.crea
 Route::delete('/results/{result_id}', [ResultController::class, 'delete'])->name('results.delete');
 Route::get('/results/categories/{category_id}', [ResultController::class, 'rankingByCategoryId'])
     ->name('results.rankingByCategoryId');
-
+Route::get('/results/categories/{category_id}/individual', [ResultController::class, 'rankingSingleBiggestFishByCategoryId'])
+    ->name('results.rankingSingleBiggestFishByCategoryId');
 
 # Relatórios
 Route::get('/reports/categories', [ReportController::class, 'all'])->name('reports.all');
 Route::get('/reports/categories/{category_id}', [ReportController::class, 'rankingByCategoryId'])->name('reports.rankingByCategoryId');
+Route::get('/reports/categories/{category_id}/individual', [ReportController::class, 'rankingSingleBiggestFishByCategoryId'])->name('reports.rankingSingleBiggestFishByCategoryId');

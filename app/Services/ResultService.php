@@ -100,4 +100,31 @@ class ResultService
 
         return $results->toArray();
     }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function rankingSingleBiggestFishByCategoryId(int $id): array
+    {
+        /** @var Result $results */
+        $results = Result::join('teams', 'teams.id', '=', 'results.team_id')
+            ->join('fisheries', 'fisheries.result_id', '=', 'results.id')
+            ->join('fishermen', 'fisheries.fisherman_id', '=', 'fishermen.id')
+            ->select(
+                'fishermen.id',
+                'fishermen.name',
+                'fishermen.city',
+                'fishermen.state',
+                'teams.id as team_id',
+                'teams.name as team_name',
+                'fisheries.size',
+                'fisheries.points'
+            )
+            ->where('teams.category_id', $id)
+            ->orderByDesc('fisheries.points')
+            ->get();
+        
+        return $results->toArray();
+    }
 }

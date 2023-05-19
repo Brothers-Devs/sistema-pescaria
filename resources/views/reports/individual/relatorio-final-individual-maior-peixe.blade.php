@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Relatório Final por Equipe</title>
+    <title>Relatório Final Individual Maior Peixe</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -46,9 +46,11 @@
 
 <div class="text-center">
     @if($categoryId == 1)
-        <img src="{!! resource_path('imgs/relatorio_final_categoria_especial.jpeg') !!}" alt="" width="70%">
+        <img src="{!! resource_path('imgs/resultado_final_1_lugar_maior_peixe_categoria_especial.jpeg') !!}"
+             alt="" width="70%">
     @else
-        <img src="{!! resource_path('imgs/relatorio_final_categoria_comum.jpeg') !!}" alt="" width="80%">
+        <img src="{!! resource_path('imgs/resultado_final_1_lugar_maior_peixe_categoria_comum.jpeg') !!}"
+             alt="" width="70%">
     @endif
 </div>
 <hr>
@@ -56,9 +58,10 @@
     <thead class="table-success">
     <tr>
         <th class="align-middle text-center">Class.</th>
+        <th class="align-middle text-center">Pescador</th>
         <th class="align-middle text-center">Equipe</th>
-        <th class="align-middle text-center">Pescadores</th>
-        <th class="align-middle text-center">Pontuação</th>
+        <th class="align-middle text-center">Cidade</th>
+        <th class="align-middle text-center">Comprimento (cm)</th>
     </tr>
     </thead>
     <tbody>
@@ -69,14 +72,9 @@
                 <h6><span class="badge badge-success">{{$count++}}º</span></h6>
             </td>
             <td class="align-middle">{{$result['name']}} (Nº {{$result['id']}})</td>
-            <td class="align-middle">
-                <ol>
-                @foreach($result['fishermen'] as $fisherman)
-                    <li>{{$fisherman['name']}} (Nº {{$fisherman['id']}})</li>
-                @endforeach
-                </ol>
-            </td>
-            <td class="align-middle text-center">{{$result['total_points']}}</td>
+            <td class="align-middle">{{$result['team_name']}} (Nº {{$result['team_id']}})</td>
+            <td class="align-middle">{{$result['city']}}/{{$result['state']}}</td>
+            <td class="align-middle text-center">{{$result['size']}} cm</td>
         </tr>
     @endforeach
     </tbody>

@@ -71,4 +71,13 @@ class ResultController extends Controller
     {
         return response()->json($this->service->rankingByCategoryId($id));
     }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function rankingSingleBiggestFishByCategoryId(int $id): JsonResponse
+    {
+        return response()->json($this->service->rankingSingleBiggestFishByCategoryId($id));
+    }
 }
