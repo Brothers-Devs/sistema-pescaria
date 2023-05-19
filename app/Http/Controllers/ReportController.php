@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Result;
 use App\Services\ResultService;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -38,7 +36,10 @@ class ReportController extends Controller
                 'results' => $results,
                 'categoryId' => $id
             ]
-        )->setOption('isRemoteEnabled', TRUE);
+        )->setOption([
+            'isRemoteEnabled' => true
+        ]);
+
         return $pdf->stream('relatorio-final-por-equipe.pdf');
     }
 }

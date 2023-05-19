@@ -4,52 +4,50 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Relatório Geral</title>
+    <title>Relatório Final por Equipe</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
-    {{--    <link rel="preconnect" href="https://fonts.googleapis.com">--}}
-    {{--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>--}}
-    {{--    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">--}}
-    <!-- Styles -->
-    <style>
-        /*table.customTable {*/
-        /*    font-family: 'Roboto', sans-serif;*/
-        /*    width: 100%;*/
-        /*    background-color: #FFFFFF;*/
-        /*    border-collapse: collapse;*/
-        /*    border-width: 2px;*/
-        /*    border-color: #2B814D;*/
-        /*    border-style: solid;*/
-        /*}*/
 
-        /*table.customTable td, table.customTable th {*/
-        /*    border-width: 2px;*/
-        /*    border-color: #2B814D;*/
-        /*    border-style: solid;*/
-        /*    padding: 5px;*/
-        /*}*/
-
-        /*table.customTable thead {*/
-        /*    background-color: #2B814D;*/
-        /*}*/
-
-        .footer .page-number:after {
-            content: counter(page);
-        }
-    </style>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ resource_path('/css/bootstrap.min.css') }}">
 </head>
 <body>
-@if($categoryId == 1)
-    <img src="{!! resource_path('imgs/relatorio_final_categoria_especial.jpeg') !!}" alt="" width="100%">
-@endif
 
+<script type="text/php">
+      if ( isset($pdf) ) {
+        $w = $pdf->get_width();
+        $h = $pdf->get_height();
+
+        $size = 8;
+        $color = [0, 0, 0];
+        $font = $fontMetrics->getFont("helvetica");
+        $text_height = $fontMetrics->getFontHeight($font, $size);
+        $y = $h - 2 * $text_height - 24;
+
+        // a static object added to every page
+        $foot = $pdf->open_object();
+        // Draw a line along the bottom
+        $pdf->line(16, $y, $w - 16, $y, $color, 1);
+        $y += $text_height;
+        $date = date('d/m/Y');
+        $pdf->text(16, $y, "Gerado em: $date", $font, $size, $color);
+        $pdf->close_object();
+        $pdf->add_object($foot, "all");
+      }
+</script>
+
+<div class="text-center">
+    @if($categoryId == 1)
+        <img src="{!! resource_path('imgs/relatorio_final_categoria_especial.jpeg') !!}" alt="" width="70%">
+    @else
+        <img src="{!! resource_path('imgs/relatorio_final_categoria_comum.jpeg') !!}" alt="" width="80%">
+    @endif
+</div>
+<hr>
 <table class="table table-striped table-bordered">
-    <thead class="thead-dark">
+    <thead class="table-success">
     <tr>
         <th>Class.</th>
         <th>Equipe</th>
@@ -61,23 +59,31 @@
     @php($count = 1)
     @foreach($results as $result)
         <tr>
-            <td>{{$count++}}º</td>
-            <td>Nº {{$result['id']}} - {{$result['name']}}</td>
-            <td>
+            <td class="align-middle text-center">{{$count++}}º</td>
+            <td class="align-middle">{{$result['name']}} (Nº {{$result['id']}})</td>
+            <td class="align-middle">
                 @foreach($result['fishermen'] as $fisherman)
-                    - {{$fisherman['name']}} <br>
+                    {{$fisherman['name']}} (Nº {{$fisherman['id']}}) <br>
                 @endforeach
             </td>
-            <td>{{$result['total_points']}}</td>
+            <td class="align-middle text-center">{{$result['total_points']}}</td>
         </tr>
     @endforeach
     </tbody>
 </table>
 
-<div class="footer fixed-section">
-    <div class="right">
-        <span class="page-number">Pág </span>
-    </div>
-</div>
+<script type="text/php">
+          if ( isset($pdf) ) {
+            $h = $pdf->get_height();
+
+            $size = 8;
+            $font_bold = $fontMetrics->getFont("helvetica", "bold");
+            $text_height = $fontMetrics->getFontHeight($font_bold, $size);
+            $y = $h - $text_height - 24;
+
+            // generated text written to every page after rendering
+            $pdf->page_text(540, $y, "Pág. {PAGE_NUM} de {PAGE_COUNT}", $font_bold, $size, [0, 0, 0]);
+          }
+</script>
 </body>
 </html>

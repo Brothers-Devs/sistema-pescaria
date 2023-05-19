@@ -72,5 +72,5 @@ Route::get('/results/categories/{category_id}', [ResultController::class, 'ranki
 
 
 # Relatórios
-Route::get('/reports', [ReportController::class, 'all'])->name('reports.all');
+Route::get('/reports/categories', [ReportController::class, 'all'])->name('reports.all');
 Route::get('/reports/categories/{category_id}', [ReportController::class, 'rankingByCategoryId'])->name('reports.rankingByCategoryId');
