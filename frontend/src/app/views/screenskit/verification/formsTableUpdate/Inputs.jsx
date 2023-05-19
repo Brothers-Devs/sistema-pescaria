@@ -40,9 +40,12 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
     function handleOnChange(value, key) {
         if (key === "fisherman") {
             setDataInputs({ ...dataInputs, fisherman_id: value ? value.id : "", [key]: value ? value.name : "" })
+        } else if (key === "points") {
+            setDataInputs({ ...dataInputs, [key]: value })
+            valuesInputs[index] = { [key]: value !== "" ? parseFloat(value).toFixed(1) : "" }
+            setValuesInputs([...valuesInputs])
         } else {
             setDataInputs({ ...dataInputs, [key]: value })
-            setValuesInputs({ ...valuesInputs, points: value !== "" ? parseFloat(value).toFixed(2) : "" })
         }
     }
     function handleUpdate() {
