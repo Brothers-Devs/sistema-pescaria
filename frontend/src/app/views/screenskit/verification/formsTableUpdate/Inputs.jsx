@@ -12,10 +12,10 @@ import { useParams } from "react-router-dom";
 import Notiflix from "notiflix";
 
 const MASK_INPUT_LENGTH_OR_WEIGTH = ["99.9", "999.9"];
+const MASK_INPUT_LENGTH = ["99.99", "999.99"];
 
 export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelected, idLine, index, valuesInputs, setValuesInputs, updateOrCreateFisherman, setUpdateOrCreateFisherman }) {
     const [onHandleUpdate, setOnHandleUpdate] = useState(false)
-    const [handleRegister, setHandleRegister] = useState(false)
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -33,7 +33,7 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
         size: fishermanSelectedDefault?.size || "",
         points: fishermanSelectedDefault?.points || ""
     })
-    console.log(dataInputs)
+
     const dataFihsermenOfTeamCompact = fihsermenOfTeam?.fishermen.map(fisherman => {
         return { id: fisherman.id, name: `${fisherman.id} - ${fisherman.name} (${fisherman.cpf})` }
     })
@@ -49,10 +49,10 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
     function handleUpdate() {
         setOnHandleUpdate(!onHandleUpdate)
     }
-    function openHandleRegister() {
-        setHandleRegister(true)
-        setOnHandleUpdate(!onHandleUpdate)
-    }
+    // function openHandleRegister() {
+    //     setHandleRegister(true)
+    //     setOnHandleUpdate(!onHandleUpdate)
+    // }
 
     function submitUpdate() {
         setUpdateOrCreateFisherman(true)
@@ -143,7 +143,7 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
                 id="input-comprimento"
                 value={dataInputs?.size}
                 disabled={teamSelected?.fisheries[index] !== undefined ? !onHandleUpdate : false}
-                onChange={(e) => handleOnChange(mask(unMask(e.target.value), MASK_INPUT_LENGTH_OR_WEIGTH), "size")}
+                onChange={(e) => handleOnChange(mask(unMask(e.target.value), MASK_INPUT_LENGTH), "size")}
                 label="Tamanho"
                 variant="outlined"
                 sx={{ mr: 16, width: 120 }} />
@@ -198,7 +198,7 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
                                 </Tooltip>
                             </>}
                     </> : <>
-                        <Tooltip title="Confirmar pescaria">
+                        <Tooltip title="Cadastrar pescaria">
                             <IconButton
                                 aria-label="singup"
                                 size="medium"

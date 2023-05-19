@@ -14,7 +14,7 @@ const SIZE_INPUTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 export default function FormsTable({ typeEditOrCreateForm, dataTeamSelected, teamSelected, updateOrCreateFisherman, setUpdateOrCreateFisherman }) {
     const [fihsermenOfTeam, setFihsermenOfTeam] = useState(null)
     const [valuesInputs, setValuesInputs] = useState({
-        total_points: teamSelected.total_points !== 0 ? parseFloat(teamSelected?.total_points).toFixed(2) : 0,
+        total_points: teamSelected.total_points !== 0 ? parseFloat(teamSelected?.total_points).toFixed(1) : 0,
         points: ""
     })
 
