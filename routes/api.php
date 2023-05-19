@@ -73,6 +73,7 @@ Route::get('/results/categories/{category_id}/individual', [ResultController::cl
     ->name('results.rankingSingleBiggestFishByCategoryId');
 
 # Relatórios
-Route::get('/reports/categories', [ReportController::class, 'all'])->name('reports.all');
+# Route::get('/reports/categories', [ReportController::class, 'all'])->name('reports.all');
 Route::get('/reports/categories/{category_id}', [ReportController::class, 'rankingByCategoryId'])->name('reports.rankingByCategoryId');
 Route::get('/reports/categories/{category_id}/individual', [ReportController::class, 'rankingSingleBiggestFishByCategoryId'])->name('reports.rankingSingleBiggestFishByCategoryId');
+Route::get('/reports/fishermen', [ReportController::class, 'allFishermen'])->name('reports.allFishermen');
