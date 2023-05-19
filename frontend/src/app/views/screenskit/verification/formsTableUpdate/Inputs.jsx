@@ -33,7 +33,6 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
         size: fishermanSelectedDefault?.size || "",
         points: fishermanSelectedDefault?.points || ""
     })
-
     const dataFihsermenOfTeamCompact = fihsermenOfTeam?.fishermen.map(fisherman => {
         return { id: fisherman.id, name: `${fisherman.id} - ${fisherman.name} (${fisherman.cpf})` }
     })
