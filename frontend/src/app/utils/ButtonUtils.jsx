@@ -7,12 +7,11 @@ export default function ButtonUtils({ functionButton, path, titleToolTip }) {
             sx={{
                 width: 1,
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: "flex-end",
                 alignItems: "center",
-                mb: 2,
+                mb: 2
             }}
         >
-            <div style={{ width: "15px", height: "15px" }}></div>
             <Tooltip title={titleToolTip}>
                 <NavLink to={path}>
                     <Button
