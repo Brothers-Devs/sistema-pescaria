@@ -60,7 +60,7 @@ class Fishing extends Model
     public function points(): Attribute
     {
         return Attribute::make(
-            get: fn(float $value) => number_format($value, '2', '.', ',')
+            get: fn(float $value) => number_format($value, '1', '.', ',')
         );
     }
 
