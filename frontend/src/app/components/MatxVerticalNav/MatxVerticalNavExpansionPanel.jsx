@@ -2,7 +2,6 @@ import { ButtonBase, Icon } from '@mui/material';
 import { Box, styled } from '@mui/system';
 import clsx from 'clsx';
 import { useCallback, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 const NavExpandRoot = styled('div')(({ theme }) => ({
   fontSize: "10px",
@@ -80,7 +79,6 @@ const MatxVerticalNavExpansionPanel = ({ item, children, mode }) => {
   const [collapsed, setCollapsed] = useState(true);
   const elementRef = useRef(null);
   const componentHeight = useRef(0);
-  const { pathname } = useLocation();
   const { name, icon, iconText, badge } = item;
 
   const handleClick = () => {
@@ -141,7 +139,7 @@ const MatxVerticalNavExpansionPanel = ({ item, children, mode }) => {
       >
         {children.map(child => {
           return (
-            <Box sx={{ position: 'relative', height: 1, ml: 3 }}>
+            <Box sx={{ position: 'relative', height: 1 }}>
               <BulletIcon sx={{ width: "8px", height: "8px", mr: 0, position: "relative", top: 26 }} />
               {child}
             </Box>
