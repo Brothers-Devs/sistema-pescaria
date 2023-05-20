@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import TableUtils from "app/utils/TableUtils";
 import ButtonActions from "app/views/screenskit/fishermen/ButtonsActions";
 
-const URL_REPORTS_FISHERMEN = `${process.env.REACT_APP_BASE_URL_REPORTS}fishermen`
+const URL_REPORTS_FISHERMEN = `${process.env.REACT_APP_BASE_URL_REPORTS}/fishermen`
 
 export default function AppFisherman() {
     const [allFisherMen, setAllFisherMen] = useState([]);
