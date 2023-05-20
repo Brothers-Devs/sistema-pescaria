@@ -58,11 +58,9 @@ const MatxVerticalNav = ({ items }) => {
         return data.map((item, index) => {
             if (item.children) {
                 return (
-                    <>
-                        <MatxVerticalNavExpansionPanel mode={mode} item={item} key={index}>
-                            {renderLevels(item.children)}
-                        </MatxVerticalNavExpansionPanel>
-                    </>
+                    <MatxVerticalNavExpansionPanel mode={mode} item={item} key={index}>
+                        {renderLevels(item.children)}
+                    </MatxVerticalNavExpansionPanel>
                 );
             } else {
                 return (
