@@ -8,9 +8,8 @@ export const navigations = [
   { name: 'Apurações', path: '/dashboard/apuracoes', icon: 'receipt_long' },
   {
     name: 'Relatórios', icon: 'equalizer', children: [
-      { name: 'Relatório Individual', path: '/dashboard/relatorios/individual', iconText: 'A' },
-      { name: 'Relatório Geral de Equipes', path: '/dashboard/relatorios/equipes', iconText: 'B' },
-      { name: 'Relatório Categoria Especial', path: '/dashboard/relatorio/especial', iconText: 'C' },
+      { name: 'Classificação final por equipes', path: '/dashboard/relatorios/final/equipes', iconText: 'A' },
+      { name: 'Classificação final individual', path: '/dashboard/relatorios/final/individual', iconText: 'B' },
     ],
   },
 ];
