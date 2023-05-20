@@ -40,12 +40,12 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
     function handleOnChange(value, key) {
         if (key === "fisherman") {
             setDataInputs({ ...dataInputs, fisherman_id: value ? value.id : "", [key]: value ? value.name : "" })
-        } else if (key === "points") {
-            setDataInputs({ ...dataInputs, [key]: value })
-            valuesInputs[index] = { [key]: value !== "" ? parseFloat(value).toFixed(1) : "" }
+            valuesInputs[index] = { ...dataInputs, fisherman_id: value ? value.id : "", [key]: value ? value.name : "" }
             setValuesInputs([...valuesInputs])
         } else {
             setDataInputs({ ...dataInputs, [key]: value })
+            valuesInputs[index] = { ...dataInputs, [key]: value }
+            setValuesInputs([...valuesInputs])
         }
     }
     function handleUpdate() {
@@ -89,7 +89,7 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
     }
 
     function submitRegister() {
-        setUpdateOrCreateFisherman(true)
+
         const dataRegister = {
             tournament_id: 1,
             team_id: dataInputs.team_id,
@@ -101,7 +101,10 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
 
         const promiseRegister = instance.post("/fishing", dataRegister)
         promiseRegister.then((_) => {
-            setUpdateOrCreateFisherman(false)
+            setUpdateOrCreateFisherman(true)
+            setTimeout(() => {
+                setUpdateOrCreateFisherman(false)
+            }, 300)
             Notiflix.Notify.success("Cadastrado com sucesso!")
         }).catch((err) => {
             const errors = err.response.data.errors;
