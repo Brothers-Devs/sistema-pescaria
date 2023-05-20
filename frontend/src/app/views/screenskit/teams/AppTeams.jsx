@@ -62,7 +62,7 @@ export default function AppTeams() {
                 disableClickEventBubbling: true,
             },
         ],
-        [rowSelected]
+        [rowSelected, modification]
     );
 
     useEffect(() => {
