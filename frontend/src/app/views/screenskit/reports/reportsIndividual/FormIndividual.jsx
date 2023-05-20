@@ -27,8 +27,8 @@ const categorys = [
     }
 ];
 
-const URL_REPORTS_CATEGORY1 = `${process.env.REACT_APP_BASE_URL_REPORTS}categories/1/individual`
-const URL_REPORTS_CATEGORY2 = `${process.env.REACT_APP_BASE_URL_REPORTS}categories/2/individual`
+const URL_REPORTS_CATEGORY1 = `${process.env.REACT_APP_BASE_URL_REPORTS}/categories/1/individual`
+const URL_REPORTS_CATEGORY2 = `${process.env.REACT_APP_BASE_URL_REPORTS}/categories/2/individual`
 
 export default function FormIndividual() {
     const [alterCategory, setAlterCategory] = useState(false)
