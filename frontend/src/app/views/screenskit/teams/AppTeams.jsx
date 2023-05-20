@@ -5,10 +5,14 @@ import styled from "@emotion/styled";
 import TableUtils from "app/utils/TableUtils";
 import ButtonsActions from "./ButtonsActions";
 
+const URL_REPORTS_FISHERMEN = `${process.env.REACT_APP_BASE_URL_REPORTS}/teams`
+
+
 export default function AppTeams() {
     const [allTeams, setAllTeams] = useState([]);
     const [modification, setModification] = useState(false);
     const [rowSelected, setRowSelected] = useState(false);
+    const type = "relatorio-equipes"
 
     localStorage.setItem(
         "rowSelected",
@@ -92,7 +96,10 @@ export default function AppTeams() {
                 setModification={setModification}
                 setRowSelected={setRowSelected}
                 path="/dashboard/equipes/cadastrar"
+                type={type}
                 titleToolTip="Cadastrar Equipe"
+                title="Baixar Relatório de Equipes"
+                linkReports={URL_REPORTS_FISHERMEN}
             />
         </ContainerRoot>
     );
