@@ -73,7 +73,7 @@ export default function AppFisherman() {
                 disableClickEventBubbling: true,
             },
         ],
-        [rowSelected]
+        [rowSelected, modification]
     );
 
     useEffect(() => {
