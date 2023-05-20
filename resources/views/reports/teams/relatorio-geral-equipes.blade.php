@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Relatório Final por Equipe</title>
+    <title>Relatório Geral de Equipes</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -24,6 +24,9 @@
             font-weight: bold;
             color: #249337;
             text-transform: uppercase;
+        }
+        .list-group-item{
+            background-color: transparent !important;
         }
     </style>
 </head>
@@ -53,46 +56,45 @@
 </script>
 
 <div class="text-center">
-    <img src="{!! resource_path('imgs/logo_topam.jpeg') !!}" alt="" width="60%">
-</div>
-<div class="text-center mt-2">
-    <p>
-        <span class="text-dark">Relatório final da Equipe</span> <br>
-        Nº{{$results['team']['id']}} - {{$results['team']['name']}}
-    </p>
-</div>
-<div>
-    Resultado Nº {{$results['id']}}
+    <img src="{!! resource_path('imgs/relatorio_geral_de_equipes.jpeg') !!}" alt="" width="90%">
 </div>
 <hr>
+
 <table class="table table-striped table-bordered">
     <thead class="table-success">
     <tr>
-        <th class="align-middle text-center">Item</th>
         <th class="align-middle text-center">Nº</th>
-        <th class="align-middle text-center">Pescador</th>
         <th class="align-middle text-center">Categoria</th>
-        <th class="align-middle text-center">Comprimento (cm)</th>
-        <th class="align-middle text-center">Pontuação</th>
+        <th class="align-middle text-center">Equipe</th>
+        <th class="align-middle text-center">Tipo</th>
+        <th class="align-middle text-center">Pescadores</th>
+        <th class="align-middle text-center">Cidade/Estado</th>
     </tr>
     </thead>
     <tbody>
-    @php($count = 1)
-    @php($category = $results['team']['category_id'] == 1 ? 'Especial' : 'Comum')
-    @foreach($results['fisheries'] as $result)
+    @foreach($results as $result)
+        @php($category = $result['category_id'] == 1 ? 'Especial' : 'Comum')
         <tr>
-            <td class="align-middle text-center text-danger">{{$count++}}</td>
-            <td class="align-middle text-center">{{$result['fisherman']['id']}}</td>
-            <td class="align-middle">{{$result['fisherman']['name']}}</td>
+            <td class="align-middle text-center text-danger">{{$result['id']}}</td>
             <td class="align-middle text-center">{{$category}}</td>
-            <td class="align-middle text-center">{{$result['size']}}</td>
-            <td class="align-middle text-center">{{$result['points']}}</td>
+            <td class="align-middle text-center">{{$result['name']}}</td>
+            <td class="align-middle text-center">{{$result['type']}}</td>
+            <td class="align-middle">
+                <ul class="list-group list-group-flush">
+                    @foreach($result['fishermen'] as $fisherman)
+                        <li class="list-group-item">{{$fisherman['name']}} (Nº {{$fisherman['id']}})</li>
+                    @endforeach
+                </ul>
+            </td>
+            <td class="align-middle">
+                <ul class="list-group list-group-flush">
+                    @foreach($result['fishermen'] as $fisherman)
+                        <li class="list-group-item">{{$fisherman['city']}}/{{$fisherman['state']}}</li>
+                    @endforeach
+                </ul>
+            </td>
         </tr>
     @endforeach
-    <tr class="font-weight-bold">
-        <td colspan="5" class="table-success align-middle text-right">Total</td>
-        <td class="align-middle text-center">{{$results['total_points']}}</td>
-    </tr>
     </tbody>
 </table>
 
@@ -108,6 +110,19 @@
             // generated text written to every page after rendering
             $pdf->page_text(540, $y, "Pág. {PAGE_NUM} de {PAGE_COUNT}", $font_bold, $size, [0, 0, 0]);
           }
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 </body>
 </html>

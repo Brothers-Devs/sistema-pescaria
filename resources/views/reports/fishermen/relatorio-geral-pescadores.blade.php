@@ -64,6 +64,7 @@
     <tr>
         <th class="align-middle text-center">Nº</th>
         <th class="align-middle text-center">Pescador</th>
+        <th class="align-middle text-center">Equipe</th>
         <th class="align-middle text-center">CPF</th>
         <th class="align-middle text-center">Telefone</th>
         <th class="align-middle text-center">Cidade</th>
@@ -73,8 +74,15 @@
     @php($count = 1)
     @foreach($results as $result)
         <tr>
-            <td class="align-middle text-center">{{$result['id']}}</td>
+            <td class="align-middle text-center text-danger">{{$result['id']}}</td>
             <td class="align-middle">{{$result['name']}}</td>
+            @if(!empty($result['teams']))
+                <td class="align-middle">
+                    {{$result['teams'][0]['name']}} (Nº {{$result['teams'][0]['id']}})
+                </td>
+            @else
+                <td class="align-middle text-danger">NENHUMA</td>
+            @endif
             <td class="align-middle">{{$result['cpf']}}</td>
             <td class="align-middle">{{$result['phone']}}</td>
             <td class="align-middle">{{$result['city']}}/{{$result['state']}}</td>
