@@ -5,6 +5,8 @@ import styled from "@emotion/styled";
 import TableUtils from "app/utils/TableUtils";
 import ButtonActions from "app/views/screenskit/fishermen/ButtonsActions";
 
+const URL_REPORTS_FISHERMEN = `${process.env.REACT_APP_BASE_URL_REPORTS}fishermen`
+
 export default function AppFisherman() {
     const [allFisherMen, setAllFisherMen] = useState([]);
     const [modification, setModification] = useState(false);
@@ -104,6 +106,8 @@ export default function AppFisherman() {
                 setRowSelected={setRowSelected}
                 path="/dashboard/pescadores/cadastrar"
                 type={type}
+                title="Baixar Relatório de Pescadores"
+                linkReports={URL_REPORTS_FISHERMEN}
             />
         </ContainerRoot>
     );
