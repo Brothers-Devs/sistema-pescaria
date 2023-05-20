@@ -6,10 +6,7 @@ import {
     GridLogicOperator,
 } from "@mui/x-data-grid";
 import { AiOutlineInbox } from "react-icons/ai";
-import ButtonUtils from "./ButtonUtils";
-import { Button, CircularProgress, Tooltip, Typography } from "@mui/material";
-import { FcPrint } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Typography } from "@mui/material";
 function QuickSearchToolbar() {
     return (
         <Box
@@ -17,12 +14,14 @@ function QuickSearchToolbar() {
                 p: 1,
                 pb: 0,
                 mb: 3,
+                zIndex: 120
             }}
         >
             <GridToolbarQuickFilter
                 sx={{
                     border: "1px lightgray solid",
                     borderRadius: 3,
+
                     p: 1,
                 }}
                 placeholder="Pesquisar. . ."
@@ -55,54 +54,21 @@ function CustomNoRowsOverlay() {
     );
 }
 
-function CustomNoRows() {
+export default function TableIndividual({ dataContent, columns }) {
     return (
-        <Box
-            sx={{
-                width: 1,
-                height: "100%",
+        <Box sx={{
+            height: 760, width: 1, mt: 0, background: "#FFFFFF",
+            border: "none",
+            borderRadius: "5px",
+            '& .super-app-theme--cell': {
+                backgroundColor: '#FFFFFF',
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center",
-            }}
-        >
-            <CircularProgress />
-        </Box>
-    );
-}
-
-export default function TableUtils({ dataContent, columns, setRowSelected, path, type, titleToolTip }) {
-    const LINK_OF_REPORTS_FISHERMEN = "http://localhost:8000/api/reports/fishermen"
-
-    return (
-        <Box sx={{ height: 760, width: 1 }}>
-            {type === "relatorio-pescadores" ?
-                <Box sx={{ display: "flex", width: 1, justifyContent: "flex-end", alignItems: "center" }}>
-                    <Tooltip title="Baixar Relatório de Pescadores">
-                        <Link to={LINK_OF_REPORTS_FISHERMEN} target="_blank">
-                            <Button size="large" variant="contained" sx={{ mb: 2, mr: 2 }}>
-                                <FcPrint size={25} style={{ marginRight: 10 }} />
-                                Download (.pdf)
-                            </Button>
-                        </Link>
-                    </Tooltip>
-                    <Box sx={{ display: "flex" }}>
-                        <ButtonUtils
-                            functionButton="Cadastrar"
-                            path={path}
-                            titleToolTip="Cadastrar Pescador"
-                        />
-                    </Box>
-                </Box> :
-                <ButtonUtils
-                    functionButton="Cadastrar"
-                    path={path}
-                    titleToolTip={titleToolTip}
-                />
+                alignItems: "center"
             }
-
+        }}>
             <DataGrid
-                sx={{ p: 3 }}
+                sx={{ p: 3, zIndex: -0.2 }}
                 getRowId={(rows) => rows.id}
                 columns={columns}
                 rows={dataContent}
@@ -124,7 +90,6 @@ export default function TableUtils({ dataContent, columns, setRowSelected, path,
                     noRowsOverlay: CustomNoRowsOverlay,
                     noResultsOverlay: CustomNoRowsOverlay,
                 }}
-                onRowClick={(params) => setRowSelected(params)}
             />
         </Box>
     );

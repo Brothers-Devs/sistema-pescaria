@@ -12,10 +12,10 @@ import { useParams } from "react-router-dom";
 import Notiflix from "notiflix";
 
 const MASK_INPUT_LENGTH_OR_WEIGTH = ["99.9", "999.9"];
+const MASK_INPUT_LENGTH = ["99.99", "999.99"];
 
 export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelected, idLine, index, valuesInputs, setValuesInputs, updateOrCreateFisherman, setUpdateOrCreateFisherman }) {
     const [onHandleUpdate, setOnHandleUpdate] = useState(false)
-    const [handleRegister, setHandleRegister] = useState(false)
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -40,18 +40,21 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
     function handleOnChange(value, key) {
         if (key === "fisherman") {
             setDataInputs({ ...dataInputs, fisherman_id: value ? value.id : "", [key]: value ? value.name : "" })
+            valuesInputs[index] = { ...dataInputs, fisherman_id: value ? value.id : "", [key]: value ? value.name : "" }
+            setValuesInputs([...valuesInputs])
         } else {
             setDataInputs({ ...dataInputs, [key]: value })
-            setValuesInputs({ ...valuesInputs, points: value !== "" ? parseFloat(value).toFixed(2) : "" })
+            valuesInputs[index] = { ...dataInputs, [key]: value }
+            setValuesInputs([...valuesInputs])
         }
     }
     function handleUpdate() {
         setOnHandleUpdate(!onHandleUpdate)
     }
-    function openHandleRegister() {
-        setHandleRegister(true)
-        setOnHandleUpdate(!onHandleUpdate)
-    }
+    // function openHandleRegister() {
+    //     setHandleRegister(true)
+    //     setOnHandleUpdate(!onHandleUpdate)
+    // }
 
     function submitUpdate() {
         setUpdateOrCreateFisherman(true)
@@ -86,7 +89,7 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
     }
 
     function submitRegister() {
-        setUpdateOrCreateFisherman(true)
+
         const dataRegister = {
             tournament_id: 1,
             team_id: dataInputs.team_id,
@@ -98,7 +101,10 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
 
         const promiseRegister = instance.post("/fishing", dataRegister)
         promiseRegister.then((_) => {
-            setUpdateOrCreateFisherman(false)
+            setUpdateOrCreateFisherman(true)
+            setTimeout(() => {
+                setUpdateOrCreateFisherman(false)
+            }, 300)
             Notiflix.Notify.success("Cadastrado com sucesso!")
         }).catch((err) => {
             const errors = err.response.data.errors;
@@ -142,7 +148,7 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
                 id="input-comprimento"
                 value={dataInputs?.size}
                 disabled={teamSelected?.fisheries[index] !== undefined ? !onHandleUpdate : false}
-                onChange={(e) => handleOnChange(mask(unMask(e.target.value), MASK_INPUT_LENGTH_OR_WEIGTH), "size")}
+                onChange={(e) => handleOnChange(mask(unMask(e.target.value), MASK_INPUT_LENGTH), "size")}
                 label="Tamanho"
                 variant="outlined"
                 sx={{ mr: 16, width: 120 }} />
@@ -197,7 +203,7 @@ export default function Inputs({ _, dataTeamSelected, fihsermenOfTeam, teamSelec
                                 </Tooltip>
                             </>}
                     </> : <>
-                        <Tooltip title="Confirmar pescaria">
+                        <Tooltip title="Cadastrar pescaria">
                             <IconButton
                                 aria-label="singup"
                                 size="medium"

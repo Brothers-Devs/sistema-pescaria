@@ -137,9 +137,9 @@ const MatxVerticalNavExpansionPanel = ({ item, children, mode }) => {
         className="expansion-panel submenu"
         style={collapsed ? { maxHeight: '0px' } : { maxHeight: componentHeight.current + 'px' }}
       >
-        {children.map(child => {
+        {children.map((child, i) => {
           return (
-            <Box sx={{ position: 'relative', height: 1 }}>
+            <Box key={i} sx={{ position: 'relative', height: 1 }}>
               <BulletIcon sx={{ width: "8px", height: "8px", mr: 0, position: "relative", top: 26 }} />
               {child}
             </Box>

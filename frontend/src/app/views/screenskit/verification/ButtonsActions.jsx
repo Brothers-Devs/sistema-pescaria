@@ -6,6 +6,7 @@ import { useState } from "react";
 import instance from "../../../../axios";
 import { Notify } from "notiflix";
 import { useNavigate } from "react-router-dom";
+import { FcPrint } from "react-icons/fc";
 
 const style = {
     position: "absolute",
@@ -40,7 +41,7 @@ export default function ButtonsActions({
         navigate(`/dashboard/apuracoes/editar/${currentRow?.id}`);
     };
     return (
-        <Stack direction="row" alignItems="center" spacing={0}>
+        <Stack direction="row" alignItems="center" spacing={1}>
             <Tooltip title="Editar" onClick={onClick}>
                 <IconButton aria-label="edit" size="medium" color="primary">
                     <Create fontSize="inherit" />
@@ -54,6 +55,15 @@ export default function ButtonsActions({
                     onClick={handleOpen}
                 >
                     <DeleteIcon fontSize="inherit" />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title="Baixar Apuração">
+                <IconButton
+                    aria-label="download"
+                    size="medium"
+                    onClick={handleOpen}
+                >
+                    <FcPrint size={25} />
                 </IconButton>
             </Tooltip>
             {open ? (

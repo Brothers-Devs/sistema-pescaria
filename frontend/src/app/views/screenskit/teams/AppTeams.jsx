@@ -62,7 +62,7 @@ export default function AppTeams() {
                 disableClickEventBubbling: true,
             },
         ],
-        [rowSelected]
+        [rowSelected, modification]
     );
 
     useEffect(() => {
@@ -92,6 +92,7 @@ export default function AppTeams() {
                 setModification={setModification}
                 setRowSelected={setRowSelected}
                 path="/dashboard/equipes/cadastrar"
+                titleToolTip="Cadastrar Equipe"
             />
         </ContainerRoot>
     );

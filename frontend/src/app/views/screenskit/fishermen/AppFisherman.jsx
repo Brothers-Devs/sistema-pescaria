@@ -9,6 +9,8 @@ export default function AppFisherman() {
     const [allFisherMen, setAllFisherMen] = useState([]);
     const [modification, setModification] = useState(false);
     const [rowSelected, setRowSelected] = useState(false);
+    const type = "relatorio-pescadores"
+
 
     localStorage.setItem(
         "rowSelected",
@@ -71,7 +73,7 @@ export default function AppFisherman() {
                 disableClickEventBubbling: true,
             },
         ],
-        [rowSelected]
+        [rowSelected, modification]
     );
 
     useEffect(() => {
@@ -101,6 +103,7 @@ export default function AppFisherman() {
                 setModification={setModification}
                 setRowSelected={setRowSelected}
                 path="/dashboard/pescadores/cadastrar"
+                type={type}
             />
         </ContainerRoot>
     );

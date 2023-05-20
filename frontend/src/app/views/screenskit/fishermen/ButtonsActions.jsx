@@ -16,7 +16,7 @@ const style = {
     alignItems: "center",
     flexDirection: "column",
     width: 500,
-    height: 230,
+    height: 260,
     bgcolor: "background.paper",
     borderRadius: 2,
     boxShadow: 24,
@@ -109,10 +109,11 @@ function ModalDelete({
                     id="keep-mounted-modal-description"
                     variant="subtitle1"
                     component="h2"
-                    sx={{ mt: 2 }}
+                    sx={{ mt: 2, color: "#CD3D3F", fontSize: 17 }}
                 >
                     {`Tem certeza que deseja excluir o registro Nº ${rowId}?`}
                 </Typography>
+                <Typography sx={{ textAlign: "center" }}>Se esse pescador estiver vinculado com alguma equipe, ele será removido automaticamente desta equipe.</Typography>
                 <Stack
                     direction="row"
                     alignItems="center"

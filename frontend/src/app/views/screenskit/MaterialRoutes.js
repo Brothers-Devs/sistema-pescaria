@@ -9,8 +9,8 @@ const EditTeam = Loadable(lazy(() => import('./teams/EditTeam')));
 const AppVerification = Loadable(lazy(() => import('./verification/AppVerification')));
 const CreateVerification = Loadable(lazy(() => import('./verification/formsTableCreate/CreateVerification')));
 const EditVerification = Loadable(lazy(() => import('./verification/formsTableUpdate/EditVerification')));
-const AppReportsIndividual = Loadable(lazy(() => import('./reports/AppReportsIndividual')));
-const AppReportsTeams = Loadable(lazy(() => import('./reports/AppReportsTeams')));
+const AppReportsIndividual = Loadable(lazy(() => import('./reports/reportsIndividual/AppReportsIndividual')));
+const AppReportsTeams = Loadable(lazy(() => import('./reports/reportsTeams/AppReportsTeams')));
 const CreateFisherman = Loadable(lazy(() => import('./fishermen/CreateFisherman')));
 const EditFisherman = Loadable(lazy(() => import('./fishermen/EditFisherman')));
 
@@ -56,13 +56,13 @@ const materialRoutes = [
     element: <EditFisherman />,
   },
   {
-    path: '/dashboard/relatorios/individual',
-    element: <AppReportsIndividual />,
-  },
-  {
-    path: '/dashboard/relatorios/equipes',
+    path: '/dashboard/relatorios/final/equipes',
     element: <AppReportsTeams />,
   },
+  {
+    path: '/dashboard/relatorios/final/individual',
+    element: <AppReportsIndividual />,
+  }
 ];
 
 export default materialRoutes;
