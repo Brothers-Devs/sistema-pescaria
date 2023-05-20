@@ -13,17 +13,17 @@ const SIZE_INPUTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 export default function FormsTable({ typeEditOrCreateForm, dataTeamSelected, teamSelected, updateOrCreateFisherman, setUpdateOrCreateFisherman }) {
     const [fihsermenOfTeam, setFihsermenOfTeam] = useState(null)
-    const [valuesInputs, setValuesInputs] = useState([])
+    const [valuesInputs, setValuesInputs] = useState([...teamSelected?.fisheries])
 
-    let calculate = teamSelected.total_points !== 0 ? parseFloat(teamSelected?.total_points) : 0
+    let calculate = 0
     valuesInputs?.map(value => {
-        if (value !== undefined && value.points) {
-            return calculate += parseFloat(value.points)
-        } else if (value !== undefined && value.points === '') {
+        if (value.points === "") {
             return calculate += 0
+        } else {
+            return calculate += parseFloat(value.points)
         }
-        return calculate += 0
     })
+
     useEffect(() => {
         const promise = instance.get(`/teams/${dataTeamSelected?.team_id}/fishermen`)
         promise.then((res) => {
