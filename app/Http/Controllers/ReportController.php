@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\FishermanService;
 use App\Services\ResultService;
+use App\Services\TeamService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -12,16 +13,29 @@ class ReportController extends Controller
 {
     public function __construct(
         protected ResultService    $resultService,
+        protected TeamService      $teamService,
         protected FishermanService $fishermanService
     )
     {
     }
 
-    public function all(Request $request)
+    /**
+     * @return Response
+     */
+    public function allTeams(): Response
     {
-        $results = $this->resultService->all();
-        $pdf = Pdf::loadView('reports.geral', ['results' => $results]);
-        return $pdf->download('relatorio-geral.pdf');
+        $results = $this->teamService->all();
+
+        $pdf = Pdf::loadView(
+            'reports.teams.relatorio-geral-equipes',
+            [
+                'results' => $results
+            ]
+        )->setOption([
+            'isRemoteEnabled' => true
+        ]);
+
+        return $pdf->stream('relatorio-geral-equipes.pdf');
     }
 
     /**
