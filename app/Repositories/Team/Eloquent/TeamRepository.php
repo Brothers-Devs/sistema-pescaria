@@ -22,7 +22,7 @@ class TeamRepository implements TeamRepositoryInterface
      */
     public function all(): array
     {
-        return $this->model->with('category')->get()->toArray();
+        return $this->model->with(['category', 'fishermen'])->get()->toArray();
     }
 
     /**

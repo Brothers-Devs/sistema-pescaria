@@ -21,7 +21,7 @@ class FishermanRepository implements FishermanRepositoryInterface
      */
     public function all(): array
     {
-        return $this->model->all()->toArray();
+        return $this->model->with(['teams'])->get()->toArray();
     }
 
 
