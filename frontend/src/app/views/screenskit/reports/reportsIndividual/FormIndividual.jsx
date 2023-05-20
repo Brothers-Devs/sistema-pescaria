@@ -27,11 +27,8 @@ const categorys = [
     }
 ];
 
-const URL_REPORTS_CATEGORY1 = "http://localhost:8000/api/reports/categories/1/individual"
-const URL_REPORTS_CATEGORY2 = "http://localhost:8000/api/reports/categories/2/individual"
-
-
-
+const URL_REPORTS_CATEGORY1 = `${process.env.REACT_APP_BASE_URL_REPORTS}/categories/1/individual`
+const URL_REPORTS_CATEGORY2 = `${process.env.REACT_APP_BASE_URL_REPORTS}/categories/2/individual`
 
 export default function FormIndividual() {
     const [alterCategory, setAlterCategory] = useState(false)
@@ -70,17 +67,17 @@ export default function FormIndividual() {
                 headerName: "Class.°",
                 width: 100,
                 sortable: false,
-                cellClassName: 'super-app-theme--cell',
                 disableClickEventBubbling: true,
                 headerClassName: 'super-app-theme--header',
-                // headerAlign: 'center',
+                headerAlign: 'center',
+                align: "center",
             },
             {
                 field: "name",
                 headerName: "Pescador",
                 width: 300,
-                cellClassName: 'super-app-theme--cell',
-
+                headerAlign: 'center',
+                align: "center",
                 disableClickEventBubbling: true,
                 sortable: false,
                 headerClassName: 'super-app-theme--header',
@@ -89,9 +86,9 @@ export default function FormIndividual() {
             {
                 field: "team_name",
                 headerName: "Equipe",
-                cellClassName: 'super-app-theme--cell',
                 width: 150,
-                // headerAlign: 'center',
+                headerAlign: 'center',
+                align: "center",
                 sortable: false,
                 headerClassName: 'super-app-theme--header',
                 disableClickEventBubbling: true,
@@ -101,10 +98,10 @@ export default function FormIndividual() {
                 headerName: "Cidade",
                 width: 400,
                 disableClickEventBubbling: true,
-                cellClassName: 'super-app-theme--cell',
                 flex: 1,
                 headerClassName: 'super-app-theme--header',
-                // headerAlign: 'center',
+                headerAlign: 'center',
+                align: "center",
                 sortable: false,
             },
             {
@@ -113,8 +110,8 @@ export default function FormIndividual() {
                 flex: 1,
                 headerClassName: 'super-app-theme--header',
                 disableClickEventBubbling: true,
-                cellClassName: 'super-app-theme--cell',
-                // headerAlign: 'center',
+                headerAlign: 'center',
+                align: "center",
                 rowAlign: "center",
                 sortable: false
             },
@@ -123,14 +120,12 @@ export default function FormIndividual() {
         []
     );
     function handleOnChange(value, key) {
-        if (key === "category") {
-            if (value === "Categoria Especial - Modalidade Arremesso") {
-                setAlterCategory(!alterCategory)
-                setValuesInputs({ ...valuesInputs, [key]: { id: 1, name: value } });
-            } else {
-                setAlterCategory(!alterCategory)
-                setValuesInputs({ ...valuesInputs, [key]: { id: 2, name: value } });
-            }
+        if (value === "Categoria Especial - Modalidade Arremesso") {
+            setAlterCategory(!alterCategory)
+            setValuesInputs({ ...valuesInputs, [key]: { id: 1, name: value } });
+        } else {
+            setAlterCategory(!alterCategory)
+            setValuesInputs({ ...valuesInputs, [key]: { id: 2, name: value } });
         }
     }
 
@@ -194,16 +189,9 @@ export default function FormIndividual() {
                                 </Tooltip>
                             </Link>
                         </Box>
-                        <Box
-                            sx={{
-                                width: '100%',
-                                '& .super-app-theme--header': {
-                                    backgroundColor: '#D3D3D9',
-                                }
-                            }}
-                        >
-                            <TableIndividual dataContent={addRatingToResults} columns={columns} />
-                        </Box>
+
+                        <TableIndividual dataContent={addRatingToResults} columns={columns} />
+
                     </>}
             </FormDetailsTeam >
 

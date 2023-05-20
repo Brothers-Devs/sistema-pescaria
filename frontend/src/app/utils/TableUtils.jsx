@@ -71,15 +71,14 @@ function CustomNoRows() {
     );
 }
 
-export default function TableUtils({ dataContent, columns, setRowSelected, path, type, titleToolTip }) {
-    const LINK_OF_REPORTS_FISHERMEN = "http://localhost:8000/api/reports/fishermen"
+export default function TableUtils({ dataContent, columns, setRowSelected, path, type, titleToolTip, title, linkReports }) {
 
     return (
         <Box sx={{ height: 760, width: 1 }}>
-            {type === "relatorio-pescadores" ?
+            {type === "relatorio-pescadores" || type === "relatorio-equipes" ?
                 <Box sx={{ display: "flex", width: 1, justifyContent: "flex-end", alignItems: "center" }}>
-                    <Tooltip title="Baixar Relatório de Pescadores">
-                        <Link to={LINK_OF_REPORTS_FISHERMEN} target="_blank">
+                    <Tooltip title={title}>
+                        <Link to={linkReports} target="_blank">
                             <Button size="large" variant="contained" sx={{ mb: 2, mr: 2 }}>
                                 <FcPrint size={25} style={{ marginRight: 10 }} />
                                 Download (.pdf)
