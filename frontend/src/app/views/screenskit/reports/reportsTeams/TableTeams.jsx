@@ -55,9 +55,21 @@ function CustomNoRowsOverlay() {
 export default function TableTeams({ dataContent, columns }) {
     return (
         <Box sx={{
+
             height: 760, width: 1, mt: 0, background: "#FFFFFF",
+            width: 1,
             border: "none",
             borderRadius: "5px",
+            '& .super-app-theme--header': {
+                backgroundColor: '#D3D3D9',
+            },
+            '& .super-app-theme--cell': {
+                height: "500px",
+                color: '#1a3e72',
+                padding: "3px 0",
+                fontWeight: '500',
+            },
+
         }}>
             <DataGrid
                 sx={{ p: 3, zIndex: -0.2 }}
@@ -65,7 +77,9 @@ export default function TableTeams({ dataContent, columns }) {
                 columns={columns}
                 rows={dataContent}
                 disableRowSelectionOnClick
+                rowHeight={100}
                 disableColumnMenu
+                getCellClassName={(_) => "super-app-theme--cell"}
                 key={dataContent.name}
                 pageSizeOptions={[10, 25, 50]}
                 initialState={{
