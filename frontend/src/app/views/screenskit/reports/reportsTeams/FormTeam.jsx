@@ -6,12 +6,16 @@ import {
     InputLabel,
     MenuItem,
     Select,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import styled from "@emotion/styled";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FcPrint } from "react-icons/fc";
+import instance from "../../../../../axios"
 import TableTeams from "./TableTeams";
+import { Link } from "react-router-dom";
+import Notiflix from "notiflix";
 const categorys = [
     {
         "id": 1,
@@ -24,60 +28,94 @@ const categorys = [
     }
 ];
 
+const URL_REPORTS_CATEGORY1 = `${process.env.REACT_APP_BASE_URL_REPORTS}/categories/1`
+const URL_REPORTS_CATEGORY2 = `${process.env.REACT_APP_BASE_URL_REPORTS}/categories/2`
+
+
+function CellNames({ params }) {
+    return <Box sx={{ display: "flex", width: 1, flexDirection: "column", justifyContent: "center" }}>
+        {params.formattedValue.map((value, i) => {
+            return <li style={{ listStyle: "none" }} key={i}>{value.name}</li>
+        })}
+    </Box>
+}
 
 
 
 export default function FormTeam() {
     const [alterCategory, setAlterCategory] = useState(false)
+    const [resultsCategories, setResultsCategories] = useState([])
     const [valuesInputs, setValuesInputs] = useState({
         tournament_id: 1,
         category: "",
     });
+
+    const addRatingToResults = resultsCategories?.map((result, i) => {
+        return {
+            classification: `${i + 1}º`,
+            ...result,
+            fishermen: result?.fishermen.map((fisherman, i) => { return { name: `${i + 1} - ${fisherman.name} (N°${fisherman.id})` } }),
+            name: `${result.name} (N° ${result.id})`
+        }
+    })
+
+    useEffect(() => {
+        if (valuesInputs.category !== "") {
+            const promise = instance.get(`/results/categories/${valuesInputs.category?.id}`)
+            promise.then((res) => {
+                const resultCategorie = res.data
+                setResultsCategories(resultCategorie)
+            }).catch((err) => {
+                Notiflix.Notify.failure("Ocorreu um erro ao tentar carregar o relatório dessa categoria!")
+                console.log(err.response)
+            })
+        }
+    }, [alterCategory])
+
     const columns = useMemo(
         () => [
             {
-                field: "id",
+                field: "classification",
                 headerName: "Class.°",
                 width: 100,
+                align: "center",
+                headerAlign: 'center',
                 sortable: false,
                 disableClickEventBubbling: true,
                 headerClassName: 'super-app-theme--header',
-                headerAlign: 'center',
             },
             {
                 field: "name",
-                headerName: "N°",
-                width: 210,
-                disableClickEventBubbling: true,
-                sortable: false,
-                headerClassName: 'super-app-theme--header',
-                headerAlign: 'center',
-            },
-            {
-                field: "type",
                 headerName: "Equipe",
-                width: 150,
+                align: "center",
+                width: 200,
                 headerAlign: 'center',
                 sortable: false,
                 headerClassName: 'super-app-theme--header',
                 disableClickEventBubbling: true,
+
             },
             {
                 field: "fishermen",
                 headerName: "Pescadores",
                 width: 400,
+                align: "center",
                 disableClickEventBubbling: true,
                 headerClassName: 'super-app-theme--header',
                 headerAlign: 'center',
                 sortable: false,
-                valueGetter: (params) => {
-                    return `${params?.row.category.name}`;
-                },
+                renderCell: (params) => (
+                    <CellNames {...{
+                        params
+                    }} />
+                ),
             },
             {
-                field: "category",
+                field: "total_points",
                 headerName: "Pontuação",
                 flex: 1,
+                headerAlign: 'center',
+                align: "center",
                 headerClassName: 'super-app-theme--header',
                 disableClickEventBubbling: true,
                 sortable: false
@@ -146,22 +184,22 @@ export default function FormTeam() {
                         </Select>
                     </FormControl>
                 </Box>
-                <Box sx={{ display: "flex", width: 1, justifyContent: "flex-end", pr: 6, position: "relative", top: 85, zIndex: 15 }}>
-                    <Button size="large" variant="contained">
-                        <FcPrint size={30} />
-                        <Typography variant="subtitle1" sx={{ ml: 1 }}>Download (.pdf)</Typography>
-                    </Button>
-                </Box>
-                <Box
-                    sx={{
-                        width: '100%',
-                        '& .super-app-theme--header': {
-                            backgroundColor: '#D3D3D9',
-                        },
-                    }}
-                >
-                    <TableTeams dataContent={[]} columns={columns} />
-                </Box>
+                {valuesInputs.category !== "" ?
+                    <>
+                        <Box sx={{ display: "flex", width: 1, justifyContent: "flex-end", pr: 6, mb: 3 }}>
+                            <Link to={valuesInputs.category?.id === 1 ? URL_REPORTS_CATEGORY1 : URL_REPORTS_CATEGORY2} target="_blank">
+                                <Tooltip title={valuesInputs.category?.id === 1 ? "Baixar Relatório Categoria Especial" : "Baixar Relatório Categoria Comum"}>
+                                    <Button size="large" variant="contained">
+                                        <FcPrint size={30} />
+                                        <Typography variant="subtitle1" sx={{ ml: 1 }}>Download (.pdf)</Typography>
+                                    </Button>
+                                </Tooltip>
+                            </Link>
+                        </Box>
+
+                        <TableTeams dataContent={addRatingToResults} columns={columns} nameClass="style-rows" />
+
+                    </> : null}
             </FormDetailsTeam >
 
         </>
