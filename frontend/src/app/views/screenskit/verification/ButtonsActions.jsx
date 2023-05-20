@@ -5,7 +5,7 @@ import { Create } from "@mui/icons-material";
 import { useState } from "react";
 import instance from "../../../../axios";
 import { Notify } from "notiflix";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcPrint } from "react-icons/fc";
 
 const style = {
@@ -23,6 +23,8 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
+
+const URL_REPORTS_VERIFICATION = process.env.REACT_APP_BASE_URL_REPORTS
 
 export default function ButtonsActions({
     params,
@@ -58,13 +60,14 @@ export default function ButtonsActions({
                 </IconButton>
             </Tooltip>
             <Tooltip title="Baixar Apuração">
-                <IconButton
-                    aria-label="download"
-                    size="medium"
-                    onClick={handleOpen}
-                >
-                    <FcPrint size={25} />
-                </IconButton>
+                <Link to={`${URL_REPORTS_VERIFICATION}/results/${parseRowSelected?.row.id}`} target="_blank">
+                    <IconButton
+                        aria-label="download"
+                        size="medium"
+                    >
+                        <FcPrint size={25} />
+                    </IconButton>
+                </Link>
             </Tooltip>
             {open ? (
                 <ModalDelete
