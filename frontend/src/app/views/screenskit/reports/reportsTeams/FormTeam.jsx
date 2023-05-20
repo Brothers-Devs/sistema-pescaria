@@ -28,7 +28,6 @@ const categorys = [
 
 
 export default function FormTeam() {
-    const [rowSelected, setRowSelected] = useState(false);
     const [alterCategory, setAlterCategory] = useState(false)
     const [valuesInputs, setValuesInputs] = useState({
         tournament_id: 1,
@@ -85,7 +84,7 @@ export default function FormTeam() {
             },
 
         ],
-        [rowSelected]
+        []
     );
     function handleOnChange(value, key) {
         if (key === "category") {
@@ -147,7 +146,7 @@ export default function FormTeam() {
                         </Select>
                     </FormControl>
                 </Box>
-                <Box sx={{ display: "flex", width: 1, justifyContent: "flex-end", pr: 6, position: "relative", top: 85 }}>
+                <Box sx={{ display: "flex", width: 1, justifyContent: "flex-end", pr: 6, position: "relative", top: 85, zIndex: 15 }}>
                     <Button size="large" variant="contained">
                         <FcPrint size={30} />
                         <Typography variant="subtitle1" sx={{ ml: 1 }}>Download (.pdf)</Typography>
