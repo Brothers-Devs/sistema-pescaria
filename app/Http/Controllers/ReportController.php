@@ -47,12 +47,32 @@ class ReportController extends Controller
      * @param int $id
      * @return Response
      */
+    public function getResultByResultId(int $id): Response
+    {
+        $results = $this->resultService->getById($id);
+
+        $pdf = Pdf::loadView(
+            'reports.teams.relatorio-final-por-equipe',
+            [
+                'results' => $results
+            ]
+        )->setOption([
+            'isRemoteEnabled' => true
+        ]);
+
+        return $pdf->stream('relatorio-final-por-equipe.pdf');
+    }
+
+    /**
+     * @param int $id
+     * @return Response
+     */
     public function rankingByCategoryId(int $id): Response
     {
         $results = $this->resultService->rankingByCategoryId($id);
 
         $pdf = Pdf::loadView(
-            'reports.teams.relatorio-final-por-equipe',
+            'reports.teams.relatorio-final-de-equipes-por-categoria',
             [
                 'results' => $results,
                 'categoryId' => $id
@@ -61,7 +81,7 @@ class ReportController extends Controller
             'isRemoteEnabled' => true
         ]);
 
-        return $pdf->stream('relatorio-final-por-equipe.pdf');
+        return $pdf->stream('relatorio-final-de-equipes-por-categoria.pdf');
     }
 
     /**
