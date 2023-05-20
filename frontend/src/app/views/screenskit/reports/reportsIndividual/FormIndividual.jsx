@@ -6,12 +6,15 @@ import {
     InputLabel,
     MenuItem,
     Select,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import styled from "@emotion/styled";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import instance from "../../../../../axios"
 import { FcPrint } from "react-icons/fc";
 import TableIndividual from "./TableIndividual";
+import { Link } from "react-router-dom";
 const categorys = [
     {
         "id": 1,
@@ -24,15 +27,42 @@ const categorys = [
     }
 ];
 
+const URL_REPORTS_CATEGORY1 = "http://localhost:8000/api/reports/categories/1/individual"
+const URL_REPORTS_CATEGORY2 = "http://localhost:8000/api/reports/categories/2/individual"
+
 
 
 
 export default function FormIndividual() {
     const [alterCategory, setAlterCategory] = useState(false)
+    const [resultsCategories, setResultsCategories] = useState([])
     const [valuesInputs, setValuesInputs] = useState({
         tournament_id: 1,
         category: "",
     });
+    const addRatingToResults = resultsCategories?.map((result, i) => {
+        return {
+            ...result,
+            city_state: `${result.city}/${result.state}`,
+            id: `${i + 1}º`
+        }
+    })
+
+
+    useEffect(() => {
+        if (valuesInputs.category !== "") {
+            const promise = instance.get(`/results/categories/${valuesInputs.category?.id}/individual`)
+            promise.then((res) => {
+                const resultCategorie = res.data
+                setResultsCategories(resultCategorie)
+            }).catch((err) => {
+                console.log(err.response)
+            })
+        }
+    }, [alterCategory])
+
+
+
     const columns = useMemo(
         () => [
             {
@@ -40,46 +70,52 @@ export default function FormIndividual() {
                 headerName: "Class.°",
                 width: 100,
                 sortable: false,
+                cellClassName: 'super-app-theme--cell',
                 disableClickEventBubbling: true,
                 headerClassName: 'super-app-theme--header',
-                headerAlign: 'center',
+                // headerAlign: 'center',
             },
             {
                 field: "name",
-                headerName: "N°",
-                width: 210,
+                headerName: "Pescador",
+                width: 300,
+                cellClassName: 'super-app-theme--cell',
+
                 disableClickEventBubbling: true,
                 sortable: false,
                 headerClassName: 'super-app-theme--header',
                 headerAlign: 'center',
             },
             {
-                field: "type",
+                field: "team_name",
                 headerName: "Equipe",
+                cellClassName: 'super-app-theme--cell',
                 width: 150,
-                headerAlign: 'center',
+                // headerAlign: 'center',
                 sortable: false,
                 headerClassName: 'super-app-theme--header',
                 disableClickEventBubbling: true,
             },
             {
-                field: "fishermen",
-                headerName: "Pescadores",
+                field: "city_state",
+                headerName: "Cidade",
                 width: 400,
                 disableClickEventBubbling: true,
+                cellClassName: 'super-app-theme--cell',
+                flex: 1,
                 headerClassName: 'super-app-theme--header',
-                headerAlign: 'center',
+                // headerAlign: 'center',
                 sortable: false,
-                valueGetter: (params) => {
-                    return `${params?.row.category.name}`;
-                },
             },
             {
-                field: "category",
-                headerName: "Pontuação",
+                field: "size",
+                headerName: "Comprimento (cm)",
                 flex: 1,
                 headerClassName: 'super-app-theme--header',
                 disableClickEventBubbling: true,
+                cellClassName: 'super-app-theme--cell',
+                // headerAlign: 'center',
+                rowAlign: "center",
                 sortable: false
             },
 
@@ -146,23 +182,29 @@ export default function FormIndividual() {
                         </Select>
                     </FormControl>
                 </Box>
-                <Box sx={{ display: "flex", width: 1, justifyContent: "flex-end", pr: 6, position: "relative", top: 85, zIndex: 15 }}>
-                    <Button size="large" variant="contained" onClick={() => console.log("Entrei")
-                    }>
-                        <FcPrint size={30} />
-                        <Typography variant="subtitle1" sx={{ ml: 1 }}>Download (.pdf)</Typography>
-                    </Button>
-                </Box>
-                <Box
-                    sx={{
-                        width: '100%',
-                        '& .super-app-theme--header': {
-                            backgroundColor: '#D3D3D9',
-                        },
-                    }}
-                >
-                    <TableIndividual dataContent={[]} columns={columns} />
-                </Box>
+                {valuesInputs.category === "" ? null :
+                    <>
+                        <Box sx={{ display: "flex", width: 1, justifyContent: "flex-end", pr: 6, mb: 3 }}>
+                            <Link to={valuesInputs.category?.id === 1 ? URL_REPORTS_CATEGORY1 : URL_REPORTS_CATEGORY2} target="_blank">
+                                <Tooltip title={valuesInputs.category?.id === 1 ? "Baixar Relatório Categoria Especial" : "Baixar Relatório Categoria Comum"}>
+                                    <Button size="large" variant="contained">
+                                        <FcPrint size={30} />
+                                        <Typography variant="subtitle1" sx={{ ml: 1 }}>Download (.pdf)</Typography>
+                                    </Button>
+                                </Tooltip>
+                            </Link>
+                        </Box>
+                        <Box
+                            sx={{
+                                width: '100%',
+                                '& .super-app-theme--header': {
+                                    backgroundColor: '#D3D3D9',
+                                }
+                            }}
+                        >
+                            <TableIndividual dataContent={addRatingToResults} columns={columns} />
+                        </Box>
+                    </>}
             </FormDetailsTeam >
 
         </>
