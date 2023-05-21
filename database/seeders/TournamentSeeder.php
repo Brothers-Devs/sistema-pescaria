@@ -19,7 +19,7 @@ class TournamentSeeder extends Seeder
                 'state' => 'PA',
                 'city' => 'Tucuruí',
                 'start_date' => '2023-05-24',
-                'end_date' => '2023-05-24',
+                'end_date' => '2023-05-28',
                 'created_at' => Carbon::now()
             ]);
     }
