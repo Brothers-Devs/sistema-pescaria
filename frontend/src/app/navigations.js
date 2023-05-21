@@ -9,7 +9,7 @@ export const navigations = [
   {
     name: 'Relatórios', icon: 'equalizer', children: [
       { name: 'Classificação final por equipes', path: '/dashboard/relatorios/final/equipes', iconText: 'A' },
-      { name: 'Classificação final individual', path: '/dashboard/relatorios/final/individual', iconText: 'B' },
+      { name: 'Classificação final individual maior peixe', path: '/dashboard/relatorios/final/individual', iconText: 'B' },
     ],
   },
 ];
