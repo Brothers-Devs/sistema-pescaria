@@ -11,7 +11,6 @@ export default function CreateTeam() {
         tournament_id: 1,
         name: "",
         type: "",
-        category: "",
         fishermen: [],
     });
 
