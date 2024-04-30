@@ -24,8 +24,7 @@ class TeamService
     public function __construct(
         protected TeamRepositoryInterface $repository,
         protected Team                    $teamModel
-    )
-    {
+    ) {
     }
 
     /**
