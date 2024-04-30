@@ -43,7 +43,7 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
         const idsFishermen = valuesInputs.fishermen.map(fisherman => fisherman.id)
 
         const dataTeamEdited = {
-            ...valuesInputs, category_id: valuesInputs.category.id, fishermen: idsFishermen
+            ...valuesInputs, fishermen: idsFishermen
 
         }
         setOnSubmit(true);
