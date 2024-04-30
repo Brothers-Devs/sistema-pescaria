@@ -81,7 +81,6 @@ export default function FormIndividual() {
                 disableClickEventBubbling: true,
                 sortable: false,
                 headerClassName: 'super-app-theme--header',
-                headerAlign: 'center',
             },
             {
                 field: "team_name",
@@ -143,7 +142,7 @@ export default function FormIndividual() {
                     }}
                 >
                     <Typography variant="h6">
-                        Classificação final individual
+                        Classificação final individual maior peixe
                     </Typography>
                 </Box>
                 <Divider variant="fullWidth" />
