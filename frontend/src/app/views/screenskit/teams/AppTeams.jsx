@@ -40,15 +40,6 @@ export default function AppTeams() {
                 disableClickEventBubbling: true,
             },
             {
-                field: "category",
-                headerName: "Categoria",
-                width: 400,
-                disableClickEventBubbling: true,
-                valueGetter: (params) => {
-                    return `${params?.row.category.name}`;
-                },
-            },
-            {
                 headerName: "Ações",
                 width: 90,
                 renderCell: (params) => (
