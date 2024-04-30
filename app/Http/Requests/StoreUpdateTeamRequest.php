@@ -34,10 +34,6 @@ class StoreUpdateTeamRequest extends FormRequest
                 'required',
                 Rule::exists('tournaments', 'id')
             ],
-            'category_id' => [
-                'required',
-                Rule::exists('categories', 'id')
-            ],
             'fishermen' => [
                 'sometimes',
                 'required',

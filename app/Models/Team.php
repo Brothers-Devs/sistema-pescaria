@@ -15,8 +15,7 @@ class Team extends Model
     protected $fillable = [
         'name',
         'type',
-        'tournament_id',
-        'category_id'
+        'tournament_id'
     ];
 
     /**
@@ -25,14 +24,6 @@ class Team extends Model
     public function tournament(): BelongsTo
     {
         return $this->belongsTo(Tournament::class);
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
     }
 
     /**

@@ -15,11 +15,11 @@ class TournamentSeeder extends Seeder
     {
         DB::table('tournaments')
             ->insert([
-                'name' => 'XII TOPAM - Torneio de pesca esportiva da Amazônia',
+                'name' => 'XIII TOPAM - Torneio de pesca esportiva da Amazônia',
                 'state' => 'PA',
                 'city' => 'Tucuruí',
-                'start_date' => '2023-05-24',
-                'end_date' => '2023-05-28',
+                'start_date' => '2024-05-22',
+                'end_date' => '2024-05-26',
                 'created_at' => Carbon::now()
             ]);
     }

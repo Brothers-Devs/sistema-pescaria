@@ -6,15 +6,13 @@ use App\DTO\Team\CreateTeamDTO;
 use App\DTO\Team\UpdateTeamDTO;
 use App\Models\Team;
 use App\Repositories\Team\TeamRepositoryInterface;
-use Illuminate\Support\Facades\DB;
 use stdClass;
 
 class TeamRepository implements TeamRepositoryInterface
 {
     public function __construct(
         protected Team $model
-    )
-    {
+    ) {
     }
 
     /**
@@ -22,7 +20,7 @@ class TeamRepository implements TeamRepositoryInterface
      */
     public function all(): array
     {
-        return $this->model->with(['category', 'fishermen'])->get()->toArray();
+        return $this->model->with(['fishermen'])->get()->toArray();
     }
 
     /**
@@ -31,7 +29,7 @@ class TeamRepository implements TeamRepositoryInterface
      */
     public function getById(int $id): ?stdClass
     {
-        $team = $this->model->with(['category', 'fishermen'])->find($id);
+        $team = $this->model->with(['fishermen'])->find($id);
         if (!$team) {
             return null;
         }
@@ -81,6 +79,6 @@ class TeamRepository implements TeamRepositoryInterface
 
     public function getByIdWithFisheries(int $id)
     {
-        return $this->model->with(['category', 'fishermen.fisheries'])->findOrFail($id);
+        return $this->model->with(['fishermen.fisheries'])->findOrFail($id);
     }
 }
