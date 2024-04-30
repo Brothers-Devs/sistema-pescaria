@@ -46,15 +46,6 @@ export default function AppVerification() {
                 disableClickEventBubbling: true,
             },
             {
-                field: "category",
-                headerName: "Categoria",
-                width: 350,
-                disableClickEventBubbling: true,
-                valueGetter: (params) => {
-                    return `${params?.row.team.category.name}`;
-                },
-            },
-            {
                 headerName: "Ações",
                 width: 90,
                 flex: 1,
