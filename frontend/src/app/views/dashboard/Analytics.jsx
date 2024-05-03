@@ -1,6 +1,6 @@
 import { Grid, styled } from "@mui/material";
 import { Fragment } from "react";
-import LogoTopam from "../../assets/images/logo_topam.jpeg";
+import BannerTopam from "../../assets/images/banner-topam.jpeg";
 
 const ContentBox = styled("div")(({ theme }) => ({
     zIndex: -1,
@@ -27,11 +27,11 @@ const Analytics = () => {
                     alignItems={"center"}
                 >
                     <Title>Seja Bem Vindo ao TOPAM</Title>
-                    <Grid item lg={30} md={30} sm={12} xs={12} marginTop={8}>
+                    <Grid item lg={30} md={30} sm={12} xs={12} marginTop={5}>
                         <img
-                            src={LogoTopam}
-                            style={{ width: "100%", height: "100%" }}
-                            alt="Logo-TOPAM"
+                            src={BannerTopam}
+                            style={{ width: "100%", height: "450px" }}
+                            alt="Banner-TOPAM"
                         />
                     </Grid>
                 </Grid>
