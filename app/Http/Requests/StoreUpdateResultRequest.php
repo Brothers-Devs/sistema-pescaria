@@ -32,7 +32,7 @@ class StoreUpdateResultRequest extends FormRequest
                 'sometimes',
                 'required',
                 'array',
-                'max:12'
+                'max:20'
             ],
             'fisheries.*.fisherman_id' => 'required',
             'fisheries.*.size' => 'required|decimal:2|min:30',
