@@ -127,4 +127,56 @@ class ResultService
 
         return $results->toArray();
     }
+
+    /**
+     * @return array
+     */
+    public function rankingByTeams(): array
+    {
+        /** @var Result $results */
+        $results = Result::join('teams', 'teams.id', '=', 'results.team_id')
+            ->join('fisheries', 'fisheries.result_id', '=', 'results.id')
+            ->select(
+                'teams.id',
+                'teams.name',
+                'teams.type',
+                DB::raw('SUM(fisheries.points) as total_points')
+            )
+            ->groupBy('teams.id')
+            ->orderByDesc('total_points')
+            ->get();
+
+        foreach ($results as $result) {
+            /** @var Team $team */
+            $team = Team::with('fishermen:id,name')->find($result->id);
+            $result->fishermen = $team->fishermen->toArray();
+        }
+
+        return $results->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    public function individualRankingBiggestFish(): array
+    {
+        /** @var Result $results */
+        $results = Result::join('teams', 'teams.id', '=', 'results.team_id')
+            ->join('fisheries', 'fisheries.result_id', '=', 'results.id')
+            ->join('fishermen', 'fisheries.fisherman_id', '=', 'fishermen.id')
+            ->select(
+                'fishermen.id',
+                'fishermen.name',
+                'fishermen.city',
+                'fishermen.state',
+                'teams.id as team_id',
+                'teams.name as team_name',
+                'fisheries.size',
+                'fisheries.points'
+            )
+            ->orderByDesc('fisheries.points')
+            ->get();
+
+        return $results->toArray();
+    }
 }
