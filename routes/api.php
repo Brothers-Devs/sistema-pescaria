@@ -64,6 +64,10 @@ Route::delete('/fishing/{fishing_id}', [FishingController::class, 'delete'])->na
 
 # Resultados
 Route::get('/results', [ResultController::class, 'all'])->name('results.all');
+Route::get('/results/teams-ranking', [ResultController::class, 'teamsRanking'])
+    ->name('results.teamsRanking');
+Route::get('/results/individual-ranking', [ResultController::class, 'individualRankingBiggestFish'])
+    ->name('results.individualRankingBiggestFish');
 Route::get('/results/{result_id}', [ResultController::class, 'getById'])->name('results.getById');
 Route::post('/results', [ResultController::class, 'create'])->name('results.create');
 Route::delete('/results/{result_id}', [ResultController::class, 'delete'])->name('results.delete');
@@ -79,3 +83,7 @@ Route::get('/reports/categories/{category_id}/individual', [ReportController::cl
 Route::get('/reports/results/{result_id}', [ReportController::class, 'getResultByResultId'])->name('reports.getResultByResultId');
 Route::get('/reports/teams', [ReportController::class, 'allTeams'])->name('reports.allTeams');
 Route::get('/reports/fishermen', [ReportController::class, 'allFishermen'])->name('reports.allFishermen');
+Route::get('/reports/teams-ranking', [ReportController::class, 'teamsRanking'])
+    ->name('results.teamsRanking');
+Route::get('/reports/individual-ranking', [ReportController::class, 'individualRankingBiggestFish'])
+    ->name('results.individualRankingBiggestFish');

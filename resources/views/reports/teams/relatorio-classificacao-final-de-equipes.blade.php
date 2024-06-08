@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Relatório Final por Equipe</title>
+    <title>Relatório Final de Equipes</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -16,14 +16,6 @@
     <style>
         body {
             font-size: x-small !important;
-        }
-
-        p {
-            font-family: sans-serif !important;
-            font-size: 22px;
-            font-weight: bold;
-            color: #086634;
-            text-transform: uppercase;
         }
 
         .table-success {
@@ -55,50 +47,44 @@
       $pdf->close_object();
       $pdf->add_object($foot, "all");
     }
+
 </script>
 
 <div class="text-center">
-    @if($results['team']['type'] == 'DUPLA')
-        <img src="{!! resource_path('imgs/2024/relatorio_equipe_dupla.jpg') !!}" alt="" width="60%">
+    @if($type == 'DUPLA')
+        <img src="{!! resource_path('imgs/2024/relatorio_classificacao_final_equipe_dupla.jpg') !!}" alt="" width="60%">
     @else
-        <img src="{!! resource_path('imgs/2024/relatorio_equipe_trio.jpg') !!}" alt="" width="60%">
+        <img src="{!! resource_path('imgs/2024/relatorio_classificacao_final_equipe_trio.jpg') !!}" alt="" width="60%">
     @endif
-</div>
-<div class="text-center mt-2">
-    <p>
-        {{--        <span class="text-dark">Relatório final da Equipe</span> <br>--}}
-        Nº{{$results['team']['id']}} - {{$results['team']['name']}}
-    </p>
-</div>
-<div>
-    Resultado Nº {{$results['id']}}
 </div>
 <hr>
 <table class="table table-striped table-bordered">
     <thead class="table-success">
     <tr>
-        <th class="align-middle text-center">Item</th>
-        <th class="align-middle text-center">Nº</th>
-        <th class="align-middle text-center">Pescador</th>
-        <th class="align-middle text-center">Comprimento (cm)</th>
+        <th class="align-middle text-center">Class.</th>
+        <th class="align-middle text-center">Equipe</th>
+        <th class="align-middle text-center">Pescadores</th>
         <th class="align-middle text-center">Pontuação</th>
     </tr>
     </thead>
     <tbody>
     @php($count = 1)
-    @foreach($results['fisheries'] as $result)
+    @foreach($results as $result)
         <tr>
-            <td class="align-middle text-center text-danger">{{$count++}}</td>
-            <td class="align-middle text-center">{{$result['fisherman']['id']}}</td>
-            <td class="align-middle">{{$result['fisherman']['name']}}</td>
-            <td class="align-middle text-center">{{$result['size']}}</td>
-            <td class="align-middle text-center">{{$result['points']}}</td>
+            <td class="align-middle text-center">
+                <h6><span class="badge badge-success">{{$count++}}º</span></h6>
+            </td>
+            <td class="align-middle">{{$result['name']}} (Nº {{$result['id']}})</td>
+            <td class="align-middle">
+                <ol>
+                    @foreach($result['fishermen'] as $fisherman)
+                        <li>{{$fisherman['name']}} (Nº {{$fisherman['id']}})</li>
+                    @endforeach
+                </ol>
+            </td>
+            <td class="align-middle text-center">{{$result['total_points']}}</td>
         </tr>
     @endforeach
-    <tr class="font-weight-bold">
-        <td colspan="4" class="table-success align-middle text-right">Total</td>
-        <td class="align-middle text-center">{{$results['total_points']}}</td>
-    </tr>
     </tbody>
 </table>
 

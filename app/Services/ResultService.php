@@ -23,7 +23,7 @@ class ResultService
      */
     public function all(): Collection|array
     {
-        $results = $this->model->with('team.category')->get();
+        $results = $this->model->with('team')->get();
         $results->loadSum('fisheries as total_points', 'points');
         return $results;
     }
@@ -37,7 +37,7 @@ class ResultService
         /** @var Result $result */
         $result = $this->model->findOrFail($id);
         $result->loadSum('fisheries as total_points', 'points');
-        $result->load(['team.category', 'fisheries.fisherman']);
+        $result->load(['team', 'fisheries.fisherman']);
         return $result->toArray();
     }
 
@@ -124,7 +124,65 @@ class ResultService
             ->where('teams.category_id', $id)
             ->orderByDesc('fisheries.points')
             ->get();
-        
+
+        return $results->toArray();
+    }
+
+    /**
+     * @param string|null $type
+     * @return array
+     */
+    public function teamsRanking(?string $type): array
+    {
+        /** @var Result $results */
+        $query = Result::join('teams', 'teams.id', '=', 'results.team_id')
+            ->join('fisheries', 'fisheries.result_id', '=', 'results.id')
+            ->select(
+                'teams.id',
+                'teams.name',
+                'teams.type',
+                DB::raw('SUM(fisheries.points) as total_points')
+            )
+            ->groupBy('teams.id')
+            ->orderByDesc('total_points');
+
+        if (!is_null($type)) {
+            $query->where('teams.type', $type);
+        }
+
+        $results = $query->get();
+
+        foreach ($results as $result) {
+            /** @var Team $team */
+            $team = Team::with('fishermen:id,name')->find($result->id);
+            $result->fishermen = $team->fishermen->toArray();
+        }
+
+        return $results->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    public function individualRankingBiggestFish(): array
+    {
+        /** @var Result $results */
+        $results = Result::join('teams', 'teams.id', '=', 'results.team_id')
+            ->join('fisheries', 'fisheries.result_id', '=', 'results.id')
+            ->join('fishermen', 'fisheries.fisherman_id', '=', 'fishermen.id')
+            ->select(
+                'fishermen.id',
+                'fishermen.name',
+                'fishermen.city',
+                'fishermen.state',
+                'teams.id as team_id',
+                'teams.name as team_name',
+                'fisheries.size',
+                'fisheries.points'
+            )
+            ->orderByDesc('fisheries.points')
+            ->get();
+
         return $results->toArray();
     }
 }

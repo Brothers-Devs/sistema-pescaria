@@ -56,8 +56,8 @@ export default function CreationContent({ typeEditOrCreateForm }) {
                 paddingLeft: 3,
                 paddingBottom: 5,
             }}>
-                <Typography variant="subtitle2" sx={{ mb: 2 }} >Obs: Aqui são listadas somente as equipes que não possuem apurações cadastradas.</Typography>
-                <Typography variant="subtitle1" sx={{ mb: 2 }}>Equipe</Typography>
+                <Typography variant="subtitle2" sx={{ mb: 2 }} >Obs: Aqui são listadas somente as equipes que ainda não possuem apurações cadastradas.</Typography>
+                <Typography variant="subtitle1" sx={{ mb: 2 }}>Selecione a Equipe:</Typography>
                 <Autocomplete
                     disableClearable
                     noOptionsText="Sem Registro"
