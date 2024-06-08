@@ -2,7 +2,7 @@ import { Box, Button, Divider, Tooltip, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import { useEffect, useMemo, useState } from "react";
 import { FcPrint } from "react-icons/fc";
-import instance from "../../../../../axios";
+import appInstance from "api/appInstance";
 import TableTeams from "./TableTeams";
 import { Link } from "react-router-dom";
 import Notiflix from "notiflix";
@@ -46,7 +46,7 @@ export default function FormTeam() {
 
     useEffect(() => {
         // MUDAR A URL PARA CHAMADA DE RELATÓRIOS FINAL POR EQUIPE
-        const promise = instance.get(`/results/teams-ranking`);
+        const promise = appInstance.get(`/results/teams-ranking`);
         promise
             .then((res) => {
                 const resultCategorie = res.data;
@@ -144,7 +144,10 @@ export default function FormTeam() {
                         }}
                     >
                         {/* // MUDAR O LINK DE DOWNLOAD DO RELATÓRIO */}
-                        <Link to={""} target="_blank">
+                        <Link
+                            to={`${process.env.REACT_APP_BASE_URL_REPORTS}/teams-ranking`}
+                            target="_blank"
+                        >
                             <Tooltip title="Baixar Relatório Classificação Final por Equipes">
                                 <Button size="large" variant="contained">
                                     <FcPrint size={30} />
