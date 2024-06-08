@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\DTO\Result\CreateResultDTO;
+use App\Enum\TypesEnum;
 use App\Http\Requests\StoreUpdateResultRequest;
 use App\Services\ResultService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 class ResultController extends Controller
@@ -74,5 +78,29 @@ class ResultController extends Controller
     public function rankingSingleBiggestFishByCategoryId(int $id): JsonResponse
     {
         return response()->json($this->service->rankingSingleBiggestFishByCategoryId($id));
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function teamsRanking(Request $request): JsonResponse
+    {
+       Validator::validate($request->all(), [
+            'type' => [
+                'sometimes',
+                Rule::in(TypesEnum::values())
+            ]
+        ]);
+
+        return response()->json($this->service->teamsRanking($request->type));
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function individualRankingBiggestFish(): JsonResponse
+    {
+        return response()->json($this->service->individualRankingBiggestFish());
     }
 }

@@ -34,6 +34,21 @@ export default function AppFisherman() {
                 disableClickEventBubbling: true,
             },
             {
+                field: "team_name",
+                headerName: "Equipe",
+                width: 150,
+                headerAlign: 'center',
+                align: "center",
+                headerClassName: 'super-app-theme--header',
+                disableClickEventBubbling: true,
+                valueGetter: (params) => {
+                    if (params?.row?.teams?.length > 0) {
+                        return params.row.teams[0].name;
+                    }
+                    return 'SEM EQUIPE';
+                },
+            },
+            {
                 field: "cpf",
                 headerName: "CPF",
                 width: 150,
