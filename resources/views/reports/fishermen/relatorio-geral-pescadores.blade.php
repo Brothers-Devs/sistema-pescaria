@@ -83,7 +83,7 @@
                     {{$result['teams'][0]['name']}} (Nº {{$result['teams'][0]['id']}})
                 </td>
             @else
-                <td class="align-middle text-danger">NENHUMA</td>
+                <td class="align-middle text-danger">SEM EQUIPE</td>
             @endif
             <td class="align-middle">{{$result['cpf']}}</td>
             <td class="align-middle">{{$result['phone']}}</td>
