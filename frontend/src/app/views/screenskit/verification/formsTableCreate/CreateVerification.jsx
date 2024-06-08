@@ -1,5 +1,5 @@
 import { Divider } from "@mui/material";
-import instance from "../../../../../axios";
+import instance from "../../../../../api/appInstance";
 import Breadcrumb from "app/components/Breadcrumb";
 import styled from "@emotion/styled";
 import CreationContent from "./CreationContent";

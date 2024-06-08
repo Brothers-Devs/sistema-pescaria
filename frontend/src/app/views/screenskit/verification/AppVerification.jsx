@@ -1,5 +1,5 @@
 import Breadcrumb from "app/components/Breadcrumb";
-import instance from "../../../../axios";
+import appInstance from "api/appInstance";
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "@emotion/styled";
 import TableUtils from "app/utils/TableUtils";
@@ -7,7 +7,8 @@ import ButtonsActions from "./ButtonsActions";
 
 export default function AppVerification() {
     const [results, setResults] = useState(null);
-    const [modificationVerification, setModificationVerification] = useState(false);
+    const [modificationVerification, setModificationVerification] =
+        useState(false);
 
     const [rowSelected, setRowSelected] = useState(false);
 
@@ -64,11 +65,11 @@ export default function AppVerification() {
                 disableClickEventBubbling: true,
             },
         ],
-        [rowSelected, modificationVerification]
+        [modificationVerification]
     );
 
     useEffect(() => {
-        const promise = instance.get("/results");
+        const promise = appInstance.get("/results");
         promise
             .then((res) => {
                 setResults(res.data.data);
@@ -87,7 +88,7 @@ export default function AppVerification() {
                     ]}
                 />
             </div>
-            {results ?
+            {results ? (
                 <TableUtils
                     dataContent={results}
                     columns={columns}
@@ -95,7 +96,8 @@ export default function AppVerification() {
                     setRowSelected={setRowSelected}
                     path="/dashboard/apuracoes/cadastrar"
                     titleToolTip="Cadastrar Apuração"
-                /> : null}
+                />
+            ) : null}
         </ContainerRoot>
     );
 }

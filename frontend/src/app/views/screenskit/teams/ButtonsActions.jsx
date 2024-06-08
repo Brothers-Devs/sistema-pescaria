@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Create } from "@mui/icons-material";
 import { useState } from "react";
-import instance from "../../../../axios";
+import appInstance from "api/appInstance";
 import { Notify } from "notiflix";
 import { useNavigate } from "react-router-dom";
 
@@ -77,7 +77,7 @@ function ModalDelete({
     setModification,
 }) {
     function submitDeletion() {
-        const promise = instance.delete(`/teams/${rowId}`);
+        const promise = appInstance.delete(`/teams/${rowId}`);
         promise
             .then((_) => {
                 setModification(!modification);

@@ -1,5 +1,5 @@
 import { Divider } from "@mui/material";
-import instance from "../../../../axios";
+import appInstance from "api/appInstance";
 import Breadcrumb from "app/components/Breadcrumb";
 import styled from "@emotion/styled";
 import { useState } from "react";
@@ -15,7 +15,7 @@ export default function CreateTeam() {
     });
 
     const typeCreateForm = {
-        method: (dataConfig) => instance.post("/teams", dataConfig),
+        method: (dataConfig) => appInstance.post("/teams", dataConfig),
         notificationSuccess: "Equipe cadastrada com sucesso!",
         type: "cadastrar",
         titleForm: `Detalhes da Equipe`,
@@ -38,11 +38,16 @@ export default function CreateTeam() {
                 />
             </div>
             <Divider variant="fullWidth" />
-            <FormTeam typeEditOrCreateForm={typeCreateForm} valuesInputs={valuesInputs} setValuesInputs={setValuesInputs} />
+            <FormTeam
+                typeEditOrCreateForm={typeCreateForm}
+                valuesInputs={valuesInputs}
+                setValuesInputs={setValuesInputs}
+            />
             <FormSelectFishermen
                 typeEditOrCreateForm={typeCreateForm}
                 valuesInputs={valuesInputs}
-                setValuesInputs={setValuesInputs} />
+                setValuesInputs={setValuesInputs}
+            />
         </ContainerRoot>
     );
 }
