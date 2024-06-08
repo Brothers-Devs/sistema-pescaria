@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import instance from "../../../../axios";
+import appInstance from "api/appInstance";
 import styled from "@emotion/styled";
 import Breadcrumb from "app/components/Breadcrumb";
 import { useEffect, useState } from "react";
@@ -10,13 +10,13 @@ export default function EditFisherman() {
     const { id } = useParams();
     const [dataFisherMan, setDataFisherMan] = useState(null);
     const typeEditForm = {
-        method: (dataConfig) => instance.put(`/fishermen/${id}`, dataConfig),
+        method: (dataConfig) => appInstance.put(`/fishermen/${id}`, dataConfig),
         notificationSuccess: "Atualizado com sucesso!",
         titleForm: `Registro Nº ${id} - ${dataFisherMan?.name}`,
     };
 
     useEffect(() => {
-        const promise = instance.get(`/fishermen/${id}`);
+        const promise = appInstance.get(`/fishermen/${id}`);
         promise
             .then((res) => {
                 localStorage.setItem(
@@ -28,7 +28,7 @@ export default function EditFisherman() {
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [id]);
 
     return (
         <>

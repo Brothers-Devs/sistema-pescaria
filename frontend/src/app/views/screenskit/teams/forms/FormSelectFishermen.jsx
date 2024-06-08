@@ -8,44 +8,63 @@ import {
 } from "@mui/material";
 import styled from "@emotion/styled";
 import { NavLink, useNavigate } from "react-router-dom";
-import Checkbox from '@mui/material/Checkbox';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import Notiflix from "notiflix";
-import instance from "../../../../../axios"
+import Checkbox from "@mui/material/Checkbox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import Notiflix, { Notify } from "notiflix";
+import appInstance from "api/appInstance";
 import { useEffect, useState } from "react";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs, setValuesInputs }) {
-    const [fishermenAvailable, setFishermenAvailable] = useState()
-    const dataTeam = JSON.parse(localStorage.getItem("dataFormTeam"))
+export default function FormSelectFishermen({
+    typeEditOrCreateForm,
+    valuesInputs,
+    setValuesInputs,
+}) {
+    const [fishermenAvailable, setFishermenAvailable] = useState([]);
+    const dataTeam = JSON.parse(localStorage.getItem("dataFormTeam"));
     const [onSubmit, setOnSubmit] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const promiseFishermenAvailable = instance.get("/fishermen/available")
-        promiseFishermenAvailable.then((res) => {
-            let dataFishermenAvailable = res.data.data
-            setFishermenAvailable([...dataTeam.fishermen, ...dataFishermenAvailable])
-        }).catch((error) => {
-            console.log(error.response)
-        })
-    }, [])
+        const promiseFishermenAvailable = appInstance.get(
+            "/fishermen/available"
+        );
+        promiseFishermenAvailable
+            .then((res) => {
+                let dataFishermenAvailable = res.data.data;
+                setFishermenAvailable([
+                    ...dataTeam.fishermen,
+                    ...dataFishermenAvailable,
+                ]);
+            })
+            .catch((error) => {
+                console.log(error);
+                Notify.failure("Algo deu errado!");
+            });
+    }, []);
 
-    const dataFishermenAvailableCompact = fishermenAvailable?.map(fisherman => {
-        return { id: fisherman.id, name: `${fisherman.id} - ${fisherman.name} (${fisherman.cpf})` }
-    })
+    const dataFishermenAvailableCompact = fishermenAvailable?.map(
+        (fisherman) => {
+            return {
+                id: fisherman.id,
+                name: `${fisherman.id} - ${fisherman.name} (${fisherman.cpf})`,
+            };
+        }
+    );
 
     async function submitCreateOrEditTeam(event) {
         event.preventDefault();
-        const idsFishermen = valuesInputs.fishermen.map(fisherman => fisherman.id)
+        const idsFishermen = valuesInputs.fishermen.map(
+            (fisherman) => fisherman.id
+        );
 
         const dataTeamEdited = {
-            ...valuesInputs, fishermen: idsFishermen
-
-        }
+            ...valuesInputs,
+            fishermen: idsFishermen,
+        };
         setOnSubmit(true);
 
         const promise = typeEditOrCreateForm.method(dataTeamEdited);
@@ -58,7 +77,6 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                 navigate("/dashboard/equipes");
             })
             .catch((err) => {
-
                 setOnSubmit(false);
                 const errors = err.response.data.errors;
                 Object.keys(errors).forEach((message) => {
@@ -67,13 +85,12 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
             });
     }
 
-
     function handleOnChange(value, key) {
         setValuesInputs({ ...valuesInputs, [key]: value });
     }
 
     return (
-        <FormFisherMen >
+        <FormFisherMen>
             <Box
                 sx={{
                     paddingTop: 3,
@@ -84,23 +101,25 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                     marginBottom: 3,
                 }}
             >
-                <Typography variant="h6">
-                    Vincular Pescadores
-                </Typography>
+                <Typography variant="h6">Vincular Pescadores</Typography>
             </Box>
             <Divider variant="fullWidth" />
-            <Box sx={{
-                marginTop: 5,
-                paddingLeft: 3,
-            }}>
+            <Box
+                sx={{
+                    marginTop: 5,
+                    paddingLeft: 3,
+                }}
+            >
                 <Autocomplete
                     multiple
                     id="checkboxes-tags-demo"
-                    options={dataFishermenAvailableCompact ? dataFishermenAvailableCompact : [{ name: "" }]}
-                    value={valuesInputs.fishermen}
+                    options={dataFishermenAvailableCompact}
+                    value={valuesInputs.fishermen || []}
                     disableCloseOnSelect
                     noOptionsText="Sem pescadores disponíveis"
-                    onChange={(_, newValue) => handleOnChange(newValue, "fishermen")}
+                    onChange={(_, newValue) =>
+                        handleOnChange(newValue, "fishermen")
+                    }
                     getOptionLabel={(option) => option.name}
                     renderOption={(props, option, { selected }) => (
                         <li {...props}>
@@ -114,11 +133,17 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                         </li>
                     )}
                     isOptionEqualToValue={(option, value) =>
-                        value === undefined || value === "" || option.id === value.id
+                        option.id === value.id
                     }
                     style={{ width: 500 }}
                     renderInput={(params) => (
-                        <TextField {...params} label="Selecionar pescadores" placeholder="selecionados" />
+                        <TextField
+                            {...params}
+                            id="fishermen-autocomplete"
+                            name="fishermen-autocomplete"
+                            label="Selecionar pescadores"
+                            placeholder="selecionados"
+                        />
                     )}
                 />
             </Box>
@@ -144,7 +169,7 @@ export default function FormSelectFishermen({ typeEditOrCreateForm, valuesInputs
                     </StyledButton>
                 </NavLink>
             </Box>
-        </FormFisherMen >
+        </FormFisherMen>
     );
 }
 

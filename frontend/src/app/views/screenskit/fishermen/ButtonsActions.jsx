@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Create } from "@mui/icons-material";
 import { useState } from "react";
-import instance from "../../../../axios";
+import appInstance from "api/appInstance";
 import { Notify } from "notiflix";
 import { useNavigate } from "react-router-dom";
 
@@ -77,7 +77,7 @@ function ModalDelete({
     setModification,
 }) {
     function submitDeletion() {
-        const promise = instance.delete(`/fishermen/${rowId}`);
+        const promise = appInstance.delete(`/fishermen/${rowId}`);
         promise
             .then((_) => {
                 setModification(!modification);
@@ -113,7 +113,10 @@ function ModalDelete({
                 >
                     {`Tem certeza que deseja excluir o registro Nº ${rowId}?`}
                 </Typography>
-                <Typography sx={{ textAlign: "center" }}>Se esse pescador estiver vinculado com alguma equipe, ele será removido automaticamente desta equipe.</Typography>
+                <Typography sx={{ textAlign: "center" }}>
+                    Se esse pescador estiver vinculado com alguma equipe, ele
+                    será removido automaticamente desta equipe.
+                </Typography>
                 <Stack
                     direction="row"
                     alignItems="center"

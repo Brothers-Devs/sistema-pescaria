@@ -1,18 +1,17 @@
 import Breadcrumb from "app/components/Breadcrumb";
-import instance from "../../../../axios";
+import appInstance from "api/appInstance";
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "@emotion/styled";
 import TableUtils from "app/utils/TableUtils";
 import ButtonActions from "app/views/screenskit/fishermen/ButtonsActions";
 
-const URL_REPORTS_FISHERMEN = `${process.env.REACT_APP_BASE_URL_REPORTS}/fishermen`
+const URL_REPORTS_FISHERMEN = `${process.env.REACT_APP_BASE_URL_REPORTS}/fishermen`;
 
 export default function AppFisherman() {
     const [allFisherMen, setAllFisherMen] = useState([]);
     const [modification, setModification] = useState(false);
     const [rowSelected, setRowSelected] = useState(false);
-    const type = "relatorio-pescadores"
-
+    const type = "relatorio-pescadores";
 
     localStorage.setItem(
         "rowSelected",
@@ -37,15 +36,15 @@ export default function AppFisherman() {
                 field: "team_name",
                 headerName: "Equipe",
                 width: 150,
-                headerAlign: 'center',
+                headerAlign: "center",
                 align: "center",
-                headerClassName: 'super-app-theme--header',
+                headerClassName: "super-app-theme--header",
                 disableClickEventBubbling: true,
                 valueGetter: (params) => {
                     if (params?.row?.teams?.length > 0) {
                         return params.row.teams[0].name;
                     }
-                    return 'SEM EQUIPE';
+                    return "SEM EQUIPE";
                 },
             },
             {
@@ -90,11 +89,11 @@ export default function AppFisherman() {
                 disableClickEventBubbling: true,
             },
         ],
-        [rowSelected, modification]
+        [modification]
     );
 
     useEffect(() => {
-        const promise = instance.get("/fishermen");
+        const promise = appInstance.get("/fishermen");
         promise
             .then((res) => {
                 setAllFisherMen(res.data.data);

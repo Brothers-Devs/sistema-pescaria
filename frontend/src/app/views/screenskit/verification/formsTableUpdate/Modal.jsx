@@ -1,8 +1,7 @@
 import Notiflix from "notiflix";
-import instance from "../../../../../axios"
+import instance from "../../../../../api/appInstance";
 
 const { Modal, Box, Typography, Stack, Button } = require("@mui/material");
-
 
 const style = {
     position: "absolute",
@@ -24,10 +23,10 @@ export default function ModalDelete({
     open,
     rowId,
     fishing_id,
-    setUpdateOrCreateFisherman
+    setUpdateOrCreateFisherman,
 }) {
     function submitDeletion() {
-        setUpdateOrCreateFisherman(true)
+        setUpdateOrCreateFisherman(true);
         const promise = instance.delete(`/fishing/${fishing_id}`);
         promise
             .then((_) => {
@@ -42,8 +41,6 @@ export default function ModalDelete({
                 });
             });
     }
-
-
 
     return (
         <Modal

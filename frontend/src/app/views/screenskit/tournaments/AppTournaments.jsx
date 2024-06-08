@@ -1,5 +1,5 @@
 import Breadcrumb from "app/components/Breadcrumb";
-import instance from "../../../../axios";
+import appInstance from "api/appInstance";
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Box, Card, Divider, Grid } from "@mui/material";
@@ -10,7 +10,7 @@ import { GiFishing } from "react-icons/gi";
 function AppTournaments() {
     const [detailsTournament, setDetailsTournament] = useState();
     useEffect(() => {
-        let promiseTournaments = instance.get("/tournaments/1");
+        let promiseTournaments = appInstance.get("/tournaments/1");
         promiseTournaments
             .then((res) => {
                 setDetailsTournament(res.data.data);

@@ -1,12 +1,12 @@
 import { Divider } from "@mui/material";
-import instance from "../../../../axios";
+import appInstance from "api/appInstance";
 import Breadcrumb from "app/components/Breadcrumb";
 import styled from "@emotion/styled";
 import FormCreateOrEditFisherman from "./FormCreateOrEditFisherman";
 
 export default function CreateFisherman() {
     const typeCreateForm = {
-        method: (dataConfig) => instance.post("/fishermen", dataConfig),
+        method: (dataConfig) => appInstance.post("/fishermen", dataConfig),
         notificationSuccess: "Cadastrado com sucesso!",
         titleForm: `Adiciona Novo Registro`,
     };

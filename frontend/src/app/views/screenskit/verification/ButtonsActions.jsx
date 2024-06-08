@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Create } from "@mui/icons-material";
 import { useState } from "react";
-import instance from "../../../../axios";
+import instance from "../../../../api/appInstance";
 import { Notify } from "notiflix";
 import { Link, useNavigate } from "react-router-dom";
 import { FcPrint } from "react-icons/fc";
@@ -24,12 +24,12 @@ const style = {
     p: 4,
 };
 
-const URL_REPORTS_VERIFICATION = process.env.REACT_APP_BASE_URL_REPORTS
+const URL_REPORTS_VERIFICATION = process.env.REACT_APP_BASE_URL_REPORTS;
 
 export default function ButtonsActions({
     params,
     modificationVerification,
-    setModificationVerification
+    setModificationVerification,
 }) {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
@@ -60,11 +60,11 @@ export default function ButtonsActions({
                 </IconButton>
             </Tooltip>
             <Tooltip title="Baixar Apuração">
-                <Link to={`${URL_REPORTS_VERIFICATION}/results/${parseRowSelected?.row.id}`} target="_blank">
-                    <IconButton
-                        aria-label="download"
-                        size="medium"
-                    >
+                <Link
+                    to={`${URL_REPORTS_VERIFICATION}/results/${parseRowSelected?.row.id}`}
+                    target="_blank"
+                >
+                    <IconButton aria-label="download" size="medium">
                         <FcPrint size={25} />
                     </IconButton>
                 </Link>
@@ -87,7 +87,7 @@ function ModalDelete({
     open,
     rowId,
     modificationVerification,
-    setModificationVerification
+    setModificationVerification,
 }) {
     function submitDeletion() {
         const promise = instance.delete(`/results/${rowId}`);

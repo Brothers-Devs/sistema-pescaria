@@ -6,39 +6,47 @@ import {
     Typography,
 } from "@mui/material";
 import styled from "@emotion/styled";
-import instance from "../../../../../axios"
+import instance from "../../../../../api/appInstance";
 import { useEffect, useState } from "react";
 import FormsTable from "./FormsTable";
 
-
 export default function CreationContent({ typeEditOrCreateForm }) {
-    const [teamsAvailable, setTeamsAvailable] = useState()
-    const [modificationInputTeam, setModificationInputTeamset] = useState(false)
+    const [teamsAvailable, setTeamsAvailable] = useState();
+    const [modificationInputTeam, setModificationInputTeamset] =
+        useState(false);
     const [dataApurathion, setDataApurathion] = useState({
         team_id: "",
-        name: ""
-    })
-    const dataTeamsAvailableCompact = teamsAvailable?.map(teamAvailable => {
-        return { id: teamAvailable.id, name: `${teamAvailable.id} - ${teamAvailable.name}` }
-    })
+        name: "",
+    });
+    const dataTeamsAvailableCompact = teamsAvailable?.map((teamAvailable) => {
+        return {
+            id: teamAvailable.id,
+            name: `${teamAvailable.id} - ${teamAvailable.name}`,
+        };
+    });
 
     function handleOnChange(value, key) {
-        setDataApurathion({ ...dataApurathion, team_id: value.id, [key]: value.name })
-        setModificationInputTeamset(!modificationInputTeam)
+        setDataApurathion({
+            ...dataApurathion,
+            team_id: value.id,
+            [key]: value.name,
+        });
+        setModificationInputTeamset(!modificationInputTeam);
     }
 
     useEffect(() => {
-        const promiseTeamsAvailable = instance.get("/teams/available")
-        promiseTeamsAvailable.then((res) => {
-            setTeamsAvailable(res.data.data)
-        }).catch((error) => {
-            console.log(error)
-        })
-    }, [modificationInputTeam])
-
+        const promiseTeamsAvailable = instance.get("/teams/available");
+        promiseTeamsAvailable
+            .then((res) => {
+                setTeamsAvailable(res.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [modificationInputTeam]);
 
     return (
-        <FormVerification >
+        <FormVerification>
             <Box
                 sx={{
                     paddingTop: 3,
@@ -51,13 +59,20 @@ export default function CreationContent({ typeEditOrCreateForm }) {
                 <Typography variant="h6">Registrar Nova Apuração</Typography>
             </Box>
             <Divider variant="fullWidth" />
-            <Box sx={{
-                marginTop: 5,
-                paddingLeft: 3,
-                paddingBottom: 5,
-            }}>
-                <Typography variant="subtitle2" sx={{ mb: 2 }} >Obs: Aqui são listadas somente as equipes que ainda não possuem apurações cadastradas.</Typography>
-                <Typography variant="subtitle1" sx={{ mb: 2 }}>Selecione a Equipe:</Typography>
+            <Box
+                sx={{
+                    marginTop: 5,
+                    paddingLeft: 3,
+                    paddingBottom: 5,
+                }}
+            >
+                <Typography variant="subtitle2" sx={{ mb: 2 }}>
+                    Obs: Aqui são listadas somente as equipes que ainda não
+                    possuem apurações cadastradas.
+                </Typography>
+                <Typography variant="subtitle1" sx={{ mb: 2 }}>
+                    Selecione a Equipe:
+                </Typography>
                 <Autocomplete
                     disableClearable
                     noOptionsText="Sem Registro"
@@ -65,7 +80,9 @@ export default function CreationContent({ typeEditOrCreateForm }) {
                     options={dataTeamsAvailableCompact || [{ name: "" }]}
                     value={dataApurathion}
                     onChange={(_, newValue) => handleOnChange(newValue, "name")}
-                    getOptionLabel={(option) => option.name || dataApurathion.name}
+                    getOptionLabel={(option) =>
+                        option.name || dataApurathion.name
+                    }
                     renderOption={(props, option) => (
                         <li {...props} key={option.name}>
                             {option.name}
@@ -73,20 +90,26 @@ export default function CreationContent({ typeEditOrCreateForm }) {
                     )}
                     sx={{ width: 400 }}
                     isOptionEqualToValue={(option, value) =>
-                        value === undefined || value === "" || value.name === option.name
+                        value === undefined ||
+                        value === "" ||
+                        value.name === option.name
                     }
-                    renderInput={(params) =>
+                    renderInput={(params) => (
                         <TextField {...params} label="Equipe" />
-                    }
+                    )}
                 />
             </Box>
-            {dataApurathion.name !== "" ? <FormsTable typeEditOrCreateForm={typeEditOrCreateForm} dataApurathion={dataApurathion} setDataApurathion={setDataApurathion} modificationInputTeam={modificationInputTeam} /> : null}
-        </FormVerification >
+            {dataApurathion.name !== "" ? (
+                <FormsTable
+                    typeEditOrCreateForm={typeEditOrCreateForm}
+                    dataApurathion={dataApurathion}
+                    setDataApurathion={setDataApurathion}
+                    modificationInputTeam={modificationInputTeam}
+                />
+            ) : null}
+        </FormVerification>
     );
 }
-
-
-
 
 const FormVerification = styled("form")(() => ({
     marginTop: "10px",

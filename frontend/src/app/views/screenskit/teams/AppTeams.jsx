@@ -1,18 +1,17 @@
 import Breadcrumb from "app/components/Breadcrumb";
-import instance from "../../../../axios";
+import appInstance from "api/appInstance";
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "@emotion/styled";
 import TableUtils from "app/utils/TableUtils";
 import ButtonsActions from "./ButtonsActions";
 
-const URL_REPORTS_FISHERMEN = `${process.env.REACT_APP_BASE_URL_REPORTS}/teams`
-
+const URL_REPORTS_FISHERMEN = `${process.env.REACT_APP_BASE_URL_REPORTS}/teams`;
 
 export default function AppTeams() {
     const [allTeams, setAllTeams] = useState([]);
     const [modification, setModification] = useState(false);
     const [rowSelected, setRowSelected] = useState(false);
-    const type = "relatorio-equipes"
+    const type = "relatorio-equipes";
 
     localStorage.setItem(
         "rowSelected",
@@ -57,11 +56,11 @@ export default function AppTeams() {
                 disableClickEventBubbling: true,
             },
         ],
-        [rowSelected, modification]
+        [modification]
     );
 
     useEffect(() => {
-        const promise = instance.get("/teams");
+        const promise = appInstance.get("/teams");
         promise
             .then((res) => {
                 setAllTeams(res.data.data);
