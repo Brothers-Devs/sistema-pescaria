@@ -23,7 +23,7 @@ class ResultService
      */
     public function all(): Collection|array
     {
-        $results = $this->model->with('team.category')->get();
+        $results = $this->model->with('team')->get();
         $results->loadSum('fisheries as total_points', 'points');
         return $results;
     }
@@ -124,7 +124,7 @@ class ResultService
             ->where('teams.category_id', $id)
             ->orderByDesc('fisheries.points')
             ->get();
-        
+
         return $results->toArray();
     }
 }
