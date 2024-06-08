@@ -25,38 +25,47 @@
             color: #249337;
             text-transform: uppercase;
         }
-        .list-group-item{
+
+        .list-group-item {
             background-color: transparent !important;
+        }
+
+        .table-success {
+            background-color: #086634;
+            color: #FFFFFF;
         }
     </style>
 </head>
 <body>
 
 <script type="text/php">
-      if ( isset($pdf) ) {
-        $w = $pdf->get_width();
-        $h = $pdf->get_height();
+    if ( isset($pdf) ) {
+      $w = $pdf->get_width();
+      $h = $pdf->get_height();
 
-        $size = 8;
-        $color = [0, 0, 0];
-        $font = $fontMetrics->getFont("helvetica");
-        $text_height = $fontMetrics->getFontHeight($font, $size);
-        $y = $h - 2 * $text_height - 24;
+      $size = 8;
+      $color = [0, 0, 0];
+      $font = $fontMetrics->getFont("helvetica");
+      $text_height = $fontMetrics->getFontHeight($font, $size);
+      $y = $h - 2 * $text_height - 24;
 
-        // a static object added to every page
-        $foot = $pdf->open_object();
-        // Draw a line along the bottom
-        $pdf->line(16, $y, $w - 16, $y, $color, 1);
-        $y += $text_height;
-        $date = date('d/m/Y');
-        $pdf->text(16, $y, "Gerado em: $date", $font, $size, $color);
-        $pdf->close_object();
-        $pdf->add_object($foot, "all");
-      }
+      // a static object added to every page
+      $foot = $pdf->open_object();
+      // Draw a line along the bottom
+      $pdf->line(16, $y, $w - 16, $y, $color, 1);
+      $y += $text_height;
+      $date = date('d/m/Y');
+      $pdf->text(16, $y, "Gerado em: $date", $font, $size, $color);
+      $pdf->close_object();
+      $pdf->add_object($foot, "all");
+    }
 </script>
 
 <div class="text-center">
-    <img src="{!! resource_path('imgs/relatorio_geral_de_equipes.jpeg') !!}" alt="" width="90%">
+    <img src="{!! resource_path('imgs/2024/relatorio_geral_de_equipes.jpg') !!}" alt="" width="60%">
+</div>
+<div class="text-right">
+    Total de equipes: {{count($results)}}
 </div>
 <hr>
 
@@ -96,30 +105,17 @@
 </table>
 
 <script type="text/php">
-          if ( isset($pdf) ) {
-            $h = $pdf->get_height();
+    if ( isset($pdf) ) {
+      $h = $pdf->get_height();
 
-            $size = 8;
-            $font_bold = $fontMetrics->getFont("helvetica", "bold");
-            $text_height = $fontMetrics->getFontHeight($font_bold, $size);
-            $y = $h - $text_height - 24;
+      $size = 8;
+      $font_bold = $fontMetrics->getFont("helvetica", "bold");
+      $text_height = $fontMetrics->getFontHeight($font_bold, $size);
+      $y = $h - $text_height - 24;
 
-            // generated text written to every page after rendering
-            $pdf->page_text(540, $y, "Pág. {PAGE_NUM} de {PAGE_COUNT}", $font_bold, $size, [0, 0, 0]);
-          }
-
-
-
-
-
-
-
-
-
-
-
-
-
+      // generated text written to every page after rendering
+      $pdf->page_text(540, $y, "Pág. {PAGE_NUM} de {PAGE_COUNT}", $font_bold, $size, [0, 0, 0]);
+    }
 </script>
 </body>
 </html>
