@@ -39,7 +39,6 @@ export default function AppFisherman() {
                 width: 150,
                 headerAlign: 'center',
                 align: "center",
-                sortable: false,
                 headerClassName: 'super-app-theme--header',
                 disableClickEventBubbling: true,
                 valueGetter: (params) => {
