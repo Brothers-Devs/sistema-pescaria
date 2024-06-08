@@ -64,8 +64,8 @@ Route::delete('/fishing/{fishing_id}', [FishingController::class, 'delete'])->na
 
 # Resultados
 Route::get('/results', [ResultController::class, 'all'])->name('results.all');
-Route::get('/results/teams-ranking', [ResultController::class, 'rankingByTeams'])
-    ->name('results.rankingByTeams');
+Route::get('/results/teams-ranking', [ResultController::class, 'teamsRanking'])
+    ->name('results.teamsRanking');
 Route::get('/results/individual-ranking', [ResultController::class, 'individualRankingBiggestFish'])
     ->name('results.individualRankingBiggestFish');
 Route::get('/results/{result_id}', [ResultController::class, 'getById'])->name('results.getById');

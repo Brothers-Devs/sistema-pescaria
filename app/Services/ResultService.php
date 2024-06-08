@@ -129,12 +129,13 @@ class ResultService
     }
 
     /**
+     * @param string|null $type
      * @return array
      */
-    public function rankingByTeams(): array
+    public function teamsRanking(?string $type): array
     {
         /** @var Result $results */
-        $results = Result::join('teams', 'teams.id', '=', 'results.team_id')
+        $query = Result::join('teams', 'teams.id', '=', 'results.team_id')
             ->join('fisheries', 'fisheries.result_id', '=', 'results.id')
             ->select(
                 'teams.id',
@@ -143,8 +144,13 @@ class ResultService
                 DB::raw('SUM(fisheries.points) as total_points')
             )
             ->groupBy('teams.id')
-            ->orderByDesc('total_points')
-            ->get();
+            ->orderByDesc('total_points');
+
+        if (!is_null($type)) {
+            $query->where('teams.type', $type);
+        }
+
+        $results = $query->get();
 
         foreach ($results as $result) {
             /** @var Team $team */
