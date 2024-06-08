@@ -37,7 +37,7 @@ class ResultService
         /** @var Result $result */
         $result = $this->model->findOrFail($id);
         $result->loadSum('fisheries as total_points', 'points');
-        $result->load(['team.category', 'fisheries.fisherman']);
+        $result->load(['team', 'fisheries.fisherman']);
         return $result->toArray();
     }
 

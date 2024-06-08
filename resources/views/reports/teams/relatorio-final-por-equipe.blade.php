@@ -71,26 +71,23 @@
         <th class="align-middle text-center">Item</th>
         <th class="align-middle text-center">Nº</th>
         <th class="align-middle text-center">Pescador</th>
-        <th class="align-middle text-center">Categoria</th>
         <th class="align-middle text-center">Comprimento (cm)</th>
         <th class="align-middle text-center">Pontuação</th>
     </tr>
     </thead>
     <tbody>
     @php($count = 1)
-    @php($category = $results['team']['category_id'] == 1 ? 'Especial' : 'Comum')
     @foreach($results['fisheries'] as $result)
         <tr>
             <td class="align-middle text-center text-danger">{{$count++}}</td>
             <td class="align-middle text-center">{{$result['fisherman']['id']}}</td>
             <td class="align-middle">{{$result['fisherman']['name']}}</td>
-            <td class="align-middle text-center">{{$category}}</td>
             <td class="align-middle text-center">{{$result['size']}}</td>
             <td class="align-middle text-center">{{$result['points']}}</td>
         </tr>
     @endforeach
     <tr class="font-weight-bold">
-        <td colspan="5" class="table-success align-middle text-right">Total</td>
+        <td colspan="4" class="table-success align-middle text-right">Total</td>
         <td class="align-middle text-center">{{$results['total_points']}}</td>
     </tr>
     </tbody>
