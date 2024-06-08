@@ -64,7 +64,6 @@
     <thead class="table-success">
     <tr>
         <th class="align-middle text-center">Nº</th>
-        <th class="align-middle text-center">Categoria</th>
         <th class="align-middle text-center">Equipe</th>
         <th class="align-middle text-center">Tipo</th>
         <th class="align-middle text-center">Pescadores</th>
@@ -73,10 +72,8 @@
     </thead>
     <tbody>
     @foreach($results as $result)
-        @php($category = $result['category_id'] == 1 ? 'Especial' : 'Comum')
         <tr>
             <td class="align-middle text-center text-danger">{{$result['id']}}</td>
-            <td class="align-middle text-center">{{$category}}</td>
             <td class="align-middle text-center">{{$result['name']}}</td>
             <td class="align-middle text-center">{{$result['type']}}</td>
             <td class="align-middle">
