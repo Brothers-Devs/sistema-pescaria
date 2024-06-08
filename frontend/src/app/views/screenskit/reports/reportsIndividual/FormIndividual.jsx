@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Tooltip, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import { useEffect, useMemo, useState } from "react";
-import instance from "../../../../../axios";
+import appInstance from "api/appInstance";
 import { FcPrint } from "react-icons/fc";
 import TableIndividual from "./TableIndividual";
 import { Link } from "react-router-dom";
@@ -19,7 +19,7 @@ export default function FormIndividual() {
 
     useEffect(() => {
         // MUDAR A URL PARA CHAMADA DE RELATÓRIOS INDIVIDUAL POR EQUIPE
-        const promise = instance.get(`/results/individual-ranking`);
+        const promise = appInstance.get(`/results/individual-ranking`);
         promise
             .then((res) => {
                 const resultCategorie = res.data;
@@ -118,7 +118,10 @@ export default function FormIndividual() {
                         }}
                     >
                         {/* // MUDAR O LINK DE DOWNLOAD DO RELATÓRIO */}
-                        <Link to={""} target="_blank">
+                        <Link
+                            to={`${process.env.REACT_APP_BASE_URL_REPORTS}/individual-ranking`}
+                            target="_blank"
+                        >
                             <Tooltip title="Baixar Relatório Classificação Final Individual">
                                 <Button size="large" variant="contained">
                                     <FcPrint size={30} />
