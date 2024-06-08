@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\TypesEnum;
 use App\Services\FishermanService;
 use App\Services\ResultService;
 use App\Services\TeamService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ReportController extends Controller
 {
@@ -117,5 +120,33 @@ class ReportController extends Controller
         ]);
 
         return $pdf->stream('relatorio-final-individual-maior-peixe.pdf');
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function teamsRanking(Request $request): Response
+    {
+        Validator::validate($request->all(), [
+            'type' => [
+                'sometimes',
+                Rule::in(TypesEnum::values())
+            ]
+        ]);
+
+        $results = $this->resultService->teamsRanking($request->type);
+
+        $pdf = Pdf::loadView(
+            'reports.teams.relatorio-classificacao-final-de-equipes',
+            [
+                'results' => $results,
+                'type' => $request->type
+            ]
+        )->setOption([
+            'isRemoteEnabled' => true
+        ]);
+
+        return $pdf->stream('relatorio-classificacao-final-de-equipes.pdf');
     }
 }

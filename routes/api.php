@@ -83,3 +83,7 @@ Route::get('/reports/categories/{category_id}/individual', [ReportController::cl
 Route::get('/reports/results/{result_id}', [ReportController::class, 'getResultByResultId'])->name('reports.getResultByResultId');
 Route::get('/reports/teams', [ReportController::class, 'allTeams'])->name('reports.allTeams');
 Route::get('/reports/fishermen', [ReportController::class, 'allFishermen'])->name('reports.allFishermen');
+Route::get('/reports/teams-ranking', [ReportController::class, 'teamsRanking'])
+    ->name('results.teamsRanking');
+Route::get('/reports/individual-ranking', [ReportController::class, 'individualRankingBiggestFish'])
+    ->name('results.individualRankingBiggestFish');
