@@ -149,4 +149,23 @@ class ReportController extends Controller
 
         return $pdf->stream('relatorio-classificacao-final-de-equipes.pdf');
     }
+
+    /**
+     * @return Response
+     */
+    public function individualRankingBiggestFish(): Response
+    {
+        $results = $this->resultService->individualRankingBiggestFish();
+
+        $pdf = Pdf::loadView(
+            'reports.individual.relatorio-final-individual-maior-peixe',
+            [
+                'results' => $results,
+            ]
+        )->setOption([
+            'isRemoteEnabled' => true
+        ]);
+
+        return $pdf->stream('relatorio-final-individual-maior-peixe.pdf');
+    }
 }
