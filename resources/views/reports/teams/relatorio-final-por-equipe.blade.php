@@ -22,42 +22,51 @@
             font-family: sans-serif !important;
             font-size: 22px;
             font-weight: bold;
-            color: #249337;
+            color: #086634;
             text-transform: uppercase;
+        }
+
+        .table-success {
+            background-color: #086634;
+            color: #FFFFFF;
         }
     </style>
 </head>
 <body>
 
 <script type="text/php">
-      if ( isset($pdf) ) {
-        $w = $pdf->get_width();
-        $h = $pdf->get_height();
+    if ( isset($pdf) ) {
+      $w = $pdf->get_width();
+      $h = $pdf->get_height();
 
-        $size = 8;
-        $color = [0, 0, 0];
-        $font = $fontMetrics->getFont("helvetica");
-        $text_height = $fontMetrics->getFontHeight($font, $size);
-        $y = $h - 2 * $text_height - 24;
+      $size = 8;
+      $color = [0, 0, 0];
+      $font = $fontMetrics->getFont("helvetica");
+      $text_height = $fontMetrics->getFontHeight($font, $size);
+      $y = $h - 2 * $text_height - 24;
 
-        // a static object added to every page
-        $foot = $pdf->open_object();
-        // Draw a line along the bottom
-        $pdf->line(16, $y, $w - 16, $y, $color, 1);
-        $y += $text_height;
-        $date = date('d/m/Y');
-        $pdf->text(16, $y, "Gerado em: $date", $font, $size, $color);
-        $pdf->close_object();
-        $pdf->add_object($foot, "all");
-      }
+      // a static object added to every page
+      $foot = $pdf->open_object();
+      // Draw a line along the bottom
+      $pdf->line(16, $y, $w - 16, $y, $color, 1);
+      $y += $text_height;
+      $date = date('d/m/Y');
+      $pdf->text(16, $y, "Gerado em: $date", $font, $size, $color);
+      $pdf->close_object();
+      $pdf->add_object($foot, "all");
+    }
 </script>
 
 <div class="text-center">
-    <img src="{!! resource_path('imgs/logo_topam.jpeg') !!}" alt="" width="60%">
+    @if($results['team']['type'] == 'DUPLA')
+        <img src="{!! resource_path('imgs/2024/relatorio_equipe_dupla.jpg') !!}" alt="" width="60%">
+    @else
+        <img src="{!! resource_path('imgs/2024/relatorio_equipe_trio.jpg') !!}" alt="" width="60%">
+    @endif
 </div>
 <div class="text-center mt-2">
     <p>
-        <span class="text-dark">Relatório final da Equipe</span> <br>
+        {{--        <span class="text-dark">Relatório final da Equipe</span> <br>--}}
         Nº{{$results['team']['id']}} - {{$results['team']['name']}}
     </p>
 </div>
@@ -94,17 +103,17 @@
 </table>
 
 <script type="text/php">
-          if ( isset($pdf) ) {
-            $h = $pdf->get_height();
+    if ( isset($pdf) ) {
+      $h = $pdf->get_height();
 
-            $size = 8;
-            $font_bold = $fontMetrics->getFont("helvetica", "bold");
-            $text_height = $fontMetrics->getFontHeight($font_bold, $size);
-            $y = $h - $text_height - 24;
+      $size = 8;
+      $font_bold = $fontMetrics->getFont("helvetica", "bold");
+      $text_height = $fontMetrics->getFontHeight($font_bold, $size);
+      $y = $h - $text_height - 24;
 
-            // generated text written to every page after rendering
-            $pdf->page_text(540, $y, "Pág. {PAGE_NUM} de {PAGE_COUNT}", $font_bold, $size, [0, 0, 0]);
-          }
+      // generated text written to every page after rendering
+      $pdf->page_text(540, $y, "Pág. {PAGE_NUM} de {PAGE_COUNT}", $font_bold, $size, [0, 0, 0]);
+    }
 </script>
 </body>
 </html>
