@@ -18,8 +18,8 @@ class TournamentSeeder extends Seeder
                 'name' => 'XIII TOPAM - Torneio de pesca esportiva da Amazônia',
                 'state' => 'PA',
                 'city' => 'Tucuruí',
-                'start_date' => '2024-05-22',
-                'end_date' => '2024-05-26',
+                'start_date' => '2024-06-12',
+                'end_date' => '2024-06-16',
                 'created_at' => Carbon::now()
             ]);
     }
