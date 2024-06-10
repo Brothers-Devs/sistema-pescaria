@@ -53,8 +53,10 @@
 <div class="text-center">
     @if($type == 'DUPLA')
         <img src="{!! resource_path('imgs/2024/relatorio_classificacao_final_equipe_dupla.jpg') !!}" alt="" width="60%">
-    @else
+    @elseif($type == 'TRIO')
         <img src="{!! resource_path('imgs/2024/relatorio_classificacao_final_equipe_trio.jpg') !!}" alt="" width="60%">
+    @else
+        <img src="{!! resource_path('imgs/2024/relatorio_classificacao_final_geral_de_equipes.jpg') !!}" alt="" width="60%">
     @endif
 </div>
 <hr>

@@ -60,6 +60,9 @@
 <div class="text-center">
     <img src="{!! resource_path('imgs/2024/relatorio_geral_de_pescadores.jpg') !!}" alt="" width="50%">
 </div>
+<div class="text-right">
+    Total de pescadores: {{count($results)}}
+</div>
 <hr>
 <table class="table table-striped table-bordered">
     <thead class="table-success">

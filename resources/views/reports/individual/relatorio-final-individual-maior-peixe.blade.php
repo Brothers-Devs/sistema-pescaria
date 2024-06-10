@@ -50,7 +50,7 @@
 </script>
 
 <div class="text-center">
-    <img src="{!! resource_path('imgs/2024/relatorio_final_individual_maior_peixe.jpg') !!}"
+    <img src="{!! resource_path('imgs/2024/relatorio_classificacao_final_individual_maior_peixe.jpg') !!}"
          alt="" width="60%">
 </div>
 <hr>
