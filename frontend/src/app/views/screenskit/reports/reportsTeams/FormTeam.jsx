@@ -127,7 +127,7 @@ export default function FormTeam() {
                     }}
                 >
                     <Typography variant="h6">
-                        Classificação final por equipes
+                        Classificação final de equipes
                     </Typography>
                 </Box>
                 <Divider variant="fullWidth" />
@@ -148,7 +148,7 @@ export default function FormTeam() {
                             to={`${process.env.REACT_APP_BASE_URL_REPORTS}/teams-ranking`}
                             target="_blank"
                         >
-                            <Tooltip title="Baixar Relatório Classificação Final por Equipes">
+                            <Tooltip title="Baixar Relatório Classificação Final de Equipes">
                                 <Button size="large" variant="contained">
                                     <FcPrint size={30} />
                                     <Typography
