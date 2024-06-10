@@ -7,8 +7,8 @@ export const navigations = [
   { name: 'Equipes', path: '/dashboard/equipes', icon: 'groups' },
   { name: 'Apurações', path: '/dashboard/apuracoes', icon: 'receipt_long' },
   {
-    name: 'Relatórios', icon: 'equalizer', children: [
-      { name: 'Classificação final por equipes', path: '/dashboard/relatorios/final/equipes', iconText: 'A' },
+    name: 'Classificação', icon: 'equalizer', children: [
+      { name: 'Classificação final de equipes', path: '/dashboard/relatorios/final/equipes', iconText: 'A' },
       { name: 'Classificação final individual maior peixe', path: '/dashboard/relatorios/final/individual', iconText: 'B' },
     ],
   },
