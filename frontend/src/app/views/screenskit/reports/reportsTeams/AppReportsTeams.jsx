@@ -9,7 +9,7 @@ export default function AppReportsTeams() {
             <Breadcrumb
                 routeSegments={[
                     { name: "Resultados" },
-                    { lastName: "Classificação Final Por Equipes" },
+                    { lastName: "Classificação Final de Equipes" },
                     { name: "Relatórios" },
                 ]}
             />

@@ -59,9 +59,9 @@
 
 <div class="text-center">
     @if($results['team']['type'] == 'DUPLA')
-        <img src="{!! resource_path('imgs/2024/relatorio_equipe_dupla.jpg') !!}" alt="" width="60%">
+        <img src="{!! resource_path('imgs/2024/relatorio_apuracao_equipe_dupla.jpg') !!}" alt="" width="60%">
     @else
-        <img src="{!! resource_path('imgs/2024/relatorio_equipe_trio.jpg') !!}" alt="" width="60%">
+        <img src="{!! resource_path('imgs/2024/relatorio_apuracao_equipe_trio.jpg') !!}" alt="" width="60%">
     @endif
 </div>
 <div class="text-center mt-2">

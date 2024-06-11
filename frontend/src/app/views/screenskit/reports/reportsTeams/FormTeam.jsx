@@ -1,4 +1,14 @@
-import { Box, Button, Divider, Tooltip, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    Divider,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    Tooltip,
+    Typography,
+} from "@mui/material";
 import styled from "@emotion/styled";
 import { useEffect, useMemo, useState } from "react";
 import { FcPrint } from "react-icons/fc";
@@ -6,6 +16,25 @@ import appInstance from "api/appInstance";
 import TableTeams from "./TableTeams";
 import { Link } from "react-router-dom";
 import Notiflix from "notiflix";
+import CircularProgress from "@mui/material/CircularProgress";
+
+const types = [
+    {
+        "id": 0,
+        "name": "GERAL",
+        "description": "GERAL",
+    },
+    {
+        "id": 1,
+        "name": "DUPLA",
+        "description": "EQUIPE DUPLA",
+    },
+    {
+        "id": 2,
+        "name": "TRIO",
+        "description": "EQUIPE TRIO",
+    }
+];
 
 function CellNames({ params }) {
     return (
@@ -29,9 +58,20 @@ function CellNames({ params }) {
 }
 
 export default function FormTeam() {
-    const [resultsCategories, setResultsCategories] = useState([]);
+    const [alterType, setAlterType] = useState(false)
+    const [resultsRanking, setResultsRanking] = useState([])
+    const [valuesInputs, setValuesInputs] = useState({
+        tournament_id: 1,
+        type: "",
+    });
+    const [loading, setLoading] = useState(false);
 
-    const addRatingToResults = resultsCategories?.map((result, i) => {
+    let filter = "";
+    if (valuesInputs.type?.name && valuesInputs.type.name !== "GERAL") {
+        filter = `?type=${valuesInputs.type.name}`;
+    }
+
+    const addRatingToResults = resultsRanking?.map((result, i) => {
         return {
             classification: `${i + 1}º`,
             ...result,
@@ -44,21 +84,27 @@ export default function FormTeam() {
         };
     });
 
+    const fetchTeamRanking = async (type) => {
+        try {
+            setLoading(true);
+            const {data} = await appInstance.get(`/results/teams-ranking${filter}`);
+            setResultsRanking(data);
+        } catch (err) {
+            const errorMessage = err.response?.status === 422
+                ? err.response.data.message
+                : "Ocorreu um erro ao tentar carregar o relatório de classificação!";
+            Notiflix.Notify.failure(errorMessage);
+            console.log(err.response);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        // MUDAR A URL PARA CHAMADA DE RELATÓRIOS FINAL POR EQUIPE
-        const promise = appInstance.get(`/results/teams-ranking`);
-        promise
-            .then((res) => {
-                const resultCategorie = res.data;
-                setResultsCategories(resultCategorie);
-            })
-            .catch((err) => {
-                Notiflix.Notify.failure(
-                    "Ocorreu um erro ao tentar carregar o relatório dessa categoria!"
-                );
-                console.log(err.response);
-            });
-    }, []);
+        if (valuesInputs.type) {
+            fetchTeamRanking(valuesInputs.type);
+        }
+    }, [alterType]);
 
     const columns = useMemo(
         () => [
@@ -113,6 +159,13 @@ export default function FormTeam() {
         []
     );
 
+    function handleOnChange(value, key) {
+        if (key === "type") {
+            setAlterType(!alterType)
+            setValuesInputs({ ...valuesInputs, [key]: { name: value } });
+        }
+    }
+
     return (
         <>
             <FormDetailsTeam>
@@ -127,47 +180,74 @@ export default function FormTeam() {
                     }}
                 >
                     <Typography variant="h6">
-                        Classificação final por equipes
+                        Classificação final de equipes
                     </Typography>
                 </Box>
                 <Divider variant="fullWidth" />
 
-                <>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            width: 1,
-                            justifyContent: "flex-end",
-                            pr: 6,
-                            mb: 3,
-                            mt: 3,
-                        }}
-                    >
-                        {/* // MUDAR O LINK DE DOWNLOAD DO RELATÓRIO */}
-                        <Link
-                            to={`${process.env.REACT_APP_BASE_URL_REPORTS}/teams-ranking`}
-                            target="_blank"
+                <Box
+                    sx={{
+                        marginTop: 3,
+                        paddingLeft: 6,
+                        width: 500,
+                        display: "flex",
+                        justifyContent: "center",
+                        flexDirection: "column"
+                    }}
+                >
+                    <Typography variant="subtitle1" sx={{mb: 2}}>Selecione o tipo de classificação</Typography>
+                    <FormControl required sx={{width: 400}}>
+                        <InputLabel id="types">Tipo</InputLabel>
+                        <Select
+                            labelId="types"
+                            id="select-type"
+                            label="Tipos"
+                            value={valuesInputs?.type !== "" ? valuesInputs.type.name : ""}
+                            onChange={(e) =>
+                                handleOnChange(e.target.value, "type")
+                            }
                         >
-                            <Tooltip title="Baixar Relatório Classificação Final por Equipes">
-                                <Button size="large" variant="contained">
-                                    <FcPrint size={30} />
-                                    <Typography
-                                        variant="subtitle1"
-                                        sx={{ ml: 1 }}
-                                    >
-                                        Download (.pdf)
-                                    </Typography>
-                                </Button>
-                            </Tooltip>
-                        </Link>
-                    </Box>
+                            {types.map((type) => (
+                                <MenuItem key={type.name} value={type.name}>
+                                    {type.description}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
 
-                    <TableTeams
-                        dataContent={addRatingToResults}
-                        columns={columns}
-                        nameClass="style-rows"
-                    />
-                </>
+                {valuesInputs.type !== "" ?
+                    <>
+                        <Box sx={{display: "flex", width: 1, justifyContent: "flex-end", pr: 6, mb: 3, mt: 3}}>
+                            <Link
+                                to={`${process.env.REACT_APP_BASE_URL_REPORTS}/teams-ranking${filter}`}
+                                target="_blank">
+                                <Tooltip
+                                    title="Baixar Relatório de Classificação">
+                                    <Button size="large" variant="contained">
+                                        <FcPrint size={30}/>
+                                        <Typography variant="subtitle1" sx={{ml: 1}}>Download (.pdf)</Typography>
+                                    </Button>
+                                </Tooltip>
+                            </Link>
+                        </Box>
+
+                        {loading ? (
+                            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4}}>
+                                <CircularProgress/>
+                                <Typography variant="subtitle1" sx={{mt: 2}}>
+                                    Carregando...
+                                </Typography>
+                            </Box>
+                        ) : (
+                            <TableTeams
+                                dataContent={addRatingToResults}
+                                columns={columns}
+                                nameClass="style-rows"
+                            />
+                        )}
+
+                    </> : null}
             </FormDetailsTeam>
         </>
     );
