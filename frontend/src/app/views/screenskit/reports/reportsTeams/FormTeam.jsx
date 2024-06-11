@@ -58,11 +58,10 @@ function CellNames({ params }) {
 }
 
 export default function FormTeam() {
-    const [alterCategory, setAlterCategory] = useState(false)
-    const [resultsCategories, setResultsCategories] = useState([])
+    const [alterType, setAlterType] = useState(false)
+    const [resultsRanking, setResultsRanking] = useState([])
     const [valuesInputs, setValuesInputs] = useState({
         tournament_id: 1,
-        category: "",
         type: "",
     });
     const [loading, setLoading] = useState(false);
@@ -72,7 +71,7 @@ export default function FormTeam() {
         filter = `?type=${valuesInputs.type.name}`;
     }
 
-    const addRatingToResults = resultsCategories?.map((result, i) => {
+    const addRatingToResults = resultsRanking?.map((result, i) => {
         return {
             classification: `${i + 1}º`,
             ...result,
@@ -89,7 +88,7 @@ export default function FormTeam() {
         try {
             setLoading(true);
             const {data} = await appInstance.get(`/results/teams-ranking${filter}`);
-            setResultsCategories(data);
+            setResultsRanking(data);
         } catch (err) {
             const errorMessage = err.response?.status === 422
                 ? err.response.data.message
@@ -105,7 +104,7 @@ export default function FormTeam() {
         if (valuesInputs.type) {
             fetchTeamRanking(valuesInputs.type);
         }
-    }, [alterCategory]);
+    }, [alterType]);
 
     const columns = useMemo(
         () => [
@@ -162,7 +161,7 @@ export default function FormTeam() {
 
     function handleOnChange(value, key) {
         if (key === "type") {
-            setAlterCategory(!alterCategory)
+            setAlterType(!alterType)
             setValuesInputs({ ...valuesInputs, [key]: { name: value } });
         }
     }
@@ -242,7 +241,7 @@ export default function FormTeam() {
                             </Box>
                         ) : (
                             <TableTeams
-                                dataContent={resultsCategories}
+                                dataContent={addRatingToResults}
                                 columns={columns}
                                 nameClass="style-rows"
                             />
