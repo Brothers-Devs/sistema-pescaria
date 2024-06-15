@@ -5,7 +5,9 @@ import appInstance from "api/appInstance";
 import { NavLink } from "react-router-dom";
 import styled from "@emotion/styled";
 import Notiflix from "notiflix";
-const SIZE_INPUTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const SIZE_INPUTS = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+];
 
 export default function FormsTable({
     typeEditOrCreateForm,
@@ -18,10 +20,9 @@ export default function FormsTable({
     const [valuesInputs, setValuesInputs] = useState([
         ...teamSelected?.fisheries,
     ]);
-
     let calculate = 0;
     valuesInputs?.map((value) => {
-        if (value.points === "") {
+        if (value?.points === "" || value === undefined) {
             return (calculate += 0);
         } else {
             return (calculate += parseFloat(value.points));
