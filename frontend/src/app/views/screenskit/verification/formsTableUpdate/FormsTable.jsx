@@ -20,10 +20,9 @@ export default function FormsTable({
     const [valuesInputs, setValuesInputs] = useState([
         ...teamSelected?.fisheries,
     ]);
-
     let calculate = 0;
     valuesInputs?.map((value) => {
-        if (value.points === "") {
+        if (value?.points === "" || value === undefined) {
             return (calculate += 0);
         } else {
             return (calculate += parseFloat(value.points));
