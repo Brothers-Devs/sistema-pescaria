@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class FishingService
 {
-    public const MAX_AMOUNT_OF_FISH = 12;
+    public const MAX_AMOUNT_OF_FISH = 20;
 
     public function __construct(
         protected Fishing $model
